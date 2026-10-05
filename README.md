@@ -22,6 +22,7 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 | `view_stls.scad` | Imports the exported STLs so you can look at them (F5). |
 | `assembly.scad` | Fit-check: case opened flat with both panels. Preview only. |
 | `scripts/export.sh` | Renders every part to `stl/` and previews to `img/`. |
+| `scripts/step_to_stl.py` | Converts a STEP to STL (gmsh) for previews, e.g. the K400 model. |
 | `scripts/step_info.py` | Reads holes / extents / faces out of STEP files (how third-party parts were measured). |
 | `docs/DESIGN.md` | Design record: every decision, measurement source, open question. |
 | `CLAUDE.md` / `AGENTS.md` | Guide for AI agents (and humans) working on the repo. |
@@ -100,6 +101,12 @@ held down. Lift it off to use it wirelessly or change batteries.
   set **16 mm below the base rim** (`base_panel_drop`) — that leaves ~8 mm
   between the keys and the lid panel when the case is closed. Mount the
   brackets at that height (or change the value and re-export).
+- **See it on the plate:** `assembly.scad` and `view_stls.scad` show the real
+  K400 model when `ref/local/k400_plus.stl` exists (kept out of the repo —
+  GrabCAD terms). Make it once from the GrabCAD STEP (needs
+  `pip install --user gmsh`):
+  `python scripts/step_to_stl.py <Downloads>/Logitech_K400_PLUS.stp ref/local/k400_plus.stl`.
+  Without it, set `kb_model_stl = ""` in config.scad to see a box stand-in.
 - The horizontal print seam sits behind the keyboard (`base_split_y = [44]`);
   ports and vent are in the strip behind it.
 

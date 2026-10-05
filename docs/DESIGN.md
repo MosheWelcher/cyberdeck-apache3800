@@ -211,3 +211,7 @@ All 2026-10-05.
   below the rim) and keyboard height / ~8 mm lid clearance are unchanged.
   Aluminium heat-sink plate discussed: ~3 mm 5052/6061 *if* done later
   (not started).
+- Real K400 model added to the previews (`k400_preview()`; STEP → STL with
+  gmsh into the ignored `ref/local/`). Visual check: keyboard sits flat on the
+  plate, hump in the slot with ~1.4 mm front / ~1 mm rear clearance, ~11.5 mm
+  of plate either side.
