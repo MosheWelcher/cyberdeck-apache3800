@@ -21,6 +21,25 @@ module m3_csk(t) {
     translate([0, 0, t]) cylinder(d = m3_csk_d, h = 1);
 }
 
+// ---------- Base faceplate outline: sized to the bracket ring it sits on ----------
+include <bracket_ring.scad>
+base_L = bracket_outer[0] - 2 * panel_gap;
+base_W = bracket_outer[1] - 2 * panel_gap;
+base_R = max(bracket_outer[2] - panel_gap, 1);
+
+// ---------- Keyboard opening + hangers (shared by faceplate and hanger part) ----------
+kb_cutout = [kb_size[0] + 2 * kb_clear, kb_size[1] + 2 * kb_clear];
+kb_front_y = kb_offset[1] - kb_cutout[1] / 2;
+kb_back_y  = kb_offset[1] + kb_cutout[1] / 2;
+// Ledge top below the plate underside, [front, back].
+kb_ledge_z = [kb_top_drop + kb_floor_depth - panel_t, kb_top_drop + kb_hump_depth - panel_t];
+kb_bolt_v  = kb_hanger_t + (kb_hanger_flange - kb_hanger_t) / 2;   // bolt, outward from the opening edge
+// Hanger bolt positions on the plate: front row then back row.
+function kb_hanger_bolts() = concat(
+    [for (x = kb_hanger_x) [kb_offset[0] + x, kb_front_y - kb_bolt_v]],
+    [for (x = kb_hanger_x) [kb_offset[0] + x, kb_back_y  + kb_bolt_v]]
+);
+
 // ---------- Splitting oversized panels into lap-jointed tiles ----------
 // Seams evenly spaced so each tile (+ margin) fits the bed.
 function n_tiles(len, axis_bed) = max(1, ceil(len / (axis_bed - bed_margin)));

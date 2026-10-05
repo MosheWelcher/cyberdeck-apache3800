@@ -19,6 +19,10 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the screen. |
 | `parts/lid_bracket.scad` | Posts for the lid floor (insert top + bottom) — lid-side equivalent of the Printables bracket. |
 | `parts/base_faceplate.scad` | Keyboard opening, port cutouts, vent grille, holes matching the Printables bracket ring. |
+| `parts/kb_hanger.scad` | Ledge hangers that hold the K400 Plus flush in the faceplate opening. |
+| `parts/fit_test.scad` | Fit checks (console) + thin corner gauges to test-fit the base plate on the brackets. |
+| `lib/bracket_ring.scad` | Printables bracket ring geometry (from its STEP) — the base plate is sized from it. |
+| `view_stls.scad` | Imports the exported STLs so you can look at them (F5). |
 | `assembly.scad` | Fit-check: case opened flat with both panels. Preview only. |
 | `scripts/export.sh` | Renders every part to `stl/` and previews to `img/`. |
 | `ref/` | Notes on reference dimensions. |
@@ -34,8 +38,11 @@ Coordinates: origin at the centre of the case opening; **−Y = handle (front)**
    ```bash
    scripts/export.sh
    ```
-   (~30 min on the full set — CGAL renders are slow.) Single part:
-   `openscad -D 'piece=[0,1]' -o out.stl parts/lid_panel.scad`.
+   ~10 s with an OpenSCAD **development build** (2024+, Manifold engine); the
+   script finds one under `%LOCALAPPDATA%\Programs\OpenSCAD-Nightly` and falls
+   back to the 2021.01 release (~35 min). Get builds from
+   openscad.org → Downloads → Development Snapshots. Single part:
+   `openscad --backend=manifold -D 'piece=[0,1]' -o out.stl parts/lid_panel.scad`.
 
 ## Splitting for the printer
 
@@ -62,7 +69,7 @@ base depth 108 mm.
 - `base_panel_drop` — where your brackets end up below the base rim.
 - Screen preset dimensions — all approximate; caliper your panel + driver board.
 - Port type sizes — generic panel-mount extensions vary.
-- `kb_cutout` — your keyboard + ~1 mm clearance.
+- K400 fit against the end brackets (see the keyboard section).
 
 ## Screen: portable "travel" monitor
 
@@ -80,6 +87,50 @@ edges, which end up behind the panel — check that the cable plugs (often
 right-angle ones are needed) clear the lid brackets, and set brightness before
 mounting.
 
+## Checking the base plate fits the brackets
+
+The Printables brackets have a Γ profile: a **12 mm lip on top** (the plate rests
+on it; M3 inserts 7 mm from the wall) and a 5 mm strip down the case wall. The
+plate outline is derived from the bracket ring (`lib/bracket_ring.scad`,
+380 × 270 R17 → plate 378 × 268 R16, 1 mm wall gap).
+
+1. **Automatic checks** — open `parts/fit_test.scad` and press F5; the console
+   prints `FIT OK` / `FIT WARNING` for wall gap, corner radius, lip overlap,
+   every screw countersink, the keyboard and the hangers. `assembly.scad` also
+   shows the bracket ring (green) under the plate.
+2. **Fit gauge** — print `stl/fit_test_*.stl` (four 1.2 mm corner pieces, a few
+   minutes each). With the brackets installed, lay each on its corner: an M3
+   screw should drop through every hole into its insert, and the edge should
+   clear the case wall. If anything is off, adjust `base_mount_holes` /
+   `panel_gap` and re-export before printing the real plate.
+
+## Keyboard: Logitech K400 Plus (drop-in, flush)
+
+The faceplate has a 357 × 142 mm opening; the K400 drops in with its frame
+top level with the plate (keys ~2 mm proud) and rests on **8 printed hangers**
+(`parts/kb_hanger.scad`) bolted under the plate:
+
+- 4 front hangers — ledge 8 mm below the plate, under the flat underside
+- 4 back hangers — ledge 16 mm below the plate, under the battery hump
+
+Each hanger: M3 countersunk screw from the plate top, nut under the flange.
+Print them lying flat (as exported) — no supports. Lift the keyboard out to
+use it wirelessly or swap batteries.
+
+The opening is set toward the hinge (`kb_offset`) so the front hangers fit
+between the keyboard and the Printables front bracket (~1 mm to spare). Bracket
+holes that would leave a sliver beside the opening are skipped automatically
+(12 of 16 used). The horizontal print seam is moved behind the keyboard
+(`base_split_y = [44]`); ports and vent sit in the strip behind it.
+
+> **⚠ End-bracket clearance:** the K400's widest edge (355 mm) sits 2–7 mm
+> below the plate top — level with the Printables **end** brackets, whose inner
+> faces are 356 mm apart. That's ~0.5 mm per side. Test-fit before final
+> assembly; if it binds, sand ~1 mm off the top ~8 mm of each end bracket's
+> inner face where the keyboard passes (between y ≈ −110 and +30).
+
+Details: `ref/k400-plus.md`.
+
 ## Credits
 
 - **Apache 3800 Panel Bracket** by JohnS - N0CTL —
@@ -87,6 +138,9 @@ mounting.
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Original STEP included
   unmodified in `ref/`; `base_mount_holes` and the case interior/corner dimensions
   are derived from it. See `ref/printables-bracket.md`.
+- **Logitech K400 Plus** model by Tomáš Stroka —
+  [GrabCAD](https://grabcad.com/library/logitech-k400-plus-2); keyboard
+  outline and underside profile measured from it (file not redistributed).
 
 ## Hardware
 

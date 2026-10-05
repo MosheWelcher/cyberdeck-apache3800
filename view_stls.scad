@@ -9,6 +9,7 @@ show_lid      = true;
 show_base     = true;
 show_brackets = true;
 show_clips    = true;
+show_hangers  = true;
 
 module tiles(part, n) {
     for (i = [0 : n[0] - 1], j = [0 : n[1] - 1])
@@ -24,3 +25,4 @@ if (show_lid)  translate([0, 300, 0]) tiles("lid_panel", lid_tiles);
 // Small parts off to the right
 if (show_brackets) color("orange")    translate([230, -60, 0])  import("stl/lid_bracket.stl");
 if (show_clips)    color("lightblue") translate([230, 120, 0])  import("stl/screen_retainer.stl");
+if (show_hangers)  color("tomato")    translate([230, -200, 0]) import("stl/kb_hanger.stl");

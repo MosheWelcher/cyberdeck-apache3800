@@ -5,21 +5,26 @@ include <../lib/common.scad>
 
 piece = "all";   // "all" (exploded tiles), "whole", or [i, j]
 
-base_L = case_in_l - 2 * (panel_gap + base_draft_inset);
-base_W = case_in_w - 2 * (panel_gap + base_draft_inset);
-base_R = max(case_corner_r - panel_gap - base_draft_inset, 1);
-
+// base_L / base_W / base_R come from lib/common.scad (bracket ring - panel_gap).
 base_n  = auto_split(base_L, base_W);
 base_xs = resolve_seams(base_split_x, base_L, base_n[0]);
 base_ys = resolve_seams(base_split_y, base_W, base_n[1]);
 
-// Seam screws stay out of cutouts. A bracket screw that lands on a seam
-// clamps the lap itself, so seam screws near mount holes are dropped too.
+// Bracket holes that would leave a sliver next to the keyboard opening are
+// skipped (that bracket insert just goes unused).
+kb_hole_keepout = [kb_offset[0], kb_offset[1],
+                   kb_cutout[0] + m3_csk_d + 6, kb_cutout[1] + m3_csk_d + 6];
+used_mount_holes = [for (p = base_mount_holes) if (!in_rect(p, kb_hole_keepout)) p];
+echo(str("Base mount holes used: ", len(used_mount_holes), " of ", len(base_mount_holes)));
+
+// Seam screws stay out of cutouts. A bracket/hanger screw that lands on a
+// seam clamps the lap itself, so seam screws near those are dropped too.
 base_keepouts = concat(
     [[kb_offset[0], kb_offset[1], kb_cutout[0] + 12, kb_cutout[1] + 12]],
     [for (v = vents) [v[0], v[1], v[2] + 12, v[3] + 12]],
     point_keepouts([for (p = ports) [p[1], p[2]]], 40),
-    point_keepouts(base_mount_holes)
+    point_keepouts(used_mount_holes),
+    point_keepouts(kb_hanger_bolts())
 );
 
 module port_cut(type) {
@@ -44,10 +49,11 @@ module vent_cut(v) {
 module base_faceplate_whole() {
     difference() {
         plate(base_L, base_W, base_R, panel_t);
-        translate(concat(kb_offset, [-1])) linear_extrude(panel_t + 2) rrect(kb_cutout[0], kb_cutout[1], kb_cutout[2]);
+        translate(concat(kb_offset, [-1])) linear_extrude(panel_t + 2) rrect(kb_cutout[0], kb_cutout[1], kb_corner_r);
         for (p = ports) translate([p[1], p[2], 0]) rotate(p[3]) port_cut(p[0]);
         for (v = vents) vent_cut(v);
-        for (p = base_mount_holes) translate(p) m3_csk(panel_t);
+        for (p = used_mount_holes) translate(p) m3_csk(panel_t);
+        for (p = kb_hanger_bolts()) translate(p) m3_csk(panel_t);
         for (p = seam_holes(base_xs, base_ys, base_L, base_W, base_keepouts)) translate(p) seam_screw(panel_t);
     }
 }

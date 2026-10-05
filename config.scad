@@ -94,9 +94,10 @@ lid_mount_holes = [
 //  (printables.com/model/1478000 — M3 inserts in the bracket top edge)
 // ---------------------------------------------------------------------
 base_panel_drop  = 10;   // MEASURE faceplate top below base rim
-base_draft_inset = 1.5;  // walls are 380 x 270 at bracket height (STEP) -> plate 378 x 268
+// Plate outline = bracket ring outer edge (380 x 270, R17, lib/bracket_ring.scad)
+// minus panel_gap per side -> 378 x 268, R16.
 base_split_x = "auto";
-base_split_y = "auto";
+base_split_y = [44];     // behind the keyboard opening (auto would cut through it)
 // M3 insert positions of the 4-piece Printables bracket ring, from the case
 // centre. Derived from "Apache 3800 Panel Bracket" by JohnS - N0CTL, CC BY 4.0
 // (ref/apache-3800-panel-bracket-v8.step). Bracket is 17 mm tall.
@@ -108,9 +109,23 @@ base_mount_holes = [
   [-140, -128], [-140, 128], [-183, -85], [-183, 0], [-183, 85]    // -X end bracket
 ];
 
-// Keyboard opening: [w, h, corner_r]. -Y is the handle (front) side.
-kb_cutout = [290, 105, 4];   // MEASURE your keyboard + ~1 mm clearance
-kb_offset = [0, -68];        // top edge clear of the y=0 seam lap band
+// Keyboard: Logitech K400 Plus, dropped in flush and resting on hangers.
+// Dims from Logitech spec (354.3 x 139.9 x 23.5) and the GrabCAD model
+// "LOGITECH K400 PLUS" by Tomas Stroka (ref/k400-plus.md).
+// -Y is the handle (front) side; the battery hump faces +Y (hinge).
+kb_size        = [355, 140];   // outline at the widest shell edge
+kb_clear       = 1.0;          // per side, plate opening around the keyboard
+kb_corner_r    = 4;
+kb_offset      = [0, -40];     // front edge leaves room for hangers before the front bracket
+kb_top_drop    = 0;            // keyboard frame top below plate top (keys stand ~2 mm proud)
+kb_floor_depth = 12;           // frame top -> flat underside (front ~105 mm)
+kb_hump_depth  = 20;           // frame top -> battery-hump underside (rear ~26 mm)
+// Hangers: L/foot brackets bolted under the plate at the front and back edges
+kb_hanger_x      = [-145, -50, 50, 145];  // along the edge, avoid seams (x=0)
+kb_hanger_w      = 16;
+kb_hanger_t      = 3;
+kb_hanger_flange = 11;         // flange depth under the plate, outward from the opening
+kb_hanger_foot   = [6, 8];     // [front, back] ledge reach under the keyboard
 
 // Port cutout types: [name, [w, h, corner_r, screw_spacing, screw_d]]
 //   h = 0 -> round hole of diameter w.  screw_spacing = 0 -> no screws.
@@ -125,16 +140,16 @@ port_types = [
 ];
 // Ports placed on the faceplate: [type, x, y, rotation_deg]
 ports = [
-  ["usb_a",   -120, 95, 0],
-  ["usb_a",    -80, 95, 0],
-  ["usb_c",    -45, 95, 0],
-  ["hdmi",     -10, 95, 0],
-  ["rj45",      30, 95, 0],
-  ["round12",  125, 95, 0],
-  ["round16",  150, 95, 0]
+  ["usb_a",   -120, 106, 0],
+  ["usb_a",    -80, 106, 0],
+  ["usb_c",    -45, 106, 0],
+  ["hdmi",     -10, 106, 0],
+  ["rj45",      30, 106, 0],
+  ["round12",  125, 106, 0],
+  ["round16",  150, 106, 0]
 ];
 // Vent grilles: [x, y, w, h] regions filled with slots
-vents = [ [110, 45, 120, 40] ];   // keep clear of seam lap bands (default y=0)
+vents = [ [110, 76, 120, 26] ];   // between the seam lap band and the port row
 vent_slot_w     = 2.5;
 vent_slot_pitch = 6;
 
