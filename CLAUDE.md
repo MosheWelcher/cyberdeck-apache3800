@@ -9,7 +9,8 @@ need — do not make the owner re-explain the project.
 Parametric **OpenSCAD** models for 3D-printed panels that turn a Harbor Freight
 **Apache 3800** hard case into a cyberdeck (portable computer):
 
-- **Lid** — a screen panel framing a **15.6" portable "travel" monitor**, held by
+- **Lid** — a screen panel framing a **15.6" portable "travel" monitor** (the
+  owner's: VILVA V156F1, preset `vilva15.6`), held by
   printed clips; the panel screws onto printed posts glued/screwed in the lid.
 - **Base** — a faceplate with a **Logitech K400 Plus** keyboard sitting flat on top
   (its battery hump drops through a slot), a port

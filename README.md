@@ -73,7 +73,13 @@ base depth 108 mm.
 
 ## Screen: portable "travel" monitor
 
-Default `screen = "travel15.6"` (also `"travel14"`). A travel monitor is a whole
+Default `screen = "vilva15.6"`: the **VILVA V156F1** 15.6" FHD monitor
+([Amazon B0BTSFVMLV](https://www.amazon.com/dp/B0BTSFVMLV)), 367.8 × 224.8 ×
+7.6 mm from the listing — not yet measured. Its ports are on the right end;
+with only ~7.6 mm to the lid wall there, use right-angle plugs that turn
+toward the lid floor. Generic presets `"travel15.6"` / `"travel14"` remain.
+`lid_panel.scad` stops with an error if a monitor is too big for the clip /
+lid-post layout. A travel monitor is a whole
 unit in its own ~9 mm shell, so the panel frames its glass and the clips clamp
 the shell edge — no teardown needed. To fit yours, measure and edit its preset:
 

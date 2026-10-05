@@ -21,7 +21,7 @@ lid_ys = resolve_seams(lid_split_y, lid_W, lid_n[1]);
 boss_h     = mod_t + screen_shim;
 boss_reach = boss_d / 2 + 0.5;   // boss centre -> screen module edge
 
-function lin(n, len) = [for (k = [0 : n - 1]) -len/2 + len * (k + 0.5) / n];
+function lin(n, len) = n < 1 ? [] : [for (k = [0 : n - 1]) -len/2 + len * (k + 0.5) / n];
 
 // [x, y, angle] — angle points from boss toward the screen (for clips)
 function boss_positions() = concat(
@@ -31,12 +31,35 @@ function boss_positions() = concat(
     [for (y = lin(bosses_short_side, mod_h)) [-mod_w/2 - boss_reach, y,   0]]
 );
 
-// Seam screws stay out of the window (+ bevel + head) and away from mounts/bosses.
+// Fit checks: bosses inside the panel; lid posts clear of the monitor and bosses.
+// Post footprint is lid_bracket_size [along wall, away from wall]; a hole nearer
+// a long wall (|y| side) runs along X.
+function post_half(p) = abs(p[1]) / lid_W > abs(p[0]) / lid_L
+    ? [lid_bracket_size[0], lid_bracket_size[1]] / 2
+    : [lid_bracket_size[1], lid_bracket_size[0]] / 2;
+function overlaps(c1, h1, c2, h2) =
+    abs(c1[0] - c2[0]) < h1[0] + h2[0] && abs(c1[1] - c2[1]) < h1[1] + h2[1];
+for (b = boss_positions()) {
+    c = [b[0] + screen_offset[0], b[1] + screen_offset[1]];
+    assert(abs(c[0]) + boss_d / 2 <= lid_L / 2 && abs(c[1]) + boss_d / 2 <= lid_W / 2,
+           str("screen boss at ", c, " sticks out of the lid panel — monitor too big for this boss layout"));
+    for (p = lid_mount_holes)
+        assert(!overlaps(c, [boss_d, boss_d] / 2, p, post_half(p)),
+               str("screen boss at ", c, " hits the lid post at ", p));
+}
+for (p = lid_mount_holes)
+    assert(!overlaps(screen_offset, [mod_w, mod_h] / 2, p, post_half(p)),
+           str("lid post at ", p, " sits under the monitor — remove/move it in lid_mount_holes"));
+
+// Seam screws stay out of the window (+ bevel + head), from under the monitor
+// (the back-side nut would hold it off the panel) and away from mounts/bosses.
 win_c = screen_offset + act_off;
+nut_d = m3_nut_af / cos(30);
 lid_keepouts = concat(
     [[win_c[0], win_c[1],
       act_w + 2 * (window_margin + window_chamfer) + m3_csk_d + 2,
       act_h + 2 * (window_margin + window_chamfer) + m3_csk_d + 2]],
+    [[screen_offset[0], screen_offset[1], mod_w + nut_d + 1, mod_h + nut_d + 1]],
     point_keepouts(lid_mount_holes),
     point_keepouts([for (b = boss_positions()) [b[0] + screen_offset[0], b[1] + screen_offset[1]]], boss_d + 8)
 );

@@ -50,7 +50,7 @@ lid_split_x = "auto";   // "auto" or list of seam X positions, e.g. [0] or []
 lid_split_y = "auto";   // "auto" or list of seam Y positions
 
 // Screen choice: one of the preset names below.
-screen = "travel15.6";
+screen = "vilva15.6";
 // [module_w, module_h, module_t, active_w, active_h, active_off_x, active_off_y]
 // active_off = active-area centre relative to module centre, viewed from front.
 // ALL PRESETS ARE APPROXIMATE — measure your panel; driver boards vary.
@@ -63,6 +63,13 @@ screen_presets = [
   // pushes the active area up). Typical 15.6" / 14" USB-C units — MEASURE yours.
   ["travel15.6", [357.0, 223.0, 9.0, 344.2, 193.6, 0, 8]],
   ["travel14",   [318.0, 200.0, 9.0, 309.4, 173.9, 0, 7]],
+  // Owner's monitor: VILVA V156F1 15.6" FHD (amazon.com/dp/B0BTSFVMLV).
+  // Shell 14.48 x 8.85 x 0.30" from the listing (photos say 0.19" at the thin
+  // edge; 7.6 is the thickest point). Active area = standard 15.6" FHD.
+  // Thin top/side bezels, thick bottom chin -> picture ~10 mm above centre
+  // (estimated from product photos). Ports on the RIGHT edge seen from the
+  // front. MEASURE all of it when it arrives.
+  ["vilva15.6",  [367.8, 224.8, 7.6, 344.2, 193.6, 0, 10]],
   ["custom", [200.0, 120.0, 4.0, 190.0, 110.0, 0, 0]]
 ];
 screen_offset     = [0, 0];  // module centre relative to panel centre
@@ -71,8 +78,8 @@ window_chamfer    = 2.0;     // 45-degree bevel on the viewing side
 screen_shim       = 0.5;     // foam/tape between glass and panel back
 // Retainer bosses + clips that clamp the screen to the panel back
 boss_d            = 8;
-bosses_long_side  = 2;       // per top/bottom edge
-bosses_short_side = 2;       // per left/right edge (2 keeps y=0 free for the seam)
+bosses_long_side  = 4;       // per top/bottom edge (even count keeps x=0 free for the seam)
+bosses_short_side = 0;       // per left/right edge; 0 = none (a 368 mm monitor leaves no room at the ends)
 clip_w            = 12;
 clip_t            = 2.5;
 clip_overlap      = 4;       // how far each clip reaches over the screen edge
@@ -82,11 +89,14 @@ lid_bracket_size = [18, 14];   // footprint [along wall, away from wall]
 // Panel screw positions relative to panel centre. Default: brackets pushed
 // against the walls, hole at bracket centre.
 // Kept off x=0 / y=0 (default seams) and clear of the screen bosses.
+// Long walls only: the 368 mm VILVA monitor covers the end walls. With a
+// narrower screen (<= ~355 mm) end-wall posts fit again, e.g.
+//   [ case_in_l/2 - 7, -90], [ case_in_l/2 - 7, 90],
+//   [-case_in_l/2 + 7, -90], [-case_in_l/2 + 7, 90]
+// (lid_panel.scad stops with an error if a post lands under the monitor).
 lid_mount_holes = [
   [-150,  case_in_w/2 - 7], [-50,  case_in_w/2 - 7], [50,  case_in_w/2 - 7], [150,  case_in_w/2 - 7],
-  [-150, -case_in_w/2 + 7], [-50, -case_in_w/2 + 7], [50, -case_in_w/2 + 7], [150, -case_in_w/2 + 7],
-  [ case_in_l/2 - 7, -90], [ case_in_l/2 - 7, 90],
-  [-case_in_l/2 + 7, -90], [-case_in_l/2 + 7, 90]
+  [-150, -case_in_w/2 + 7], [-50, -case_in_w/2 + 7], [50, -case_in_w/2 + 7], [150, -case_in_w/2 + 7]
 ];
 
 // ---------------------------------------------------------------------

@@ -15,7 +15,7 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Item | Choice | Status |
 |---|---|---|
 | Case | Harbor Freight **Apache 3800** (item 63927) | owned |
-| Screen | **Portable "travel" monitor, 15.6"**, USB-C class, in its own ~9 mm shell | exact model **unknown** — preset `travel15.6` is a typical unit |
+| Screen | **VILVA V156F1** 15.6" FHD portable monitor ([amazon.com/dp/B0BTSFVMLV](https://www.amazon.com/dp/B0BTSFVMLV)), USB-C + mini-HDMI | model known (2026-10-05); preset `vilva15.6` from the listing — **not measured yet** |
 | Keyboard | **Logitech K400 Plus** (keyboard + touchpad, wireless, 2×AA) | decided; modelled from a STEP |
 | Base mounting | **Printables 1478000 "Apache 3800 Panel Bracket"** (4-piece ring, M3 heat-set inserts) | owner has the STEP + a Bambu `.3mf` for it |
 | Printer | **Bambu X1C**, 256 × 256 bed | → panels split into 2 × 2 tiles |
@@ -37,26 +37,40 @@ the brackets end up below the base rim).
 Files: `parts/lid_panel.scad`, `parts/screen_retainer.scad`, `parts/lid_bracket.scad`.
 
 - **Panel**: 381 × 269 mm, R16, 6 mm thick (`case_in − 2·panel_gap`).
+- **Monitor**: VILVA V156F1 (`vilva15.6`). Listing: 14.48 × 8.85 × 0.30" →
+  **367.8 × 224.8 × 7.6 mm** (photos say 0.19" = 4.8 mm at the thin edge, so
+  7.6 is the thickest point), 1.68–1.88 lb, 1920 × 1080 IPS → standard 15.6"
+  active area 344.2 × 193.6. Thin top/side bezels, thick bottom chin: picture
+  centre estimated **+10 mm** above the shell centre from product photos.
+  Ports (power, OSD wheel, 3.5 mm, mini-HDMI, 2 × USB-C) all on the **right**
+  short edge seen from the front.
 - **Window**: active area + 0.5 mm/side = **345.2 × 194.6 mm**, centred at
-  (0, +8) because travel monitors have a thicker bottom chin (picture sits
-  high). 45° × 2 mm bevel on the viewing side.
-- **Monitor retention**: 8 bosses on the panel back (2 per long edge at
-  x = ±89.25, y = ±116; 2 per short edge at x = ±183, y = ±55.75), height =
-  monitor thickness + 0.5 mm foam shim, M3 heat-set insert each. 8 flat clips
-  (`screen_retainer`) screw on and overlap the monitor shell by 4 mm. Short
-  edges use 2 bosses so y = 0 stays free for the tile seam.
-- **Mounting**: 12 countersunk M3 holes (`lid_mount_holes`) — 4 per long wall
-  at x = ±50, ±150, 2 per end wall at y = ±90 — onto **12 printed posts**
-  (`lid_bracket`, 18 × 14 × **32 mm** = lid depth − drop − panel) with inserts
-  top and bottom; fix posts with a screw through the lid skin or VHB/epoxy.
-  Holes avoid the seams (x = 0, y = 0) and the bosses.
-- The monitor's own ports/buttons end up behind the panel — right-angle cables
-  likely needed; set brightness before mounting.
-- **Fit**: 15.6" shell 357 × 223 sits inside the 381 × 269 panel; boss tops of
-  the long edges clear the lid posts by ~1.5 mm.
+  (0, +10). 45° × 2 mm bevel on the viewing side.
+- **Monitor retention**: 8 bosses on the panel back, **all on the long edges**
+  (4 per edge at x = ±46, ±137.9, y = ±116.9), height = monitor thickness +
+  0.5 mm foam shim, M3 heat-set insert each. 8 flat clips (`screen_retainer`)
+  screw on and overlap the monitor shell by 4 mm. No short-edge bosses: the
+  368 mm shell leaves only 6.6 mm per side inside the 381 mm panel. Even count
+  keeps x = 0 free for the seam. If the shell is wedge-shaped (4.8 → 7.6 mm),
+  the thin-edge clips need extra foam.
+- **Mounting**: 8 countersunk M3 holes (`lid_mount_holes`) — 4 per long wall
+  at x = ±50, ±150 — onto **8 printed posts** (`lid_bracket`, 18 × 14 ×
+  **32 mm** = lid depth − drop − panel) with inserts top and bottom; fix posts
+  with a screw through the lid skin or VHB/epoxy. The former 4 end-wall posts
+  (x = ±184.5, y = ±90) were dropped: they sat under the monitor. Holes avoid
+  the seams (x = 0, y = 0) and the bosses.
+- **Fit checks** (`lid_panel.scad` asserts — the render stops with a message):
+  every boss inside the panel, no boss on a lid post, no lid post under the
+  monitor. Current margins: boss edge ↔ long-wall post 0.6 mm; monitor end ↔
+  lid end wall 7.6 mm.
+- The monitor's ports end up behind the panel on the right end, with ~7.6 mm
+  to the lid wall: use **right-angle plugs that turn back** (toward the lid
+  floor, ~24 mm free behind the monitor), not sideways. Set brightness before
+  mounting.
 
 Presets in `screen_presets` (all approximate): `7`, `10.1`, `13.3`, `15.6`
-(bare panels) and `travel15.6`, `travel14`, `custom`. Format
+(bare panels), `travel15.6`, `travel14` (generic travel monitors),
+`vilva15.6` (the owner's, default) and `custom`. Format
 `[module_w, module_h, module_t, active_w, active_h, active_off_x, active_off_y]`.
 
 ## 4. Base — keyboard / ports faceplate
@@ -143,10 +157,13 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 - **Seam screws**: M3 countersunk from the front + hex-nut pocket on the back,
   spaced ~`seam_hole_pitch` along each seam, always including one
   `seam_edge_inset` from each panel edge, minus any in a keep-out
-  (windows, cutouts, mount holes, bosses). A mount screw
+  (windows, cutouts, mount holes, bosses, the lid monitor's footprint — the
+  back-side nut would hold the monitor off the panel). A mount screw
   landing in a lap band clamps it instead.
-- Current layout: **lid** 2 × 2, seams x = 0 / y = 0, **4 seam screws** (sparse
-  — big window; glue the laps). **Base** 2 × 2, seams x = 0 / y = 44 (forced
+- Current layout: **lid** 2 × 2, seams x = 0 / y = 0, **2 seam screws**, both
+  on x = 0 at y = ±123.5. The y = 0 seam has **none** (window in the middle,
+  monitor over both ends) — it is glue-only; each tile is still screwed to its
+  own 2 lid posts. **Base** 2 × 2, seams x = 0 / y = 44 (forced
   behind the keyboard), **9 seam screws** (one at (0, −61.5) sits under the
   keyboard — countersunk flush); the bracket screws at (0, ±128) also clamp
   the x = 0 lap. Glue the laps.
@@ -155,12 +172,12 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 
 ## 6. Hardware list (current design)
 
-- M3 heat-set inserts (Ø4 hole, 5.7 mm): 8 (screen bosses) + 24 (lid posts,
+- M3 heat-set inserts (Ø4 hole, 5.7 mm): 8 (screen bosses) + 16 (lid posts,
   top + bottom) + 14 for the Printables brackets (2 of its 16 positions unused).
-- M3 countersunk screws: 14 base mount, 12 lid mount, 13 seam (9 base + 4
+- M3 countersunk screws: 14 base mount, 8 lid mount, 11 seam (9 base + 2
   lid; M3 × 10 mm, seams need nuts); 8 pan/button heads for clips;
   lid-post fixing screws if not glued.
-- M3 hex nuts: 13 (seams).
+- M3 hex nuts: 11 (seams).
 - Velcro dots for the keyboard (optional).
 - Foam tape (0.5 mm) for the monitor shim. Glue (e.g. CA/epoxy) for laps.
 
@@ -172,7 +189,8 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 | Interior at bracket height 380 × 270 R17 | bracket STEP | good |
 | Bracket insert positions, heights | bracket STEP | good (as designed; real install may vary) |
 | K400 outline / underside profile | GrabCAD STEP + Logitech spec | good |
-| Travel monitor dimensions | typical 15.6" unit | **assumed** — needs the real model |
+| Monitor shell 367.8 × 224.8 × 7.6 | VILVA Amazon listing (B0BTSFVMLV) | listing only — **measure** |
+| Monitor picture offset +10 mm, port side | product photos | **estimated** |
 | Port sizes | generic | **assumed** |
 | USB-C charge port hole (Adafruit 4218) | Adafruit spec | good (not test-fitted) |
 | `lid_panel_drop`, `base_panel_drop` | guesses | **assumed** |
@@ -180,16 +198,19 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 
 ## 8. Open questions / next steps
 
-1. **Travel monitor model** — get shell w × h × t, picture w × h, and how much
-   thicker the bottom bezel is; update `travel15.6` (or add a named preset).
+1. **Measure the VILVA when it arrives** — shell w × h (listing: 367.8 ×
+   224.8), thickness at top and bottom edge (wedge?), picture w × h and its
+   distance from the bottom/top shell edge; update `vilva15.6`. If the real
+   shell is ≤ ~355 mm wide, end-wall posts and short-edge clips could return.
 2. ~~K400 end-bracket clearance~~ — gone: keyboard now sits on top of the plate.
 3. **Internals** — computer (e.g. SBC/mini PC), power (battery / power bank:
    owner mentioned a "battery spot" but never specified — ask before designing),
    cable routing between lid and base, hub. Ports/vent positions follow from this.
 4. **Measure** `lid_panel_drop`, real port hardware; confirm the brackets can
    be installed with the plate top 16 mm below the rim (`base_panel_drop`).
-5. Seam strength (lid: 4 screws) — consider more screws/glue tabs once the
-   monitor is known.
+5. Seam strength — lid now has only 2 seam screws and the y = 0 seam is
+   glue-only. Options if it feels weak: flush nut pockets so screws can sit
+   under the monitor, or a glued backing strip across the side frames.
 6. ~~Repo license~~ — MIT chosen (see decision log).
 
 ## 9. Decision log
@@ -246,3 +267,11 @@ All 2026-10-05.
   is still unspecified (ask before designing a bay). Seam screws unchanged.
 - USB-C charge port moved to the **back-left corner** (−160, 106) at the
   owner's request ("top left" read as hinge side, left).
+- **Monitor chosen: VILVA V156F1** (owner sent amazon.com/dp/B0BTSFVMLV).
+  New preset `vilva15.6` = 367.8 × 224.8 × 7.6, picture offset +10 (listing +
+  photos; not measured). 11 mm wider than the generic preset, so: clip bosses
+  moved to the long edges only (4 + 4), the 4 end-wall lid posts dropped
+  (12 → 8), monitor footprint added to the lid seam-screw keep-outs (removes
+  the y = 0 seam screws — they would have pressed the nut into the monitor;
+  the old 357 mm preset already overlapped by ~4 mm), and fit-check asserts
+  added to `lid_panel.scad`.
