@@ -31,6 +31,16 @@ function boss_positions() = concat(
     [for (y = lin(bosses_short_side, mod_h)) [-mod_w/2 - boss_reach, y,   0]]
 );
 
+// Seam screws stay out of the window (+ bevel + head) and away from mounts/bosses.
+win_c = screen_offset + act_off;
+lid_keepouts = concat(
+    [[win_c[0], win_c[1],
+      act_w + 2 * (window_margin + window_chamfer) + m3_csk_d + 2,
+      act_h + 2 * (window_margin + window_chamfer) + m3_csk_d + 2]],
+    point_keepouts(lid_mount_holes),
+    point_keepouts([for (b = boss_positions()) [b[0] + screen_offset[0], b[1] + screen_offset[1]]], boss_d + 8)
+);
+
 module viewing_window() {
     ww = act_w + 2 * window_margin;
     wh = act_h + 2 * window_margin;
@@ -55,7 +65,7 @@ module lid_panel_whole() {
             for (b = boss_positions())
                 translate([b[0], b[1], -boss_h - 0.01]) cylinder(d = m3_insert_d, h = insert_depth);
         for (p = lid_mount_holes) translate(p) m3_csk(panel_t);
-        for (p = seam_holes(lid_xs, lid_ys, lid_L, lid_W)) translate(p) seam_screw(panel_t);
+        for (p = seam_holes(lid_xs, lid_ys, lid_L, lid_W, lid_keepouts)) translate(p) seam_screw(panel_t);
     }
 }
 

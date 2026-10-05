@@ -64,6 +64,30 @@ base depth 108 mm.
 - Port type sizes — generic panel-mount extensions vary.
 - `kb_cutout` — your keyboard + ~1 mm clearance.
 
+## Screen: portable "travel" monitor
+
+Default `screen = "travel15.6"` (also `"travel14"`). A travel monitor is a whole
+unit in its own ~9 mm shell, so the panel frames its glass and the clips clamp
+the shell edge — no teardown needed. To fit yours, measure and edit its preset:
+
+- outer shell width × height × thickness (`module_w/h/t`)
+- visible picture area width × height (`active_w/h`)
+- picture-centre offset: travel monitors have a thicker bottom chin, so the
+  picture sits **higher** than the shell centre (`active_off_y`, ~+5–10 mm)
+
+Things to plan for: its USB-C / mini-HDMI ports and OSD buttons are on the shell
+edges, which end up behind the panel — check that the cable plugs (often
+right-angle ones are needed) clear the lid brackets, and set brightness before
+mounting.
+
+## Credits
+
+- **Apache 3800 Panel Bracket** by JohnS - N0CTL —
+  [Printables 1478000](https://www.printables.com/model/1478000-apache-3800-panel-bracket),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Original STEP included
+  unmodified in `ref/`; `base_mount_holes` and the case interior/corner dimensions
+  are derived from it. See `ref/printables-bracket.md`.
+
 ## Hardware
 
 - M3 heat-set inserts (M3 × 5.7, 4.0 mm hole)

@@ -1,8 +1,13 @@
 # Printables Apache 3800 Panel Bracket — extracted data
 
-Source: https://www.printables.com/model/1478000-apache-3800-panel-bracket
-(JohnS - N0CTL). STEP file `apache-3800-panel-bracket-v8.step` (Fusion export,
-2025-11-11) — not redistributed here; download it from Printables.
+**"Apache 3800 Panel Bracket"** by **JohnS - N0CTL** (@jrsphoto),
+https://www.printables.com/model/1478000-apache-3800-panel-bracket —
+licensed **CC BY 4.0** (https://creativecommons.org/licenses/by/4.0/).
+
+`apache-3800-panel-bracket-v8.step` in this folder is the author's original
+STEP (Fusion export, 2025-11-11), included unmodified. The base faceplate's
+mounting-hole pattern and the case interior dimensions in `config.scad` are
+derived from it.
 
 Assembly of four bodies: Left Bracket, Front Bracket, Back Bracket, Right Bracket
 (Right = Left rotated 180° about Y).

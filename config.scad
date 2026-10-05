@@ -24,7 +24,8 @@ panel_gap     = 1.0;   // clearance per side, panel edge -> case wall
 bed             = [256, 256]; // usable bed X, Y
 bed_margin      = 12;         // keep-out per axis (includes lap overlap)
 lap_w           = 20;         // width of the lap-joint band at each seam
-seam_hole_pitch = 60;         // spacing of M3 screws along each seam
+seam_hole_pitch = 60;         // target spacing of M3 screws along each seam
+seam_edge_inset = 11;         // outermost seam screw, from the panel edge
 
 // ---------------------------------------------------------------------
 //  Fasteners (M3 throughout)
@@ -49,7 +50,7 @@ lid_split_x = "auto";   // "auto" or list of seam X positions, e.g. [0] or []
 lid_split_y = "auto";   // "auto" or list of seam Y positions
 
 // Screen choice: one of the preset names below.
-screen = "10.1";
+screen = "travel15.6";
 // [module_w, module_h, module_t, active_w, active_h, active_off_x, active_off_y]
 // active_off = active-area centre relative to module centre, viewed from front.
 // ALL PRESETS ARE APPROXIMATE — measure your panel; driver boards vary.
@@ -58,6 +59,10 @@ screen_presets = [
   ["10.1",   [235.0, 143.0, 4.5, 217.0, 135.6, 0, 0]],   // 1280x800 IPS class
   ["13.3",   [300.0, 187.0, 3.5, 293.8, 165.2, 0, 3]],   // 1920x1080 eDP class
   ["15.6",   [359.5, 223.8, 3.2, 344.2, 193.6, 0, 5]],   // NV156FHM class
+  // Portable "travel" monitors (whole unit in its own shell, thicker bottom chin
+  // pushes the active area up). Typical 15.6" / 14" USB-C units — MEASURE yours.
+  ["travel15.6", [357.0, 223.0, 9.0, 344.2, 193.6, 0, 8]],
+  ["travel14",   [318.0, 200.0, 9.0, 309.4, 173.9, 0, 7]],
   ["custom", [200.0, 120.0, 4.0, 190.0, 110.0, 0, 0]]
 ];
 screen_offset     = [0, 0];  // module centre relative to panel centre
@@ -67,7 +72,7 @@ screen_shim       = 0.5;     // foam/tape between glass and panel back
 // Retainer bosses + clips that clamp the screen to the panel back
 boss_d            = 8;
 bosses_long_side  = 2;       // per top/bottom edge
-bosses_short_side = 1;       // per left/right edge
+bosses_short_side = 2;       // per left/right edge (2 keeps y=0 free for the seam)
 clip_w            = 12;
 clip_t            = 2.5;
 clip_overlap      = 4;       // how far each clip reaches over the screen edge
@@ -76,10 +81,12 @@ clip_overlap      = 4;       // how far each clip reaches over the screen edge
 lid_bracket_size = [18, 14];   // footprint [along wall, away from wall]
 // Panel screw positions relative to panel centre. Default: brackets pushed
 // against the walls, hole at bracket centre.
+// Kept off x=0 / y=0 (default seams) and clear of the screen bosses.
 lid_mount_holes = [
-  [-130,  case_in_w/2 - 7], [0,  case_in_w/2 - 7], [130,  case_in_w/2 - 7],
-  [-130, -case_in_w/2 + 7], [0, -case_in_w/2 + 7], [130, -case_in_w/2 + 7],
-  [ case_in_l/2 - 7, 0], [-case_in_l/2 + 7, 0]
+  [-150,  case_in_w/2 - 7], [-50,  case_in_w/2 - 7], [50,  case_in_w/2 - 7], [150,  case_in_w/2 - 7],
+  [-150, -case_in_w/2 + 7], [-50, -case_in_w/2 + 7], [50, -case_in_w/2 + 7], [150, -case_in_w/2 + 7],
+  [ case_in_l/2 - 7, -90], [ case_in_l/2 - 7, 90],
+  [-case_in_l/2 + 7, -90], [-case_in_l/2 + 7, 90]
 ];
 
 // ---------------------------------------------------------------------
@@ -90,8 +97,9 @@ base_panel_drop  = 10;   // MEASURE faceplate top below base rim
 base_draft_inset = 1.5;  // walls are 380 x 270 at bracket height (STEP) -> plate 378 x 268
 base_split_x = "auto";
 base_split_y = "auto";
-// M3 insert positions of the 4-piece Printables bracket ring (v8 STEP,
-// apache-3800-panel-bracket-v8.step), from the case centre. Bracket is 17 mm tall.
+// M3 insert positions of the 4-piece Printables bracket ring, from the case
+// centre. Derived from "Apache 3800 Panel Bracket" by JohnS - N0CTL, CC BY 4.0
+// (ref/apache-3800-panel-bracket-v8.step). Bracket is 17 mm tall.
 // Front = -Y (handle side), Back = +Y (hinge side).
 base_mount_holes = [
   [-70, -128], [0, -128], [70, -128],                    // Front Bracket
@@ -102,7 +110,7 @@ base_mount_holes = [
 
 // Keyboard opening: [w, h, corner_r]. -Y is the handle (front) side.
 kb_cutout = [290, 105, 4];   // MEASURE your keyboard + ~1 mm clearance
-kb_offset = [0, -60];
+kb_offset = [0, -68];        // top edge clear of the y=0 seam lap band
 
 // Port cutout types: [name, [w, h, corner_r, screw_spacing, screw_d]]
 //   h = 0 -> round hole of diameter w.  screw_spacing = 0 -> no screws.
@@ -126,7 +134,7 @@ ports = [
   ["round16",  150, 95, 0]
 ];
 // Vent grilles: [x, y, w, h] regions filled with slots
-vents = [ [110, 30, 120, 50] ];
+vents = [ [110, 45, 120, 40] ];   // keep clear of seam lap bands (default y=0)
 vent_slot_w     = 2.5;
 vent_slot_pitch = 6;
 

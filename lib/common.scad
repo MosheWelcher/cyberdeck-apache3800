@@ -49,11 +49,25 @@ module tile_mask(xs, ys, i, j, t) {
     }
 }
 
-// Screw positions along every seam (centre of the lap band).
-function seam_holes(xs, ys, l, w) = concat(
-    [for (x = xs) for (y = [-w/2 + seam_hole_pitch/2 : seam_hole_pitch : w/2 - 15]) [x, y]],
-    [for (y = ys) for (x = [-l/2 + seam_hole_pitch/2 : seam_hole_pitch : l/2 - 15]) [x, y]]
-);
+// Evenly spaced points along a seam of length len, always including one
+// seam_edge_inset from each panel edge (narrow bezels still get screwed).
+function seam_line(len) =
+    let(span = len - 2 * seam_edge_inset, n = max(1, round(span / seam_hole_pitch)))
+    [for (k = [0 : n]) -span / 2 + k * span / n];
+
+function in_rect(p, r) = abs(p[0] - r[0]) < r[2] / 2 && abs(p[1] - r[1]) < r[3] / 2;
+function in_any(p, rects) = len([for (r = rects) if (in_rect(p, r)) 1]) > 0;
+
+// Keep-out box around each point (e.g. mount holes): [cx, cy, size, size].
+function point_keepouts(pts, size = 16) = [for (p = pts) [p[0], p[1], size, size]];
+
+// Screw positions along every seam (centre of the lap band), minus any
+// that fall in a keep-out rect [cx, cy, w, h] (windows, cutouts, mounts).
+function seam_holes(xs, ys, l, w, keep = []) = [
+    for (p = concat([for (x = xs) for (y = seam_line(w)) [x, y]],
+                    [for (y = ys) for (x = seam_line(l)) [x, y]]))
+        if (!in_any(p, keep)) p
+];
 
 // Seam hardware: countersunk M3 from the front, hex-nut pocket on the back.
 module seam_screw(t) {

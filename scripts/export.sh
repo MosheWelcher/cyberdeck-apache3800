@@ -32,6 +32,6 @@ done
 
 # Previews
 "$OPENSCAD" -q --imgsize=1600,1200 --viewall --autocenter --camera=0,0,0,55,0,25,0 -o img/assembly.png assembly.scad
-"$OPENSCAD" -q --imgsize=1200,900 --camera=0,0,0,35,0,15,800 -o img/lid_panel_tiles.png parts/lid_panel.scad
-"$OPENSCAD" -q --imgsize=1200,900 --camera=0,0,0,35,0,15,800 -o img/base_faceplate_tiles.png parts/base_faceplate.scad
+"$OPENSCAD" -q --imgsize=1200,900 --camera=0,0,0,35,0,15,900 -o img/lid_panel_tiles.png parts/lid_panel.scad
+"$OPENSCAD" -q --imgsize=1200,900 --camera=0,0,0,35,0,15,900 -o img/base_faceplate_tiles.png parts/base_faceplate.scad
 echo "Done."

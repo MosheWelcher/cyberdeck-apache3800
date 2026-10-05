@@ -13,6 +13,15 @@ base_n  = auto_split(base_L, base_W);
 base_xs = resolve_seams(base_split_x, base_L, base_n[0]);
 base_ys = resolve_seams(base_split_y, base_W, base_n[1]);
 
+// Seam screws stay out of cutouts. A bracket screw that lands on a seam
+// clamps the lap itself, so seam screws near mount holes are dropped too.
+base_keepouts = concat(
+    [[kb_offset[0], kb_offset[1], kb_cutout[0] + 12, kb_cutout[1] + 12]],
+    [for (v = vents) [v[0], v[1], v[2] + 12, v[3] + 12]],
+    point_keepouts([for (p = ports) [p[1], p[2]]], 40),
+    point_keepouts(base_mount_holes)
+);
+
 module port_cut(type) {
     p = preset(type, port_types);
     w = p[0]; h = p[1]; r = p[2]; sp = p[3]; sd = p[4];
@@ -39,7 +48,7 @@ module base_faceplate_whole() {
         for (p = ports) translate([p[1], p[2], 0]) rotate(p[3]) port_cut(p[0]);
         for (v = vents) vent_cut(v);
         for (p = base_mount_holes) translate(p) m3_csk(panel_t);
-        for (p = seam_holes(base_xs, base_ys, base_L, base_W)) translate(p) seam_screw(panel_t);
+        for (p = seam_holes(base_xs, base_ys, base_L, base_W, base_keepouts)) translate(p) seam_screw(panel_t);
     }
 }
 
