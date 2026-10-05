@@ -132,6 +132,7 @@ their own licenses (listed in [`NOTICE`](NOTICE) and below).
 
 ## Hardware
 
+- Battery charge port: [Adafruit 4218](https://www.adafruit.com/product/4218) USB-C round panel mount (22 mm hole, port row)
 - M3 heat-set inserts (M3 × 5.7, 4.0 mm hole)
 - M3 countersunk screws: 10 mm (6 mm panels), M3 hex nuts (seams)
 - Foam tape for `screen_shim`

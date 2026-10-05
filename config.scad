@@ -137,7 +137,11 @@ port_types = [
   ["hdmi",    [16.5,  7.5, 1.0, 30, 3.2]],
   ["rj45",    [16.5, 14.5, 0.5,  0, 0  ]],
   ["round16", [16.2,  0,   0,    0, 0  ]],   // 16 mm switch / GX16
-  ["round12", [12.2,  0,   0,    0, 0  ]]    // 12 mm switch / LED
+  ["round12", [12.2,  0,   0,    0, 0  ]],   // 12 mm switch / LED
+  // Adafruit 4218 USB-C round panel-mount extension (battery charge input).
+  // Spec: hole 21.5-27 mm, nut OD ~29.5 mm, panel <= 16 mm. 21.5 + 0.5 print
+  // clearance; its lip hides the hole. See ref/adafruit-4218.md.
+  ["usbc_round", [22.0, 0,  0,    0, 0  ]]
 ];
 // Ports placed on the faceplate: [type, x, y, rotation_deg]
 ports = [
@@ -147,7 +151,8 @@ ports = [
   ["hdmi",     -10, 106, 0],
   ["rj45",      30, 106, 0],
   ["round12",  125, 106, 0],
-  ["round16",  150, 106, 0]
+  ["round16",  150, 106, 0],
+  ["usbc_round", 80, 106, 0]   // battery charge in; nut (~29.5) clears vent + bracket
 ];
 // Vent grilles: [x, y, w, h] regions filled with slots
 vents = [ [110, 76, 120, 26] ];   // between the seam lap band and the port row

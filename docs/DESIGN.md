@@ -120,6 +120,14 @@ grille `[110, 76, 120, 26]` (2.5 mm slots @ 6 mm) between the seam band and
 the port row. Port/vent placement is placeholder until the owner picks
 internals.
 
+**Battery charge input**: [Adafruit 4218](https://www.adafruit.com/product/4218)
+USB-C round panel-mount extension (`usbc_round`, 22 mm hole = 21.5 min +
+0.5 print clearance) at **(80, 106)**, in the gap between the RJ45 and the
+12 mm hole. Its nut (~29.5 mm OD) on the back stays ~2 mm clear of the back
+bracket (inner face y = 123) and the vent; panel limit 16 mm (plate is 6).
+Back side is a 30 cm USB-C cable to the (not yet designed) battery.
+Spec in `ref/adafruit-4218.md`.
+
 ## 5. Printing: tiles and lap joints
 
 `lib/common.scad` splits any panel larger than `bed − bed_margin` into tiles
@@ -164,6 +172,7 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 | K400 outline / underside profile | GrabCAD STEP + Logitech spec | good |
 | Travel monitor dimensions | typical 15.6" unit | **assumed** — needs the real model |
 | Port sizes | generic | **assumed** |
+| USB-C charge port hole (Adafruit 4218) | Adafruit spec | good (not test-fitted) |
 | `lid_panel_drop`, `base_panel_drop` | guesses | **assumed** |
 | Lid wall taper (`lid_draft_inset = 0`) | not measured | **assumed** |
 
@@ -229,3 +238,7 @@ All 2026-10-05.
   model with the plate (empty, also with 0.5 mm extra margin). Cost: the two
   middle end-bracket holes (±183, 0) are auto-skipped → 14 of 16 used; seam
   screws unchanged (9).
+- **USB-C battery charge port** added (owner's pick: Adafruit 4218 round
+  panel-mount extension): new port type `usbc_round` (Ø22), placed at
+  (80, 106) on the port row. Only the battery *input* — the battery itself
+  is still unspecified (ask before designing a bay). Seam screws unchanged.
