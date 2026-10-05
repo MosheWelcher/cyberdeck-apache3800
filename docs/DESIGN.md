@@ -175,7 +175,7 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 4. **Measure** `lid_panel_drop`, `base_panel_drop`, real port hardware.
 5. Seam strength (lid: 4 screws) — consider more screws/glue tabs once the
    monitor is known.
-6. Repo **LICENSE** not chosen (owner may sell; CC BY-NC or similar was raised).
+6. ~~Repo license~~ — MIT chosen (see decision log).
 
 ## 9. Decision log
 
@@ -197,3 +197,5 @@ All 2026-10-05.
 - OpenSCAD dev build (Manifold) adopted: export ~35 min → ~10 s.
 - Repo made **public**; commits use the GitHub noreply email; work lives on
   `main`.
+- Licensed **MIT** (© MosheWelcher); third-party bracket STEP excluded
+  (CC BY 4.0), noted in `LICENSE`.

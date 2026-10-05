@@ -113,7 +113,9 @@ reads scripts incrementally).
   README, `config.scad` and `ref/printables-bracket.md`. Its STEP is in `ref/`.
 - K400 Plus model by **Tomáš Stroka** on GrabCAD — measurements only; **do not
   commit the STEP** (GrabCAD terms). The owner keeps a copy in Downloads.
-- The repo itself has **no LICENSE yet** (owner hasn't chosen; may sell later).
+- The repo is **MIT** (`LICENSE`, © MosheWelcher, chosen 2026-10-05). The
+  bracket STEP in `ref/` is excluded (CC BY 4.0) — the LICENSE file says so.
+  New third-party files need their own entry there.
 
 ## Don'ts (learned the hard way)
 

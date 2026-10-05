@@ -115,6 +115,11 @@ holes that would leave a sliver beside the opening are skipped automatically
 
 Details: `ref/k400-plus.md`.
 
+## License
+
+[MIT](LICENSE) © MosheWelcher — except third-party files in `ref/`, which keep
+their own licenses (listed in `LICENSE` and below).
+
 ## Credits
 
 - **Apache 3800 Panel Bracket** by JohnS - N0CTL —
