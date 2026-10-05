@@ -122,9 +122,11 @@ internals.
 
 **Battery charge input**: [Adafruit 4218](https://www.adafruit.com/product/4218)
 USB-C round panel-mount extension (`usbc_round`, 22 mm hole = 21.5 min +
-0.5 print clearance) at **(80, 106)**, in the gap between the RJ45 and the
-12 mm hole. Its nut (~29.5 mm OD) on the back stays ~2 mm clear of the back
-bracket (inner face y = 123) and the vent; panel limit 16 mm (plate is 6).
+0.5 print clearance) at **(−160, 106)** — back-left corner, left end of the
+port row. Its nut (~29.5 mm OD) on the back stays ~3 mm clear of the left end
+bracket (inner face x = −178), ~2 mm of the back bracket (y = 123), ~8 mm of
+the USB-A at −120, and clear of the bracket screws (−140, 128) / (−183, 85);
+panel limit 16 mm (plate is 6).
 Back side is a 30 cm USB-C cable to the (not yet designed) battery.
 Spec in `ref/adafruit-4218.md`.
 
@@ -242,3 +244,5 @@ All 2026-10-05.
   panel-mount extension): new port type `usbc_round` (Ø22), placed at
   (80, 106) on the port row. Only the battery *input* — the battery itself
   is still unspecified (ask before designing a bay). Seam screws unchanged.
+- USB-C charge port moved to the **back-left corner** (−160, 106) at the
+  owner's request ("top left" read as hinge side, left).

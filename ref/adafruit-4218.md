@@ -11,5 +11,5 @@ Source: <https://www.adafruit.com/product/4218> (spec as listed, 2026-10-05).
 | Retention | plastic nut; front lip hides the hole |
 
 Used as `port_types` → `usbc_round` (22 mm hole) in `config.scad`, placed on
-the base port row at (80, 106) as the battery charging input.
+the base port row at (−160, 106) (back-left corner) as the battery charging input.
 Not measured yet — check the real part.

@@ -152,7 +152,7 @@ ports = [
   ["rj45",      30, 106, 0],
   ["round12",  125, 106, 0],
   ["round16",  150, 106, 0],
-  ["usbc_round", 80, 106, 0]   // battery charge in; nut (~29.5) clears vent + bracket
+  ["usbc_round", -160, 106, 0]  // battery charge in, back-left corner; nut (~29.5) clears end bracket (x -178) + back bracket (y 123)
 ];
 // Vent grilles: [x, y, w, h] regions filled with slots
 vents = [ [110, 76, 120, 26] ];   // between the seam lap band and the port row
