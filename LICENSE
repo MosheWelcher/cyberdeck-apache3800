@@ -19,12 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
--------------------------------------------------------------------------------
-Third-party material (NOT covered by the MIT license above):
-
-- ref/apache-3800-panel-bracket-v8.step — "Apache 3800 Panel Bracket" by
-  JohnS - N0CTL, https://www.printables.com/model/1478000-apache-3800-panel-bracket,
-  licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
-  The base faceplate's mounting-hole pattern is derived from it; keep the
-  attribution in README.md when redistributing.

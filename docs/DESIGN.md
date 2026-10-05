@@ -198,4 +198,4 @@ All 2026-10-05.
 - Repo made **public**; commits use the GitHub noreply email; work lives on
   `main`.
 - Licensed **MIT** (© MosheWelcher); third-party bracket STEP excluded
-  (CC BY 4.0), noted in `LICENSE`.
+  (CC BY 4.0), listed in `NOTICE`.

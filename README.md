@@ -118,7 +118,7 @@ Details: `ref/k400-plus.md`.
 ## License
 
 [MIT](LICENSE) © MosheWelcher — except third-party files in `ref/`, which keep
-their own licenses (listed in `LICENSE` and below).
+their own licenses (listed in [`NOTICE`](NOTICE) and below).
 
 ## Credits
 

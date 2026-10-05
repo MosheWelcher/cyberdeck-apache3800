@@ -114,8 +114,8 @@ reads scripts incrementally).
 - K400 Plus model by **Tomáš Stroka** on GrabCAD — measurements only; **do not
   commit the STEP** (GrabCAD terms). The owner keeps a copy in Downloads.
 - The repo is **MIT** (`LICENSE`, © MosheWelcher, chosen 2026-10-05). The
-  bracket STEP in `ref/` is excluded (CC BY 4.0) — the LICENSE file says so.
-  New third-party files need their own entry there.
+  bracket STEP in `ref/` is excluded (CC BY 4.0) — listed in `NOTICE`.
+  Keep `LICENSE` as the exact MIT text (GitHub detection); new third-party files get an entry in `NOTICE`.
 
 ## Don'ts (learned the hard way)
 
