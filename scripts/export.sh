@@ -44,13 +44,6 @@ for part in lid_bracket screen_retainer kb_hanger; do
   scad -o "stl/$part.stl" "parts/$part.scad"
 done
 
-# Fit gauge corners for the base plate.
-for c in "-1,-1 front_left" "1,-1 front_right" "-1,1 back_left" "1,1 back_right"; do
-  read -r xy name <<<"$c"
-  echo "-> stl/fit_test_$name.stl"
-  scad -D "piece=[$xy]" -o "stl/fit_test_$name.stl" parts/fit_test.scad
-done
-
 # Previews
 scad --imgsize=1600,1200 --viewall --autocenter --camera=0,0,0,55,0,25,0 -o img/assembly.png assembly.scad
 scad --imgsize=1200,900 --camera=0,0,0,35,0,15,900 -o img/lid_panel_tiles.png parts/lid_panel.scad

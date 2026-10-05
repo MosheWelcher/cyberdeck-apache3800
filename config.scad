@@ -94,8 +94,7 @@ lid_mount_holes = [
 //  (printables.com/model/1478000 — M3 inserts in the bracket top edge)
 // ---------------------------------------------------------------------
 base_panel_drop  = 10;   // MEASURE faceplate top below base rim
-// Plate outline = bracket ring outer edge (380 x 270, R17, lib/bracket_ring.scad)
-// minus panel_gap per side -> 378 x 268, R16.
+base_plate = [378, 268, 16];   // faceplate outline [x, y, corner_r]: ~1 mm to the wall at bracket height
 base_split_x = "auto";
 base_split_y = [44];     // behind the keyboard opening (auto would cut through it)
 // M3 insert positions of the 4-piece Printables bracket ring, from the case

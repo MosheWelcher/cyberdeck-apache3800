@@ -42,8 +42,6 @@ module hangers_in_place() {
 cavity(base_depth);
 translate([0, 0, -base_panel_drop]) {
     color(c_panel) translate([0, 0, -panel_t]) base_faceplate_whole();
-    // Printables bracket ring under the plate (fit checks: parts/fit_test.scad)
-    color([0.2, 0.7, 0.3]) translate([0, 0, -panel_t]) bracket_ring(base_mount_holes);
     k400_dummy();
     hangers_in_place();
 }

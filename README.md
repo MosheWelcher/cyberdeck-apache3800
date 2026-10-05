@@ -20,8 +20,6 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 | `parts/lid_bracket.scad` | Posts for the lid floor (insert top + bottom) — lid-side equivalent of the Printables bracket. |
 | `parts/base_faceplate.scad` | Keyboard opening, port cutouts, vent grille, holes matching the Printables bracket ring. |
 | `parts/kb_hanger.scad` | Ledge hangers that hold the K400 Plus flush in the faceplate opening. |
-| `parts/fit_test.scad` | Fit checks (console) + thin corner gauges to test-fit the base plate on the brackets. |
-| `lib/bracket_ring.scad` | Printables bracket ring geometry (from its STEP) — the base plate is sized from it. |
 | `view_stls.scad` | Imports the exported STLs so you can look at them (F5). |
 | `assembly.scad` | Fit-check: case opened flat with both panels. Preview only. |
 | `scripts/export.sh` | Renders every part to `stl/` and previews to `img/`. |
@@ -86,23 +84,6 @@ Things to plan for: its USB-C / mini-HDMI ports and OSD buttons are on the shell
 edges, which end up behind the panel — check that the cable plugs (often
 right-angle ones are needed) clear the lid brackets, and set brightness before
 mounting.
-
-## Checking the base plate fits the brackets
-
-The Printables brackets have a Γ profile: a **12 mm lip on top** (the plate rests
-on it; M3 inserts 7 mm from the wall) and a 5 mm strip down the case wall. The
-plate outline is derived from the bracket ring (`lib/bracket_ring.scad`,
-380 × 270 R17 → plate 378 × 268 R16, 1 mm wall gap).
-
-1. **Automatic checks** — open `parts/fit_test.scad` and press F5; the console
-   prints `FIT OK` / `FIT WARNING` for wall gap, corner radius, lip overlap,
-   every screw countersink, the keyboard and the hangers. `assembly.scad` also
-   shows the bracket ring (green) under the plate.
-2. **Fit gauge** — print `stl/fit_test_*.stl` (four 1.2 mm corner pieces, a few
-   minutes each). With the brackets installed, lay each on its corner: an M3
-   screw should drop through every hole into its insert, and the edge should
-   clear the case wall. If anything is off, adjust `base_mount_holes` /
-   `panel_gap` and re-export before printing the real plate.
 
 ## Keyboard: Logitech K400 Plus (drop-in, flush)
 

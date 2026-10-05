@@ -5,7 +5,7 @@ include <../lib/common.scad>
 
 piece = "all";   // "all" (exploded tiles), "whole", or [i, j]
 
-// base_L / base_W / base_R come from lib/common.scad (bracket ring - panel_gap).
+// base_L / base_W / base_R come from base_plate in config.scad.
 base_n  = auto_split(base_L, base_W);
 base_xs = resolve_seams(base_split_x, base_L, base_n[0]);
 base_ys = resolve_seams(base_split_y, base_W, base_n[1]);
