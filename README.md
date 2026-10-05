@@ -23,6 +23,9 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 | `view_stls.scad` | Imports the exported STLs so you can look at them (F5). |
 | `assembly.scad` | Fit-check: case opened flat with both panels. Preview only. |
 | `scripts/export.sh` | Renders every part to `stl/` and previews to `img/`. |
+| `scripts/step_info.py` | Reads holes / extents / faces out of STEP files (how third-party parts were measured). |
+| `docs/DESIGN.md` | Design record: every decision, measurement source, open question. |
+| `CLAUDE.md` / `AGENTS.md` | Guide for AI agents (and humans) working on the repo. |
 | `ref/` | Notes on reference dimensions. |
 
 Coordinates: origin at the centre of the case opening; **−Y = handle (front)**,
