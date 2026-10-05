@@ -31,6 +31,25 @@ kb_back_y = kb_offset[1] + kb_size[1] / 2;          // keyboard back edge (hump 
 kb_slot   = [kb_hump_size[0] + 2 * kb_slot_clear, kb_hump_size[1] + 2 * kb_slot_clear];
 kb_slot_c = [kb_offset[0], kb_back_y - kb_hump_size[1] / 2];   // slot centre
 
+// K400 for previews, positioned with its flat underside on z = 0 (= plate top).
+// Real model if kb_model_stl is set (rotate maps model X,Y,Z -> deck X,-Z,Y so the
+// hump faces +Y), otherwise a box stand-in from the measured profile.
+module k400_preview() {
+    if (kb_model_stl != "")
+        color([0.15, 0.15, 0.17])
+            translate([kb_offset[0], kb_offset[1], -kb_model_underside])
+                rotate([90, 0, 0]) import(str("../", kb_model_stl));
+    else {
+        color([0.12, 0.12, 0.12]) {
+            translate(concat(kb_offset, [0])) linear_extrude(kb_floor_depth) rrect(kb_size[0], kb_size[1], 3);
+            translate([kb_offset[0], kb_back_y - kb_hump_size[1] / 2, -(kb_hump_depth - kb_floor_depth)])
+                linear_extrude(kb_hump_depth - kb_floor_depth + 0.01) rrect(kb_hump_size[0], kb_hump_size[1], 3);
+        }
+        color([0.3, 0.3, 0.3]) translate([kb_offset[0], kb_offset[1], kb_floor_depth])
+            linear_extrude(2) translate([-50, 0]) rrect(240, 110, 2);
+    }
+}
+
 // ---------- Splitting oversized panels into lap-jointed tiles ----------
 // Seams evenly spaced so each tile (+ margin) fits the bed.
 function n_tiles(len, axis_bed) = max(1, ceil(len / (axis_bed - bed_margin)));

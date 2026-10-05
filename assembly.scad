@@ -14,24 +14,11 @@ module cavity(depth) {
     }
 }
 
-// K400 Plus stand-in, sitting on the plate top (z = 0): body from the flat
-// underside up to the frame top, keys on top, battery hump through the slot.
-module k400_dummy() {
-    color([0.12, 0.12, 0.12]) {
-        translate([kb_offset[0], kb_offset[1], 0])
-            linear_extrude(kb_floor_depth) rrect(kb_size[0], kb_size[1], 3);
-        translate([kb_offset[0], kb_back_y - kb_hump_size[1] / 2, -(kb_hump_depth - kb_floor_depth)])
-            linear_extrude(kb_hump_depth - kb_floor_depth + 0.01) rrect(kb_hump_size[0], kb_hump_size[1], 3);
-    }
-    color([0.3, 0.3, 0.3]) translate([kb_offset[0], kb_offset[1], kb_floor_depth])   // keys
-        linear_extrude(2) translate([-50, 0]) rrect(240, 110, 2);
-}
-
 // Base half
 cavity(base_depth);
 translate([0, 0, -base_panel_drop]) {
     color(c_panel) translate([0, 0, -panel_t]) base_faceplate_whole();
-    k400_dummy();
+    k400_preview();   // real K400 model if ref/local/k400_plus.stl exists (see config.scad)
 }
 
 // Lid, opened 180 degrees about the hinge: interior faces up

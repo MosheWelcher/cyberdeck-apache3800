@@ -120,6 +120,11 @@ kb_hump_depth  = 20;           // frame top -> battery-hump underside (hangs 8 m
 kb_hump_size   = [345, 33];    // hump footprint where it meets the underside: [width, depth from back edge]
 kb_slot_clear  = 1.0;          // per side around the hump
 kb_slot_r      = 2;            // slot corner radius
+// Preview only: the real K400 model as STL (git-ignored, GrabCAD terms). Create it with
+//   python scripts/step_to_stl.py <Downloads>/Logitech_K400_PLUS.stp ref/local/k400_plus.stl
+// Path is relative to the repo root; "" = show a simple box stand-in instead.
+kb_model_stl       = "ref/local/k400_plus.stl";
+kb_model_underside = -2;       // model's own Y of the flat underside (model: X width, Y up, -Z = hump/back)
 
 // Port cutout types: [name, [w, h, corner_r, screw_spacing, screw_d]]
 //   h = 0 -> round hole of diameter w.  screw_spacing = 0 -> no screws.

@@ -1,4 +1,5 @@
 // Viewer for the exported STLs in stl/ (run scripts/export.sh first).
+include <lib/common.scad>   // keyboard position + preview model
 // Open in OpenSCAD and press F5. Tiles import at their real positions,
 // so they reassemble into whole panels; set explode > 0 to pull them apart.
 
@@ -9,6 +10,7 @@ show_lid      = true;
 show_base     = true;
 show_brackets = true;
 show_clips    = true;
+show_keyboard = true;   // K400 sitting on the base plate
 
 module tiles(part, n) {
     for (i = [0 : n[0] - 1], j = [0 : n[1] - 1])
@@ -19,6 +21,7 @@ module tiles(part, n) {
 
 // Base faceplate in front, lid screen panel behind it (as if the case lay open)
 if (show_base) tiles("base_faceplate", base_tiles);
+if (show_keyboard) translate([0, 0, panel_t]) k400_preview();   // on the plate top
 if (show_lid)  translate([0, 300, 0]) tiles("lid_panel", lid_tiles);
 
 // Small parts off to the right

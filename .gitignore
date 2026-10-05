@@ -1,3 +1,4 @@
 stl/.*.echo
 *.bak
 .claude/
+ref/local/
