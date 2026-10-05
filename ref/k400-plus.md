@@ -17,9 +17,21 @@ Measured from the STEP vertices (model axes: X width, Y thickness, Z depth):
 | Battery hump (rear) | 20 mm below frame top, ±168.5 mm wide, rear ~26 mm |
 | Touchpad | right side, ~X 83…165 |
 
-Hump footprint where it meets the flat underside (used for the plate slot):
-±172.5 mm wide, from the back edge forward 33 mm (model z −70 … −37.4);
-deeper than 4 mm below the underside it narrows to ±168.9 × 31 mm.
+Hump footprint through the plate (used for the plate slot) — from horizontal
+cross-sections of the STL (`ref/local/k400_plus.stl`) placed on the plate,
+depth measured below the flat underside:
+
+| Depth | Width | Front edge, from the back edge |
+|---|---|---|
+| 0.1 mm | ±177.4 (full width) | 38.3 mm |
+| 0.5 mm | ±177.4 | 36.0 mm |
+| 3 mm | ±176.6 | 32.3 mm |
+| 5.9 mm | ±174.3 | 30.3 mm |
+
+The thick back runs the full width and blends into the underside with a
+large fillet; its back corners are R≈15 in plan. (An earlier reading from
+the STEP vertices, ±172.5 × 33 mm, was too small; the slot built on it did
+not fit.) Config: `kb_hump_size = [355, 38.5]`.
 
 The keyboard sits on top of the base plate; only the hump passes through
 (`kb_hump_size`, `kb_slot_clear` in config.scad).

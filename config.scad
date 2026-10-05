@@ -117,9 +117,11 @@ kb_size        = [355, 140];   // outline at the widest shell edge
 kb_offset      = [0, -40];     // keyboard centre on the plate
 kb_floor_depth = 12;           // frame top -> flat underside (rests on the plate)
 kb_hump_depth  = 20;           // frame top -> battery-hump underside (hangs 8 mm below the underside)
-kb_hump_size   = [345, 33];    // hump footprint where it meets the underside: [width, depth from back edge]
+kb_hump_size   = [355, 38.5];  // hump footprint at the plate top: [width, depth from back edge]. Real-model
+                               // cross-section: the thick back runs the full width and blends forward
+                               // with a fillet (front edge 38.5 mm from the back edge at the plate top)
 kb_slot_clear  = 1.0;          // per side around the hump
-kb_slot_r      = 2;            // slot corner radius
+kb_slot_r      = 6;            // slot corner radius (real-model check: clears up to ~R10; R6 keeps margin)
 // Preview only: the real K400 model as STL (git-ignored, GrabCAD terms). Create it with
 //   python scripts/step_to_stl.py <Downloads>/Logitech_K400_PLUS.stp ref/local/k400_plus.stl
 // Path is relative to the repo root; "" = show a simple box stand-in instead.

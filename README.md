@@ -91,12 +91,14 @@ mounting.
 
 The K400 sits **flat on top of the faceplate**. Only its battery hump (the
 thicker strip along its back edge, ~8 mm deeper than the flat underside)
-drops through a **347 × 35 mm slot** in the plate. The hump in the slot also
+drops through a **357 × 40.5 mm slot with R6 rounded corners** in the plate
+(sized from the real K400 model + 1 mm clearance). The hump in the slot also
 locates the keyboard so it can't slide; add a few velcro dots if you want it
 held down. Lift it off to use it wirelessly or change batteries.
 
 - The slot sits under the keyboard's back edge (keyboard centred at
-  `kb_offset`, hump toward the hinge). All 16 bracket holes are used.
+  `kb_offset`, hump toward the hinge). 14 of the 16 bracket holes are used — the middle
+  hole on each end bracket sits too close to the slot end and is skipped.
 - With the keyboard on top it stands ~14 mm above the plate, so the plate is
   set **16 mm below the base rim** (`base_panel_drop`) — that leaves ~8 mm
   between the keys and the lid panel when the case is closed. Mount the

@@ -12,7 +12,8 @@ base_xs = resolve_seams(base_split_x, base_L, base_n[0]);
 base_ys = resolve_seams(base_split_y, base_W, base_n[1]);
 
 // Bracket holes that would leave a sliver next to the hump slot are skipped
-// (that bracket insert just goes unused). With the default layout all are used.
+// (that bracket insert just goes unused). With the default full-width slot the
+// two middle end-bracket holes (±183, 0) are skipped.
 kb_hole_keepout = [kb_slot_c[0], kb_slot_c[1], kb_slot[0] + m3_csk_d + 6, kb_slot[1] + m3_csk_d + 6];
 used_mount_holes = [for (p = base_mount_holes) if (!in_rect(p, kb_hole_keepout)) p];
 echo(str("Base mount holes used: ", len(used_mount_holes), " of ", len(base_mount_holes)));

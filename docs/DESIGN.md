@@ -75,8 +75,9 @@ File: `parts/base_faceplate.scad`.
   horizontal Ø4 holes (screws into the case wall).
 - **16 insert positions** (`base_mount_holes`): Front/Back y = ∓128 at
   x = −70, 0, 70; ends at (±140, ±128) and (±183, −85 / 0 / 85).
-  **All 16 are used.** (`used_mount_holes` still auto-skips any hole that
-  would land within ~6 mm of the keyboard slot — none do with the defaults.)
+  **14 are used**: `used_mount_holes` auto-skips any hole that would land
+  within ~6 mm of the keyboard slot, which drops the two middle end-bracket
+  holes (±183, 0) since the slot became full keyboard width.
 
 ### 4.2 Keyboard: K400 Plus, sits on top
 
@@ -88,15 +89,18 @@ Measured from the GrabCAD STEP (see `ref/k400-plus.md`):
 | Keys | stand ~2 mm above the frame top |
 | Flat underside | 12 mm below frame top — rests on the plate |
 | Battery hump | 8 mm below the flat underside (20 below frame top), along the back edge — faces **+Y** (hinge) |
-| Hump footprint at the underside | ±172.5 wide × 33 mm from the back edge (narrows to ±168.9 × 31 deeper down) |
+| Hump footprint at the plate top | full width ±177.4 × 38.5 mm from the back edge (front blends in with a large fillet; at the plate underside, 6 mm down: ±174.3 × 30.3). Back corners R≈15 in plan. From cross-sections of the STL |
 | Touchpad | right side |
 
 Design (owner's choice: keyboard flat on the plate, minimal hole — keeps the
 plate simple, e.g. for a possible future aluminium plate; **don't start
 aluminium work until asked**):
 - Keyboard centred at `kb_offset = (0, −40)` → occupies y −110…+30.
-- **Hump slot** 347 × 35 mm (footprint + 1 mm/side), R2, centred (0, 13.5)
-  → y −4…31. The hump hangs ~2 mm below the plate underside. The slot also
+- **Hump slot** 357 × 40.5 mm (footprint + 1 mm/side), **R6** corners,
+  centred (0, 10.75) → y −9.5…31. The hump hangs ~2 mm below the plate
+  underside. Fit checked against the real model (keyboard ∩ plate = empty):
+  clears up to ~R10 and still clears with the slot 0.5 mm smaller per side
+  at R6; R13+ hits the front corners. The slot also
   locates the keyboard; velcro dots optional. Lift off to use wirelessly /
   change batteries.
 - **Lid clearance**: keyboard top (keys) stands 14 mm above the plate. With
@@ -104,7 +108,7 @@ aluminium work until asked**):
   face is 6 mm below the lid rim → **~8 mm** clearance closed. (At the old
   10 mm drop it would have been only 2 mm.) Brackets must be installed so
   the plate top is at that depth.
-- The slot leaves ~15.5 mm of plate at each end beside it; the strip behind
+- The slot leaves ~10.5 mm of plate at each end beside it; the strip behind
   the slot is tied to the back tiles by the y = 44 seam screws.
 
 ### 4.3 Ports, vent
@@ -142,8 +146,8 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 ## 6. Hardware list (current design)
 
 - M3 heat-set inserts (Ø4 hole, 5.7 mm): 8 (screen bosses) + 24 (lid posts,
-  top + bottom) + 16 for the Printables brackets (all used).
-- M3 countersunk screws: 16 base mount, 12 lid mount, 13 seam (9 base + 4
+  top + bottom) + 14 for the Printables brackets (2 of its 16 positions unused).
+- M3 countersunk screws: 14 base mount, 12 lid mount, 13 seam (9 base + 4
   lid; M3 × 10 mm, seams need nuts); 8 pan/button heads for clips;
   lid-post fixing screws if not glued.
 - M3 hex nuts: 13 (seams).
@@ -214,4 +218,14 @@ All 2026-10-05.
 - Real K400 model added to the previews (`k400_preview()`; STEP → STL with
   gmsh into the ignored `ref/local/`). Visual check: keyboard sits flat on the
   plate, hump in the slot with ~1.4 mm front / ~1 mm rear clearance, ~11.5 mm
-  of plate either side.
+  of plate either side. **(Wrong — see next entry.)**
+- Hump slot corrected and rounded (owner asked for rounder corners and a
+  verified fit). Cross-sections of the real model through the plate showed
+  the old 347 × 35 slot did **not** fit: the K400's thick back runs the full
+  width (±177.4 at the plate top) and blends forward with a fillet to
+  y ≈ −8.5, so the keyboard would have sat on the slot edges. Slot now from
+  the model + 1 mm: `kb_hump_size = [355, 38.5]` → 357 × 40.5, R6 (owner
+  chose R6 over R10, the largest that clears). Fit checked by intersecting the
+  model with the plate (empty, also with 0.5 mm extra margin). Cost: the two
+  middle end-bracket holes (±183, 0) are auto-skipped → 14 of 16 used; seam
+  screws unchanged (9).
