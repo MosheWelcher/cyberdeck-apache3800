@@ -36,7 +36,7 @@ the brackets end up below the base rim).
 
 Files: `parts/lid_panel.scad`, `parts/screen_retainer.scad`, `parts/lid_bracket.scad`.
 
-- **Panel**: 381 × 269 mm, R16, 4 mm thick (`case_in − 2·panel_gap`).
+- **Panel**: 381 × 269 mm, R16, 6 mm thick (`case_in − 2·panel_gap`).
 - **Window**: active area + 0.5 mm/side = **345.2 × 194.6 mm**, centred at
   (0, +8) because travel monitors have a thicker bottom chin (picture sits
   high). 45° × 2 mm bevel on the viewing side.
@@ -47,7 +47,7 @@ Files: `parts/lid_panel.scad`, `parts/screen_retainer.scad`, `parts/lid_bracket.
   edges use 2 bosses so y = 0 stays free for the tile seam.
 - **Mounting**: 12 countersunk M3 holes (`lid_mount_holes`) — 4 per long wall
   at x = ±50, ±150, 2 per end wall at y = ±90 — onto **12 printed posts**
-  (`lid_bracket`, 18 × 14 × **34 mm** = lid depth − drop − panel) with inserts
+  (`lid_bracket`, 18 × 14 × **32 mm** = lid depth − drop − panel) with inserts
   top and bottom; fix posts with a screw through the lid skin or VHB/epoxy.
   Holes avoid the seams (x = 0, y = 0) and the bosses.
 - The monitor's own ports/buttons end up behind the panel — right-angle cables
@@ -66,7 +66,7 @@ File: `parts/base_faceplate.scad`.
 ### 4.1 Plate and the Printables bracket ring
 
 - **Plate**: `base_plate = [378, 268, 16]` → ~1 mm gap to the 380 × 270 R17 walls
-  at bracket height, 4 mm thick.
+  at bracket height, 6 mm thick (bracket tops 22 mm below the rim = drop + thickness).
 - **Bracket ring** (from `ref/apache-3800-panel-bracket-v8.step`, see
   `ref/printables-bracket.md`): four bodies — Front (x −120…120, y −135…−123),
   Back (mirror), two L-shaped end pieces wrapping the corners (x ±115…±190).
@@ -96,7 +96,7 @@ plate simple, e.g. for a possible future aluminium plate; **don't start
 aluminium work until asked**):
 - Keyboard centred at `kb_offset = (0, −40)` → occupies y −110…+30.
 - **Hump slot** 347 × 35 mm (footprint + 1 mm/side), R2, centred (0, 13.5)
-  → y −4…31. The hump hangs ~4 mm below the plate underside. The slot also
+  → y −4…31. The hump hangs ~2 mm below the plate underside. The slot also
   locates the keyboard; velcro dots optional. Lift off to use wirelessly /
   change batteries.
 - **Lid clearance**: keyboard top (keys) stands 14 mm above the plate. With
@@ -144,7 +144,7 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 - M3 heat-set inserts (Ø4 hole, 5.7 mm): 8 (screen bosses) + 24 (lid posts,
   top + bottom) + 16 for the Printables brackets (all used).
 - M3 countersunk screws: 16 base mount, 12 lid mount, 13 seam (9 base + 4
-  lid; lengths 8–10 mm, seams need nuts); 8 pan/button heads for clips;
+  lid; M3 × 10 mm, seams need nuts); 8 pan/button heads for clips;
   lid-post fixing screws if not glued.
 - M3 hex nuts: 13 (seams).
 - Velcro dots for the keyboard (optional).
@@ -205,3 +205,9 @@ All 2026-10-05.
   `base_panel_drop` 10 → 16 mm so the closed lid clears the keys (~8 mm).
   Reason: simpler flat plate, possibly aluminium (heat sink) later — owner
   said **not to start aluminium work yet**.
+- Panels thickened **4 → 6 mm** (lid + base; owner found 4 mm too thin):
+  ~3.4× stiffer, lap halves 3 + 3 mm, lid posts now 32 mm. The base plate top
+  stays 16 mm below the rim, so the brackets install 2 mm lower (tops 22 mm
+  below the rim) and keyboard height / ~8 mm lid clearance are unchanged.
+  Aluminium heat-sink plate discussed: ~3 mm 5052/6061 *if* done later
+  (not started).

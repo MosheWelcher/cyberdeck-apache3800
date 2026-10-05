@@ -39,7 +39,7 @@ m3_nut_af       = 5.5;   // hex nut across flats (seam joints)
 // ---------------------------------------------------------------------
 //  Panels (shared)
 // ---------------------------------------------------------------------
-panel_t = 4;   // faceplate thickness; front/back halves form the lap joint
+panel_t = 6;   // faceplate thickness (lid + base); front/back halves (3 + 3) form the lap joint
 
 // ---------------------------------------------------------------------
 //  LID — screen panel

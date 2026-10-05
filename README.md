@@ -124,7 +124,7 @@ their own licenses (listed in [`NOTICE`](NOTICE) and below).
 ## Hardware
 
 - M3 heat-set inserts (M3 × 5.7, 4.0 mm hole)
-- M3 countersunk screws: 8–10 mm (panels), M3 hex nuts (seams)
+- M3 countersunk screws: 10 mm (6 mm panels), M3 hex nuts (seams)
 - Foam tape for `screen_shim`
 - Print: PETG / ABS / ASA-GF, 4 walls, 4 top/bottom, 30–45 % infill.
   Print panels front-face-down for a clean visible side.
