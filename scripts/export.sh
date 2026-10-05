@@ -39,7 +39,7 @@ for part in lid_panel base_faceplate; do
 done
 
 # Small parts: one plate each.
-for part in lid_bracket screen_retainer kb_hanger; do
+for part in lid_bracket screen_retainer; do
   echo "-> stl/$part.stl"
   scad -o "stl/$part.stl" "parts/$part.scad"
 done

@@ -61,7 +61,7 @@ Presets in `screen_presets` (all approximate): `7`, `10.1`, `13.3`, `15.6`
 
 ## 4. Base — keyboard / ports faceplate
 
-Files: `parts/base_faceplate.scad`, `parts/kb_hanger.scad`.
+File: `parts/base_faceplate.scad`.
 
 ### 4.1 Plate and the Printables bracket ring
 
@@ -75,40 +75,37 @@ Files: `parts/base_faceplate.scad`, `parts/kb_hanger.scad`.
   horizontal Ø4 holes (screws into the case wall).
 - **16 insert positions** (`base_mount_holes`): Front/Back y = ∓128 at
   x = −70, 0, 70; ends at (±140, ±128) and (±183, −85 / 0 / 85).
-  **12 are used** — the four at (±183, −85) and (±183, 0) would sit ~1.5 mm
-  from the keyboard opening, so the plate skips them automatically
-  (`used_mount_holes`); those inserts simply stay empty.
+  **All 16 are used.** (`used_mount_holes` still auto-skips any hole that
+  would land within ~6 mm of the keyboard slot — none do with the defaults.)
 
-### 4.2 Keyboard: K400 Plus, drop-in flush
+### 4.2 Keyboard: K400 Plus, sits on top
 
 Measured from the GrabCAD STEP (see `ref/k400-plus.md`):
 
 | Feature | Value |
 |---|---|
 | Outline at widest shell edge | 355 × 140 mm (spec 354.3 × 139.9 × 23.5) |
-| Widest edge band | 2–7 mm below the frame top |
 | Keys | stand ~2 mm above the frame top |
-| Flat underside | 12 mm below frame top, front ~105 mm of depth |
-| Battery hump | 20 mm below frame top, rear ~26 mm, ±168.5 mm wide — faces **+Y** (hinge) |
+| Flat underside | 12 mm below frame top — rests on the plate |
+| Battery hump | 8 mm below the flat underside (20 below frame top), along the back edge — faces **+Y** (hinge) |
+| Hump footprint at the underside | ±172.5 wide × 33 mm from the back edge (narrows to ±168.9 × 31 deeper down) |
 | Touchpad | right side |
 
-Design:
-- **Opening** 357 × 142 mm (1 mm clearance), R4, centred at (0, −40) →
-  y −111…+31. Pushed toward the hinge so the front hangers fit between the
-  keyboard and the Printables front bracket (~1 mm to spare).
-- **Flush**: keyboard frame top = plate top (`kb_top_drop = 0`); keys 2 mm proud.
-  Lid clearance when closed is fine (base plate 10 mm below rim, lid panel
-  6 mm below its rim).
-- **Hangers** (`kb_hanger`): 4 front + 4 back at x = ±50, ±145, 16 mm wide, 3 mm
-  thick, 11 mm flange under the plate, M3 countersunk screw from the top + nut
-  under the flange (bolts at y = −118 and y = +38). Front ledge **8 mm** below
-  the plate underside (6 mm foot), back ledge **16 mm** (8 mm foot, under the
-  battery hump). Print lying on the profile face — no supports. Lift the
-  keyboard out to use wirelessly / change batteries.
-- ⚠ **End-bracket clearance ≈ 0.5 mm per side**: the K400's widest edge
-  (±177.5) sits level with the end brackets' inner faces (±178). Owner must
-  test-fit; if it binds, sand ~1 mm off the top ~8 mm of each end bracket's
-  inner face between y ≈ −110 and +30.
+Design (owner's choice: keyboard flat on the plate, minimal hole — keeps the
+plate simple, e.g. for a possible future aluminium plate; **don't start
+aluminium work until asked**):
+- Keyboard centred at `kb_offset = (0, −40)` → occupies y −110…+30.
+- **Hump slot** 347 × 35 mm (footprint + 1 mm/side), R2, centred (0, 13.5)
+  → y −4…31. The hump hangs ~4 mm below the plate underside. The slot also
+  locates the keyboard; velcro dots optional. Lift off to use wirelessly /
+  change batteries.
+- **Lid clearance**: keyboard top (keys) stands 14 mm above the plate. With
+  `base_panel_drop = 16` the keys are 2 mm below the base rim; the lid panel
+  face is 6 mm below the lid rim → **~8 mm** clearance closed. (At the old
+  10 mm drop it would have been only 2 mm.) Brackets must be installed so
+  the plate top is at that depth.
+- The slot leaves ~15.5 mm of plate at each end beside it; the strip behind
+  the slot is tied to the back tiles by the y = 44 seam screws.
 
 ### 4.3 Ports, vent
 
@@ -132,23 +129,25 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 - **Seam screws**: M3 countersunk from the front + hex-nut pocket on the back,
   spaced ~`seam_hole_pitch` along each seam, always including one
   `seam_edge_inset` from each panel edge, minus any in a keep-out
-  (windows, cutouts, mount holes, bosses, hanger bolts). A mount/hanger screw
+  (windows, cutouts, mount holes, bosses). A mount screw
   landing in a lap band clamps it instead.
 - Current layout: **lid** 2 × 2, seams x = 0 / y = 0, **4 seam screws** (sparse
   — big window; glue the laps). **Base** 2 × 2, seams x = 0 / y = 44 (forced
-  behind the keyboard), **8 seam screws**; where the x = 0 seam crosses the
-  front strip, the bracket screw at (0, −128) is the only fastener — glue it.
+  behind the keyboard), **9 seam screws** (one at (0, −61.5) sits under the
+  keyboard — countersunk flush); the bracket screws at (0, ±128) also clamp
+  the x = 0 lap. Glue the laps.
 - Tiles export as `stl/<part>_tile_<i>_<j>.stl` (i along X, j along Y,
   0 = negative side). Print front-face-down for the best visible surface.
 
 ## 6. Hardware list (current design)
 
 - M3 heat-set inserts (Ø4 hole, 5.7 mm): 8 (screen bosses) + 24 (lid posts,
-  top + bottom) + 16 for the Printables brackets (12 used).
-- M3 countersunk screws: 12 base mount, 12 lid mount, 8 hangers, 12 seam
-  (lengths 8–10 mm; hangers/seams need nuts); 8 pan/button heads for clips;
+  top + bottom) + 16 for the Printables brackets (all used).
+- M3 countersunk screws: 16 base mount, 12 lid mount, 13 seam (9 base + 4
+  lid; lengths 8–10 mm, seams need nuts); 8 pan/button heads for clips;
   lid-post fixing screws if not glued.
-- M3 hex nuts: 8 hangers + 12 seams.
+- M3 hex nuts: 13 (seams).
+- Velcro dots for the keyboard (optional).
 - Foam tape (0.5 mm) for the monitor shim. Glue (e.g. CA/epoxy) for laps.
 
 ## 7. Measured vs. assumed
@@ -168,11 +167,12 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 
 1. **Travel monitor model** — get shell w × h × t, picture w × h, and how much
    thicker the bottom bezel is; update `travel15.6` (or add a named preset).
-2. **K400 end-bracket clearance** (0.5 mm/side) — test-fit result pending.
+2. ~~K400 end-bracket clearance~~ — gone: keyboard now sits on top of the plate.
 3. **Internals** — computer (e.g. SBC/mini PC), power (battery / power bank:
    owner mentioned a "battery spot" but never specified — ask before designing),
    cable routing between lid and base, hub. Ports/vent positions follow from this.
-4. **Measure** `lid_panel_drop`, `base_panel_drop`, real port hardware.
+4. **Measure** `lid_panel_drop`, real port hardware; confirm the brackets can
+   be installed with the plate top 16 mm below the rim (`base_panel_drop`).
 5. Seam strength (lid: 4 screws) — consider more screws/glue tabs once the
    monitor is known.
 6. ~~Repo license~~ — MIT chosen (see decision log).
@@ -199,3 +199,9 @@ All 2026-10-05.
   `main`.
 - Licensed **MIT** (© MosheWelcher); third-party bracket STEP excluded
   (CC BY 4.0), listed in `NOTICE`.
+- Keyboard mount changed: K400 now **sits flat on top of the plate**; only a
+  347 × 35 mm slot for its battery hump. Hangers, the big opening and the
+  hole-skipping beside it removed (all 16 bracket holes used again).
+  `base_panel_drop` 10 → 16 mm so the closed lid clears the keys (~8 mm).
+  Reason: simpler flat plate, possibly aluminium (heat sink) later — owner
+  said **not to start aluminium work yet**.

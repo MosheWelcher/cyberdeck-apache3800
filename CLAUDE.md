@@ -11,7 +11,8 @@ Parametric **OpenSCAD** models for 3D-printed panels that turn a Harbor Freight
 
 - **Lid** — a screen panel framing a **15.6" portable "travel" monitor**, held by
   printed clips; the panel screws onto printed posts glued/screwed in the lid.
-- **Base** — a faceplate with a drop-in **Logitech K400 Plus** keyboard, a port
+- **Base** — a faceplate with a **Logitech K400 Plus** keyboard sitting flat on top
+  (its battery hump drops through a slot), a port
   row and a vent; it screws onto the 4-piece **Printables "Apache 3800 Panel
   Bracket"** ring (third-party, CC BY 4.0) installed in the case.
 
@@ -36,13 +37,12 @@ test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
 | Path | Role |
 |---|---|
 | `config.scad` | **Single source of truth.** All dimensions, hardware choices, port list, presets. `MEASURE` tags = unverified defaults. |
-| `lib/common.scad` | Helpers (`rrect`, `plate`, `m3_csk`), derived values (`base_L/W/R`, keyboard opening & hanger math), panel tiling/lap-joint engine, seam-screw placement with keep-outs. Includes `config.scad`. |
+| `lib/common.scad` | Helpers (`rrect`, `plate`, `m3_csk`), derived values (`base_L/W/R`, keyboard hump-slot position), panel tiling/lap-joint engine, seam-screw placement with keep-outs. Includes `config.scad`. |
 | `parts/lid_panel.scad` | Lid screen bezel: window + 45° bevel, retainer bosses (back), countersunk mount holes. Tiled. |
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the monitor. |
 | `parts/lid_bracket.scad` | Posts on the lid floor with M3 inserts top and bottom. One per `lid_mount_holes`. |
-| `parts/base_faceplate.scad` | Base plate: K400 opening, ports, vents, bracket holes, hanger bolt holes. Tiled. |
-| `parts/kb_hanger.scad` | L/foot hangers that hold the K400 flush in the opening (4 front, 4 back). |
-| `assembly.scad` | Preview only: case opened flat, panels, monitor + K400 stand-ins, hangers. |
+| `parts/base_faceplate.scad` | Base plate: K400 battery-hump slot, ports, vents, bracket holes. Tiled. |
+| `assembly.scad` | Preview only: case opened flat, panels, monitor + K400 stand-ins. |
 | `view_stls.scad` | Imports the exported STLs to look at them (`explode` to spread tiles). |
 | `scripts/export.sh` | Renders every part → `stl/`, previews → `img/`. |
 | `scripts/step_info.py` | Reads holes/extents/planes out of STEP files without CAD libs (how all third-party dimensions were measured). |
@@ -121,6 +121,9 @@ reads scripts incrementally).
 
 - Don't re-add the bracket "inner-lip" fit checks / fit gauges — the owner had
   them removed on purpose.
+- The K400 sits ON TOP of the plate (owner's choice, 2026-10-05) — don't go back
+  to a drop-in opening/hangers. Don't start aluminium-plate work (DXF etc.)
+  until the owner asks; it's a possible future step only.
 - Don't design a deck battery / power-bank bay without asking — it came up but
   was never specified.
 - Don't kill OpenSCAD GUI windows (the owner often has one open); only kill

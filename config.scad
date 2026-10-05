@@ -93,7 +93,7 @@ lid_mount_holes = [
 //  BASE — keyboard / ports faceplate on the Printables brackets
 //  (printables.com/model/1478000 — M3 inserts in the bracket top edge)
 // ---------------------------------------------------------------------
-base_panel_drop  = 10;   // MEASURE faceplate top below base rim
+base_panel_drop  = 16;   // MEASURE faceplate top below base rim (keyboard on top stands 14 mm; lid panel is 6 mm below its rim -> ~8 mm clearance closed)
 base_plate = [378, 268, 16];   // faceplate outline [x, y, corner_r]: ~1 mm to the wall at bracket height
 base_split_x = "auto";
 base_split_y = [44];     // behind the keyboard opening (auto would cut through it)
@@ -108,23 +108,18 @@ base_mount_holes = [
   [-140, -128], [-140, 128], [-183, -85], [-183, 0], [-183, 85]    // -X end bracket
 ];
 
-// Keyboard: Logitech K400 Plus, dropped in flush and resting on hangers.
+// Keyboard: Logitech K400 Plus, sitting flat ON TOP of the plate. Only its
+// battery hump drops through a slot (which also locates the keyboard).
 // Dims from Logitech spec (354.3 x 139.9 x 23.5) and the GrabCAD model
 // "LOGITECH K400 PLUS" by Tomas Stroka (ref/k400-plus.md).
 // -Y is the handle (front) side; the battery hump faces +Y (hinge).
 kb_size        = [355, 140];   // outline at the widest shell edge
-kb_clear       = 1.0;          // per side, plate opening around the keyboard
-kb_corner_r    = 4;
-kb_offset      = [0, -40];     // front edge leaves room for hangers before the front bracket
-kb_top_drop    = 0;            // keyboard frame top below plate top (keys stand ~2 mm proud)
-kb_floor_depth = 12;           // frame top -> flat underside (front ~105 mm)
-kb_hump_depth  = 20;           // frame top -> battery-hump underside (rear ~26 mm)
-// Hangers: L/foot brackets bolted under the plate at the front and back edges
-kb_hanger_x      = [-145, -50, 50, 145];  // along the edge, avoid seams (x=0)
-kb_hanger_w      = 16;
-kb_hanger_t      = 3;
-kb_hanger_flange = 11;         // flange depth under the plate, outward from the opening
-kb_hanger_foot   = [6, 8];     // [front, back] ledge reach under the keyboard
+kb_offset      = [0, -40];     // keyboard centre on the plate
+kb_floor_depth = 12;           // frame top -> flat underside (rests on the plate)
+kb_hump_depth  = 20;           // frame top -> battery-hump underside (hangs 8 mm below the underside)
+kb_hump_size   = [345, 33];    // hump footprint where it meets the underside: [width, depth from back edge]
+kb_slot_clear  = 1.0;          // per side around the hump
+kb_slot_r      = 2;            // slot corner radius
 
 // Port cutout types: [name, [w, h, corner_r, screw_spacing, screw_d]]
 //   h = 0 -> round hole of diameter w.  screw_spacing = 0 -> no screws.

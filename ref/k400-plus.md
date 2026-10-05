@@ -17,7 +17,9 @@ Measured from the STEP vertices (model axes: X width, Y thickness, Z depth):
 | Battery hump (rear) | 20 mm below frame top, ±168.5 mm wide, rear ~26 mm |
 | Touchpad | right side, ~X 83…165 |
 
-Fit notes against the Printables bracket ring:
-- Bracket inner faces: front/back at y = ±123, ends at x = ±178 (12 mm deep, 17 mm tall).
-- The K400's widest edge (±177.5) sits 2–7 mm below the plate top, i.e. right
-  where the end brackets are: **≈0.5 mm clearance per side**. See README.
+Hump footprint where it meets the flat underside (used for the plate slot):
+±172.5 mm wide, from the back edge forward 33 mm (model z −70 … −37.4);
+deeper than 4 mm below the underside it narrows to ±168.9 × 31 mm.
+
+The keyboard sits on top of the base plate; only the hump passes through
+(`kb_hump_size`, `kb_slot_clear` in config.scad).

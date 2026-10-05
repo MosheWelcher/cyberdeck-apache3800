@@ -4,7 +4,6 @@ include <lib/common.scad>
 use <parts/lid_panel.scad>
 use <parts/lid_bracket.scad>
 use <parts/base_faceplate.scad>
-use <parts/kb_hanger.scad>
 
 hinge_gap = 40;   // visual spacing between base and opened lid
 
@@ -15,27 +14,17 @@ module cavity(depth) {
     }
 }
 
-// K400 Plus stand-in: body to the flat underside, battery hump along the back.
+// K400 Plus stand-in, sitting on the plate top (z = 0): body from the flat
+// underside up to the frame top, keys on top, battery hump through the slot.
 module k400_dummy() {
-    top = -kb_top_drop;
     color([0.12, 0.12, 0.12]) {
-        translate([kb_offset[0], kb_offset[1], top - kb_floor_depth])
+        translate([kb_offset[0], kb_offset[1], 0])
             linear_extrude(kb_floor_depth) rrect(kb_size[0], kb_size[1], 3);
-        translate([kb_offset[0], kb_offset[1] + kb_size[1] / 2 - 15, top - kb_hump_depth])
-            linear_extrude(kb_hump_depth - kb_floor_depth + 0.01) rrect(337, 26, 3);
+        translate([kb_offset[0], kb_back_y - kb_hump_size[1] / 2, -(kb_hump_depth - kb_floor_depth)])
+            linear_extrude(kb_hump_depth - kb_floor_depth + 0.01) rrect(kb_hump_size[0], kb_hump_size[1], 3);
     }
-    color([0.3, 0.3, 0.3]) translate([kb_offset[0], kb_offset[1], top])   // keys
+    color([0.3, 0.3, 0.3]) translate([kb_offset[0], kb_offset[1], kb_floor_depth])   // keys
         linear_extrude(2) translate([-50, 0]) rrect(240, 110, 2);
-}
-
-// Hangers in place (profile rotated so the foot points into the opening).
-module hangers_in_place() {
-    color("orange") for (x = kb_hanger_x) {
-        translate([kb_offset[0] + x - kb_hanger_w / 2, kb_front_y, -panel_t])
-            rotate([90, 0, 90]) mirror([1, 0, 0]) linear_extrude(kb_hanger_w) kb_hanger_profile(kb_ledge_z[0], kb_hanger_foot[0]);
-        translate([kb_offset[0] + x - kb_hanger_w / 2, kb_back_y, -panel_t])
-            rotate([90, 0, 90]) linear_extrude(kb_hanger_w) kb_hanger_profile(kb_ledge_z[1], kb_hanger_foot[1]);
-    }
 }
 
 // Base half
@@ -43,7 +32,6 @@ cavity(base_depth);
 translate([0, 0, -base_panel_drop]) {
     color(c_panel) translate([0, 0, -panel_t]) base_faceplate_whole();
     k400_dummy();
-    hangers_in_place();
 }
 
 // Lid, opened 180 degrees about the hinge: interior faces up

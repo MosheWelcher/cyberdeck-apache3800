@@ -18,8 +18,7 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 | `parts/lid_panel.scad` | Screen bezel: window with 45° bevel, retainer bosses on the back, countersunk mount holes. |
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the screen. |
 | `parts/lid_bracket.scad` | Posts for the lid floor (insert top + bottom) — lid-side equivalent of the Printables bracket. |
-| `parts/base_faceplate.scad` | Keyboard opening, port cutouts, vent grille, holes matching the Printables bracket ring. |
-| `parts/kb_hanger.scad` | Ledge hangers that hold the K400 Plus flush in the faceplate opening. |
+| `parts/base_faceplate.scad` | Keyboard battery-hump slot, port cutouts, vent grille, holes matching the Printables bracket ring. |
 | `view_stls.scad` | Imports the exported STLs so you can look at them (F5). |
 | `assembly.scad` | Fit-check: case opened flat with both panels. Preview only. |
 | `scripts/export.sh` | Renders every part to `stl/` and previews to `img/`. |
@@ -67,10 +66,9 @@ base depth 108 mm.
 
 **MEASURE before printing** (tagged in `config.scad`):
 - `lid_panel_drop` — how far below the lid rim the screen panel sits (gasket lip).
-- `base_panel_drop` — where your brackets end up below the base rim.
+- `base_panel_drop` — where your brackets end up below the base rim (16 mm default so the lid clears the keyboard).
 - Screen preset dimensions — all approximate; caliper your panel + driver board.
 - Port type sizes — generic panel-mount extensions vary.
-- K400 fit against the end brackets (see the keyboard section).
 
 ## Screen: portable "travel" monitor
 
@@ -88,30 +86,22 @@ edges, which end up behind the panel — check that the cable plugs (often
 right-angle ones are needed) clear the lid brackets, and set brightness before
 mounting.
 
-## Keyboard: Logitech K400 Plus (drop-in, flush)
+## Keyboard: Logitech K400 Plus (sits on top)
 
-The faceplate has a 357 × 142 mm opening; the K400 drops in with its frame
-top level with the plate (keys ~2 mm proud) and rests on **8 printed hangers**
-(`parts/kb_hanger.scad`) bolted under the plate:
+The K400 sits **flat on top of the faceplate**. Only its battery hump (the
+thicker strip along its back edge, ~8 mm deeper than the flat underside)
+drops through a **347 × 35 mm slot** in the plate. The hump in the slot also
+locates the keyboard so it can't slide; add a few velcro dots if you want it
+held down. Lift it off to use it wirelessly or change batteries.
 
-- 4 front hangers — ledge 8 mm below the plate, under the flat underside
-- 4 back hangers — ledge 16 mm below the plate, under the battery hump
-
-Each hanger: M3 countersunk screw from the plate top, nut under the flange.
-Print them lying flat (as exported) — no supports. Lift the keyboard out to
-use it wirelessly or swap batteries.
-
-The opening is set toward the hinge (`kb_offset`) so the front hangers fit
-between the keyboard and the Printables front bracket (~1 mm to spare). Bracket
-holes that would leave a sliver beside the opening are skipped automatically
-(12 of 16 used). The horizontal print seam is moved behind the keyboard
-(`base_split_y = [44]`); ports and vent sit in the strip behind it.
-
-> **⚠ End-bracket clearance:** the K400's widest edge (355 mm) sits 2–7 mm
-> below the plate top — level with the Printables **end** brackets, whose inner
-> faces are 356 mm apart. That's ~0.5 mm per side. Test-fit before final
-> assembly; if it binds, sand ~1 mm off the top ~8 mm of each end bracket's
-> inner face where the keyboard passes (between y ≈ −110 and +30).
+- The slot sits under the keyboard's back edge (keyboard centred at
+  `kb_offset`, hump toward the hinge). All 16 bracket holes are used.
+- With the keyboard on top it stands ~14 mm above the plate, so the plate is
+  set **16 mm below the base rim** (`base_panel_drop`) — that leaves ~8 mm
+  between the keys and the lid panel when the case is closed. Mount the
+  brackets at that height (or change the value and re-export).
+- The horizontal print seam sits behind the keyboard (`base_split_y = [44]`);
+  ports and vent are in the strip behind it.
 
 Details: `ref/k400-plus.md`.
 
