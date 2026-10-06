@@ -59,6 +59,18 @@ assert(min(mon_gap) > 0, str("monitor does not fit inside the lid walls (gap ", 
 assert(mon_back_depth < lid_depth - lid_fillet_r,
        "monitor back reaches the lid's wall-to-floor fillet — check the end clearance");
 
+// Finger notches over the monitor's edge controls: [cx, cy, w, h] rects,
+// open through the panel edge. y is measured up from the monitor's bottom edge.
+notch_rects = [for (n = lid_notches)
+    let(x_in  = n[0] * (mod_w / 2 - notch_over) + screen_offset[0],
+        x_out = n[0] * (lid_L / 2 + notch_r + 1),
+        y0 = screen_offset[1] - mod_h / 2 + n[1],
+        y1 = screen_offset[1] - mod_h / 2 + n[2])
+    [(x_in + x_out) / 2, (y0 + y1) / 2, abs(x_out - x_in), y1 - y0]];
+for (r = notch_rects)
+    assert(r[1] - r[3] / 2 > -mod_h / 2 + screen_offset[1] && r[1] + r[3] / 2 < mod_h / 2 + screen_offset[1],
+           "finger notch runs past the monitor's end — check lid_notches");
+
 // Seam screws stay out of the window (+ bevel + head), from under the monitor
 // (the back-side nut would hold it off the panel) and away from mounts/bosses.
 win_c = screen_offset + act_off;
@@ -69,7 +81,8 @@ lid_keepouts = concat(
       act_h + 2 * (window_margin + window_chamfer) + m3_csk_d + 2]],
     [[screen_offset[0], screen_offset[1], mod_w + nut_d + 1, mod_h + nut_d + 1]],
     point_keepouts(lid_mount_holes),
-    point_keepouts([for (b = boss_positions()) [b[0] + screen_offset[0], b[1] + screen_offset[1]]], boss_d + 8)
+    point_keepouts([for (b = boss_positions()) [b[0] + screen_offset[0], b[1] + screen_offset[1]]], boss_d + 8),
+    [for (r = notch_rects) [r[0], r[1], r[2] + m3_csk_d + 2, r[3] + m3_csk_d + 2]]
 );
 
 module viewing_window() {
@@ -92,6 +105,8 @@ module lid_panel_whole() {
                     translate([b[0], b[1], -boss_h]) cylinder(d = boss_d, h = boss_h + 0.01);
         }
         translate(screen_offset + act_off) viewing_window();
+        for (r = notch_rects)
+            translate([r[0], r[1], -boss_h - 1]) linear_extrude(boss_h + panel_t + 2) rrect(r[2], r[3], notch_r);
         translate(screen_offset)
             for (b = boss_positions())
                 translate([b[0], b[1], -boss_h - 0.01]) cylinder(d = m3_insert_d, h = insert_depth);

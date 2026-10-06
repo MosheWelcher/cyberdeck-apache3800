@@ -87,9 +87,16 @@ Files: `parts/lid_panel.scad`, `parts/screen_retainer.scad`, `parts/lid_bracket.
   gap`). Current margins: boss edge ↔ post 1.0 mm; monitor end ↔ lid wall
   **5.5 mm**, top/bottom 22 mm. Also checked visually against the
   third-party lid CAD (sections through a post and the monitor end).
-- Both monitor ends sit behind the panel, 5.5 mm from the wall: **the power
-  button and brightness wheel are not reachable** as designed (open question
-  0), and the cables need **very low-profile right-angle plugs** (5.5 mm is
+- **Finger notch** (owner's choice, 2026-10-06) for the power button and
+  brightness wheel: an open slot in the panel's end (`lid_notches`, default
+  right end, 35–80 mm up from the monitor's bottom edge = 45 mm long). It
+  reaches 3 mm over the monitor bezel (`notch_over`) and runs out through the
+  panel edge into the 5.5 mm wall gap, R3 corners; ~6 mm of panel stays beside
+  the window bevel. Use a fingertip/nail on the wheel and button. Which end
+  and where are **rough** (manual diagram) — measure and move it. An assert
+  stops the render if a notch runs past the monitor's end. Panel frame: +y is
+  up on the open screen, so "bottom" = −y.
+- Both monitor ends sit behind the panel, 5.5 mm from the wall; the cables need **very low-profile right-angle plugs** (5.5 mm is
   less than most right-angle USB-C heads) that turn back toward the lid
   floor (~24 mm free behind the monitor).
 
@@ -225,11 +232,11 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 
 ## 8. Open questions / next steps
 
-0. **Power button + brightness wheel access** — unreachable as designed
-   (5.5 mm gap, covered by the panel). Owner to choose an approach (options
-   given 2026-10-06: access notch in the panel end / printed button
-   extenders / rely on auto-on + software brightness). Also confirm which
-   edge has the controls and where.
+0. **Finger notch position** — confirm on the real VILVA which end has the
+   power button + wheel and how far up from the bottom edge they are; edit
+   `lid_notches`. If the notch is too tight for a fingertip, options are a
+   wider `notch_over` (thins the strip beside the window) or shifting the
+   monitor toward the other end (`screen_offset`), if the port end allows.
 1. **Measure the VILVA when it arrives** — shell w × h (listing: 367.8 ×
    224.8), thickness at top and bottom edge (wedge?), picture w × h and its
    distance from the bottom/top shell edge; update `vilva15.6`. If the real
@@ -325,6 +332,10 @@ All 2026-10-05.
   R15.6; lid depth back to the HF spec **44** (CAD said 46.5) → posts 32 mm,
   still cut for the fillet so they fit a deeper lid too. CAD-only values
   (wall lean, fillet) tagged `MEASURE`.
+- **Finger notch** for the monitor's power button + brightness wheel (owner
+  chose it over printed button extenders and "no access"): `lid_notches`
+  `[[1, 35, 80]]`, 3 mm over the bezel, open into the wall gap. Seam screws
+  keep out of it. Position from the manual diagram — measure.
 - VILVA manual read: controls are split over both short edges (power +
   wheel on one), not all on the right. They are not reachable once mounted —
   open question 0.

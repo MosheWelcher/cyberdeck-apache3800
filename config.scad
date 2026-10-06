@@ -91,6 +91,16 @@ bosses_short_side = 0;       // per left/right edge; 0 = none (a 368 mm monitor 
 clip_w            = 12;
 clip_t            = 2.5;
 clip_overlap      = 4;       // how far each clip reaches over the screen edge
+// Finger notches: open slots in the panel's short ends so a fingertip/nail
+// reaches the monitor's edge controls (VILVA: brightness wheel + power button
+// sit in the ~5.5 mm gap between monitor end and lid wall). Each entry:
+//   [end, from, to]  end = 1 right / -1 left (seen from the front);
+//   from/to = span along the monitor edge, mm up from its bottom (chin) edge.
+// MEASURE: which end has the controls and where (manual diagram, rough:
+// wheel ~49 mm, power ~68 mm up). [] = no notches.
+lid_notches   = [[1, 35, 80]];
+notch_over    = 3;     // notch reaches this far over the monitor bezel (keeps ~6 mm of panel beside the window bevel)
+notch_r       = 3;     // notch corner radius
 
 // Lid brackets: stand on the lid floor, carry M3 inserts for the panel.
 lid_bracket_size = [18, 12];   // footprint [along wall, away from wall] (12 keeps 1 mm to the clip bosses)

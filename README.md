@@ -78,8 +78,9 @@ Default `screen = "vilva15.6"`: the **VILVA V156F1** 15.6" FHD monitor
 7.6 mm from the listing — not yet measured. Its ports and buttons are split
 over both short ends, with only ~5.5 mm to the lid wall (checked against the
 case CAD): use very low-profile right-angle plugs that turn toward the lid
-floor. The power button / brightness wheel are not reachable yet — see
-`docs/DESIGN.md`, open question 0. Generic presets `"travel15.6"` / `"travel14"` remain.
+floor. A finger notch in the panel's right end (`lid_notches` in
+`config.scad`) lets you reach the power button and brightness wheel — check
+which end yours are on and move it if needed. Generic presets `"travel15.6"` / `"travel14"` remain.
 `lid_panel.scad` stops with an error if a monitor is too big for the clip /
 lid-post layout. A travel monitor is a whole
 unit in its own ~9 mm shell, so the panel frames its glass and the clips clamp
