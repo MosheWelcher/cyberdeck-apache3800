@@ -7,6 +7,14 @@ Source: "Apache 3800 Weatherproof Case from Harbor Freight" CAD model
 (GrabCAD-style snapshot). **Not committed** — no redistribution rights
 checked; the owner keeps the zip in Downloads. Only measurements are used.
 
+**Trust level: low.** Made by an unknown uploader. The owner ranks the
+Printables bracket STEP (`printables-bracket.md`, photos of it installed in
+real cases) above this model. `config.scad` takes from this file only what
+the bracket and the Harbor Freight spec don't cover — lid wall lean and the
+wall-to-floor fillet — tagged `MEASURE`. Where they overlap: size agrees
+(380 × 270); corner radius R20 here vs **R17 from the bracket → R17 used**;
+lid depth 46.5 here vs **44 from the HF spec → 44 used**.
+
 How it was measured (2026-10-06): `Lid.step` meshed with gmsh (lid shell =
 volume 7; volume 4 is the gasket, 3/6 the latches, 1/8 hinge bits), then sliced
 with planes in a small Python script.
@@ -26,8 +34,7 @@ with planes in a small Python script.
 | Wall thickness (z −20) | 5.5 mm |
 | Interior features | none (no bosses or ribs inside the cavity) |
 
-Harbor Freight's spec (383 × 271, lid 1.75" = 44.5) is close but not exact;
-`config.scad` now uses the CAD numbers for the lid.
+Harbor Freight's spec says 383 × 271, lid 1.75" (44.5).
 
 Not yet checked against this model: the base (`Bottom.step`) — the base plate
 is sized from the Printables bracket STEP (380 × 270 R17 at bracket height).

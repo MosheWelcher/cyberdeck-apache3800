@@ -11,16 +11,18 @@ $fn = 48;
 // ---------------------------------------------------------------------
 //  Case (Harbor Freight Apache 3800, item 63927)
 // ---------------------------------------------------------------------
-// Measured from the case CAD ("Apache 3800 weatherproof case" FreeCAD/STEP
-// model, Lid.step — see ref/apache-3800-case.md). The Harbor Freight spec
-// (383 x 271, lid 1.75") is slightly off.
-case_in_l     = 380;   // inside length at the rim (CAD 379.9; spec says 383)
-case_in_w     = 270;   // inside width at the rim  (CAD 269.9; spec says 271)
-lid_depth     = 46.5;  // lid rim -> inside floor (CAD; spec says 44)
+// Source ranking: (1) the Printables bracket STEP (ref/, photos show it
+// fitted in real cases), (2) the Harbor Freight spec, (3) a third-party case
+// CAD from the web (ref/apache-3800-case.md) — used only where (1) and (2) say
+// nothing, and tagged MEASURE.
+case_in_l     = 380;   // inside length (bracket STEP 380; case CAD 379.9 at the rim; HF spec 383)
+case_in_w     = 270;   // inside width  (bracket STEP 270; case CAD 269.9; HF spec 271)
+lid_depth     = 44;    // MEASURE lid rim -> inside floor (HF spec 1.75"; case CAD says 46.5 -> lid posts
+                       // would then sit up to 2.5 mm above the floor fillet, held by their wall screw)
 base_depth    = 108;   // inside base depth    (spec 4.25")
-case_corner_r = 20;    // inside corner radius of the lid walls (CAD R20; the base at bracket height is R17)
-lid_wall_draft = 0.03; // lid walls lean inward this much per mm of depth (CAD: 189.97 at 1 mm -> 189.19 at 28 mm)
-lid_fillet_r  = 21;    // rounded wall-to-floor corner inside the lid (CAD: starts ~28 mm below the rim)
+case_corner_r = 17;    // inside corner radius (bracket STEP R17; case CAD says R20 for the lid)
+lid_wall_draft = 0.03; // MEASURE lid walls lean inward this much per mm of depth (case CAD only)
+lid_fillet_r  = 21;    // MEASURE rounded wall-to-floor corner inside the lid (case CAD only)
 panel_gap     = 1.0;   // clearance per side, panel edge -> case wall
 
 // ---------------------------------------------------------------------

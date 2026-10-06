@@ -49,7 +49,7 @@ test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
 | `scripts/step_to_stl.py` | STEP → STL via gmsh (`pip install --user gmsh`, installed). Makes `ref/local/k400_plus.stl` for previews. |
 | `scripts/step_info.py` | Reads holes/extents/planes out of STEP files without CAD libs (how all third-party dimensions were measured). |
 | `ref/local/` | **Ignored by version control** — local-only models (e.g. `k400_plus.stl` made from the GrabCAD STEP). `k400_preview()` in lib/common.scad imports it; box stand-in when `kb_model_stl = ""`. |
-| `ref/` | Third-party reference: bracket STEP (CC BY 4.0, redistributable) + notes; K400 notes (its STEP is NOT redistributable); `apache-3800-case.md` = lid measurements from the owner's case CAD (zip in Downloads, not committed). |
+| `ref/` | Third-party reference: bracket STEP (CC BY 4.0, redistributable) + notes; K400 notes (its STEP is NOT redistributable); `apache-3800-case.md` = lid measurements from a third-party case CAD (zip in Downloads, not committed; **low trust**). |
 | `stl/`, `img/` | Generated. Committed so the owner can print without running anything. |
 | `docs/DESIGN.md` | Design record: decisions + why, sources, clearances, open questions, history. |
 
@@ -121,6 +121,10 @@ reads scripts incrementally).
   Keep `LICENSE` as the exact MIT text (GitHub detection); new third-party files get an entry in `NOTICE`.
 
 ## Don'ts (learned the hard way)
+
+- Source of truth for the case: the Printables bracket STEP in `ref/` (seen
+  installed in real cases) > Harbor Freight spec > the downloaded case CAD.
+  Use the CAD only for what the others don't cover, tagged `MEASURE`.
 
 - Don't re-add the bracket "inner-lip" fit checks / fit gauges — the owner had
   them removed on purpose.
