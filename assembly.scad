@@ -28,11 +28,7 @@ translate([0, case_in_w + hinge_gap, 0]) {
         color(c_panel)  lid_panel_whole();
         color(c_screen) screen_dummy();
     }
-    bh = lid_depth - lid_panel_drop - panel_t;
-    // brackets at the hole positions, long axis along the nearest wall
+    // posts at the hole positions, back face to the nearest wall
     color("gray") for (p = lid_mount_holes)
-        translate([p[0], p[1], -lid_depth])
-            rotate(abs(p[0]) / case_in_l > abs(p[1]) / case_in_w ? 90 : 0)
-                translate([-lid_bracket_size[0] / 2, -lid_bracket_size[1] / 2, 0])
-                    cube([lid_bracket_size[0], lid_bracket_size[1], bh]);
+        translate([p[0], p[1], -lid_depth]) rotate(lid_post_rot(p)) lid_post();
 }

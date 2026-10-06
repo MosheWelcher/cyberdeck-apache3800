@@ -41,7 +41,7 @@ test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
 | `lib/common.scad` | Helpers (`rrect`, `plate`, `m3_csk`), derived values (`base_L/W/R`, keyboard hump-slot position), panel tiling/lap-joint engine, seam-screw placement with keep-outs. Includes `config.scad`. |
 | `parts/lid_panel.scad` | Lid screen bezel: window + 45° bevel, retainer bosses (back), countersunk mount holes. Tiled. |
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the monitor. |
-| `parts/lid_bracket.scad` | Posts on the lid floor with M3 inserts top and bottom. One per `lid_mount_holes`. |
+| `parts/lid_bracket.scad` | Lid posts (shape: `lid_post()` in lib/common.scad): hug a long wall, sit on the lid floor fillet, M3 inserts top + back face. One per `lid_mount_holes`. |
 | `parts/base_faceplate.scad` | Base plate: K400 battery-hump slot, ports, vents, bracket holes. Tiled. |
 | `assembly.scad` | Preview only: case opened flat, panels, monitor + K400 stand-ins. |
 | `view_stls.scad` | Imports the exported STLs to look at them (`explode` to spread tiles). |
@@ -49,7 +49,7 @@ test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
 | `scripts/step_to_stl.py` | STEP → STL via gmsh (`pip install --user gmsh`, installed). Makes `ref/local/k400_plus.stl` for previews. |
 | `scripts/step_info.py` | Reads holes/extents/planes out of STEP files without CAD libs (how all third-party dimensions were measured). |
 | `ref/local/` | **Ignored by version control** — local-only models (e.g. `k400_plus.stl` made from the GrabCAD STEP). `k400_preview()` in lib/common.scad imports it; box stand-in when `kb_model_stl = ""`. |
-| `ref/` | Third-party reference: bracket STEP (CC BY 4.0, redistributable) + notes; K400 notes (its STEP is NOT redistributable). |
+| `ref/` | Third-party reference: bracket STEP (CC BY 4.0, redistributable) + notes; K400 notes (its STEP is NOT redistributable); `apache-3800-case.md` = lid measurements from the owner's case CAD (zip in Downloads, not committed). |
 | `stl/`, `img/` | Generated. Committed so the owner can print without running anything. |
 | `docs/DESIGN.md` | Design record: decisions + why, sources, clearances, open questions, history. |
 

@@ -50,6 +50,34 @@ module k400_preview() {
     }
 }
 
+// ---------- Lid posts (stand on the lid floor fillet, hug a wall) ----------
+// Local frame: X along the wall, +Y toward the wall, z = 0 at the lid floor.
+lid_post_h = lid_depth - lid_panel_drop - panel_t;   // lid floor -> panel back
+
+module lid_post() {
+    l = lid_bracket_size[0]; w = lid_bracket_size[1];
+    R = lid_fillet_r;
+    yc = w / 2 + lid_post_gap - R;                     // floor-fillet centre (Y, Z = R)
+    side_z = (R + lid_post_h - m3_insert_depth) / 2;   // wall-screw insert: between fillet top and top insert
+    difference() {
+        translate([-l / 2, -w / 2, 0]) cube([l, w, lid_post_h]);
+        // the lid's rounded wall-to-floor corner (post sits on it)
+        difference() {
+            translate([-l, yc, -1]) cube([2 * l, R + w, R + 1]);
+            translate([-l, yc, R]) rotate([0, 90, 0]) cylinder(r = R - lid_post_gap, h = 2 * l, $fn = 96);
+        }
+        // top insert (panel screw)
+        translate([0, 0, lid_post_h - m3_insert_depth]) cylinder(d = m3_insert_d, h = m3_insert_depth + 1);
+        // back insert (screw through the lid wall)
+        translate([0, w / 2 + 1, side_z]) rotate([90, 0, 0]) cylinder(d = m3_insert_d, h = m3_insert_depth + 1);
+    }
+}
+
+// Rotation that turns a post at hole p to face its nearest wall.
+function lid_post_rot(p) = abs(p[1]) / case_in_w > abs(p[0]) / case_in_l
+    ? (p[1] > 0 ? 0 : 180)
+    : (p[0] > 0 ? -90 : 90);
+
 // ---------- Splitting oversized panels into lap-jointed tiles ----------
 // Seams evenly spaced so each tile (+ margin) fits the bed.
 function n_tiles(len, axis_bed) = max(1, ceil(len / (axis_bed - bed_margin)));

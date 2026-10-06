@@ -11,11 +11,16 @@ $fn = 48;
 // ---------------------------------------------------------------------
 //  Case (Harbor Freight Apache 3800, item 63927)
 // ---------------------------------------------------------------------
-case_in_l     = 383;   // inside length at rim (spec 15.063")
-case_in_w     = 271;   // inside width at rim  (spec 10.688")
-lid_depth     = 44;    // inside lid depth     (spec 1.75")
+// Measured from the case CAD ("Apache 3800 weatherproof case" FreeCAD/STEP
+// model, Lid.step — see ref/apache-3800-case.md). The Harbor Freight spec
+// (383 x 271, lid 1.75") is slightly off.
+case_in_l     = 380;   // inside length at the rim (CAD 379.9; spec says 383)
+case_in_w     = 270;   // inside width at the rim  (CAD 269.9; spec says 271)
+lid_depth     = 46.5;  // lid rim -> inside floor (CAD; spec says 44)
 base_depth    = 108;   // inside base depth    (spec 4.25")
-case_corner_r = 17;    // inside corner radius (from Printables bracket STEP: R17)
+case_corner_r = 20;    // inside corner radius of the lid walls (CAD R20; the base at bracket height is R17)
+lid_wall_draft = 0.03; // lid walls lean inward this much per mm of depth (CAD: 189.97 at 1 mm -> 189.19 at 28 mm)
+lid_fillet_r  = 21;    // rounded wall-to-floor corner inside the lid (CAD: starts ~28 mm below the rim)
 panel_gap     = 1.0;   // clearance per side, panel edge -> case wall
 
 // ---------------------------------------------------------------------
@@ -45,7 +50,7 @@ panel_t = 6;   // faceplate thickness (lid + base); front/back halves (3 + 3) fo
 //  LID — screen panel
 // ---------------------------------------------------------------------
 lid_panel_drop  = 6;    // MEASURE front face of panel below lid rim (clear gasket lip)
-lid_draft_inset = 0;    // extra shrink per side if walls taper at that depth
+lid_draft_inset = lid_wall_draft * (lid_panel_drop + panel_t);   // panel shrink per side: wall lean at the panel back face
 lid_split_x = "auto";   // "auto" or list of seam X positions, e.g. [0] or []
 lid_split_y = "auto";   // "auto" or list of seam Y positions
 
@@ -67,8 +72,9 @@ screen_presets = [
   // Shell 14.48 x 8.85 x 0.30" from the listing (photos say 0.19" at the thin
   // edge; 7.6 is the thickest point). Active area = standard 15.6" FHD.
   // Thin top/side bezels, thick bottom chin -> picture ~10 mm above centre
-  // (estimated from product photos). Ports on the RIGHT edge seen from the
-  // front. MEASURE all of it when it arrives.
+  // (estimated from product photos). Controls on BOTH short edges (manual):
+  // mini-HDMI + 2x USB-C on one; 3.5 mm, OTG, wheel, LED, power on the other.
+  // MEASURE all of it when it arrives.
   ["vilva15.6",  [367.8, 224.8, 7.6, 344.2, 193.6, 0, 10]],
   ["custom", [200.0, 120.0, 4.0, 190.0, 110.0, 0, 0]]
 ];
@@ -85,18 +91,15 @@ clip_t            = 2.5;
 clip_overlap      = 4;       // how far each clip reaches over the screen edge
 
 // Lid brackets: stand on the lid floor, carry M3 inserts for the panel.
-lid_bracket_size = [18, 14];   // footprint [along wall, away from wall]
-// Panel screw positions relative to panel centre. Default: brackets pushed
-// against the walls, hole at bracket centre.
-// Kept off x=0 / y=0 (default seams) and clear of the screen bosses.
-// Long walls only: the 368 mm VILVA monitor covers the end walls. With a
-// narrower screen (<= ~355 mm) end-wall posts fit again, e.g.
-//   [ case_in_l/2 - 7, -90], [ case_in_l/2 - 7, 90],
-//   [-case_in_l/2 + 7, -90], [-case_in_l/2 + 7, 90]
-// (lid_panel.scad stops with an error if a post lands under the monitor).
+lid_bracket_size = [18, 12];   // footprint [along wall, away from wall] (12 keeps 1 mm to the clip bosses)
+lid_post_gap     = 0.3;        // post back face / bottom -> lid wall and floor fillet (glue gap)
+// Posts hug the long walls and sit on the floor fillet (they can't reach the
+// flat floor: the fillet fills ~16 mm next to the wall). Hole centre from the
+// rim-level wall line = wall lean down to the fillet + gap + half the post.
+lid_post_inset = lid_wall_draft * (lid_depth - lid_fillet_r) + lid_post_gap + lid_bracket_size[1] / 2;
 lid_mount_holes = [
-  [-150,  case_in_w/2 - 7], [-50,  case_in_w/2 - 7], [50,  case_in_w/2 - 7], [150,  case_in_w/2 - 7],
-  [-150, -case_in_w/2 + 7], [-50, -case_in_w/2 + 7], [50, -case_in_w/2 + 7], [150, -case_in_w/2 + 7]
+  [-150,  case_in_w/2 - lid_post_inset], [-50,  case_in_w/2 - lid_post_inset], [50,  case_in_w/2 - lid_post_inset], [150,  case_in_w/2 - lid_post_inset],
+  [-150, -case_in_w/2 + lid_post_inset], [-50, -case_in_w/2 + lid_post_inset], [50, -case_in_w/2 + lid_post_inset], [150, -case_in_w/2 + lid_post_inset]
 ];
 
 // ---------------------------------------------------------------------

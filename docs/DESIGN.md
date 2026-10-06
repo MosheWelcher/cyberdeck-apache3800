@@ -24,49 +24,71 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 ## 2. Case
 
 Harbor Freight spec: inside 383 × 271 mm at the rim (15.063" × 10.688"), lid
-depth 44 mm (1.75"), base depth 108 mm (4.25"). The walls taper: at bracket
-height the bracket STEP gives **380 × 270 mm, R17 corners** (fillet centres
-±173, ±118). Front = handle side, hinge at the back.
+depth 44 mm (1.75"), base depth 108 mm (4.25"). Front = handle side, hinge at
+the back.
+
+**Lid, from the case CAD** (`Lid.step`, see `ref/apache-3800-case.md`; this
+replaces the spec numbers): inside **379.9 × 269.9 at the rim, R20 corners**,
+walls lean in **0.03 mm per mm** (379.0 × 269.0 at the monitor's back), floor
+**46.5 mm** below the rim, and a **≈R21 rounded corner** where the walls meet the
+floor (starts ~28 mm down; 16 mm wide at the floor). The gasket groove is in
+the top of the wall — nothing sticks into the cavity, no ribs or bosses.
+Base: at bracket height the bracket STEP gives **380 × 270 mm, R17 corners**
+(fillet centres ±173, ±118); the base CAD (`Bottom.step`) is not checked yet.
 
 Unmeasured (tagged `MEASURE`): `lid_panel_drop` (how far below the lid rim the
-screen panel face sits — must clear the gasket lip), `base_panel_drop` (where
-the brackets end up below the base rim).
+screen panel face sits; the CAD shows no gasket lip inside, so 6 is a free
+choice), `base_panel_drop` (where the brackets end up below the base rim).
 
 ## 3. Lid — screen panel
 
 Files: `parts/lid_panel.scad`, `parts/screen_retainer.scad`, `parts/lid_bracket.scad`.
 
-- **Panel**: 381 × 269 mm, R16, 6 mm thick (`case_in − 2·panel_gap`).
+- **Panel**: 377.3 × 267.3 mm, R18.6, 6 mm thick (`case_in − 2·(panel_gap +
+  lid_draft_inset)`; the draft inset is the wall lean at the panel's back face).
 - **Monitor**: VILVA V156F1 (`vilva15.6`). Listing: 14.48 × 8.85 × 0.30" →
   **367.8 × 224.8 × 7.6 mm** (photos say 0.19" = 4.8 mm at the thin edge, so
   7.6 is the thickest point), 1.68–1.88 lb, 1920 × 1080 IPS → standard 15.6"
   active area 344.2 × 193.6. Thin top/side bezels, thick bottom chin: picture
   centre estimated **+10 mm** above the shell centre from product photos.
-  Ports (power, OSD wheel, 3.5 mm, mini-HDMI, 2 × USB-C) all on the **right**
-  short edge seen from the front.
+  **Controls are on both short edges** (manual's "Function Keys & Ports"
+  diagram): one edge has mini-HDMI + 2 × USB-C; the other has the 3.5 mm
+  jack, OTG USB, the **multi-function wheel** (push up = brightness, press =
+  menu), a power LED and the **power button**. Both groups sit in the thick
+  chin end; rough diagram reading: wheel ≈ 49 mm, power ≈ 68 mm from the
+  bottom edge. Which edge is left/right is not confirmed. (Earlier notes said
+  "all on the right" — wrong.)
 - **Window**: active area + 0.5 mm/side = **345.2 × 194.6 mm**, centred at
   (0, +10). 45° × 2 mm bevel on the viewing side.
 - **Monitor retention**: 8 bosses on the panel back, **all on the long edges**
   (4 per edge at x = ±46, ±137.9, y = ±116.9), height = monitor thickness +
   0.5 mm foam shim, M3 heat-set insert each. 8 flat clips (`screen_retainer`)
   screw on and overlap the monitor shell by 4 mm. No short-edge bosses: the
-  368 mm shell leaves only 6.6 mm per side inside the 381 mm panel. Even count
+  368 mm shell leaves only ~4.7 mm per side inside the 377 mm panel. Even count
   keeps x = 0 free for the seam. If the shell is wedge-shaped (4.8 → 7.6 mm),
   the thin-edge clips need extra foam.
-- **Mounting**: 8 countersunk M3 holes (`lid_mount_holes`) — 4 per long wall
-  at x = ±50, ±150 — onto **8 printed posts** (`lid_bracket`, 18 × 14 ×
-  **32 mm** = lid depth − drop − panel) with inserts top and bottom; fix posts
-  with a screw through the lid skin or VHB/epoxy. The former 4 end-wall posts
+- **Mounting**: 8 countersunk M3 holes (`lid_mount_holes`, y = ±127.9) — 4
+  per long wall at x = ±50, ±150 — onto **8 printed posts** (`lid_post()` in
+  `lib/common.scad`, exported as `lid_bracket`): 18 × 12 × **34.5 mm** (lid
+  depth − drop − panel). The posts **sit on the floor fillet** (their bottom is
+  cut to the R21 curve with a 0.3 mm glue gap) with the back face 0.3 mm off
+  the wall — they cannot reach the flat floor, the fillet fills the bottom
+  16 mm next to the wall. Inserts: top (panel screw) and **back face** (screw
+  sideways through the 5.5 mm lid wall), and/or VHB/epoxy on the back. Fit
+  order: screw the panel onto the posts, set it in the lid, then fix the posts. The former 4 end-wall posts
   (x = ±184.5, y = ±90) were dropped: they sat under the monitor. Holes avoid
   the seams (x = 0, y = 0) and the bosses.
 - **Fit checks** (`lid_panel.scad` asserts — the render stops with a message):
   every boss inside the panel, no boss on a lid post, no lid post under the
-  monitor. Current margins: boss edge ↔ long-wall post 0.6 mm; monitor end ↔
-  lid end wall 7.6 mm.
-- The monitor's ports end up behind the panel on the right end, with ~7.6 mm
-  to the lid wall: use **right-angle plugs that turn back** (toward the lid
-  floor, ~24 mm free behind the monitor), not sideways. Set brightness before
-  mounting.
+  monitor, monitor inside the leaning lid walls (echo `LID monitor-to-wall
+  gap`). Current margins: boss edge ↔ post 1.0 mm; monitor end ↔ lid wall
+  **5.5 mm**, top/bottom 22 mm. Checked visually against the real lid shell
+  (sections through a post and through the monitor end).
+- Both monitor ends sit behind the panel, 5.5 mm from the wall: **the power
+  button and brightness wheel are not reachable** as designed (open question
+  0), and the cables need **very low-profile right-angle plugs** (5.5 mm is
+  less than most right-angle USB-C heads) that turn back toward the lid
+  floor (~24 mm free behind the monitor).
 
 Presets in `screen_presets` (all approximate): `7`, `10.1`, `13.3`, `15.6`
 (bare panels), `travel15.6`, `travel14` (generic travel monitors),
@@ -194,10 +216,16 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 | Port sizes | generic | **assumed** |
 | USB-C charge port hole (Adafruit 4218) | Adafruit spec | good (not test-fitted) |
 | `lid_panel_drop`, `base_panel_drop` | guesses | **assumed** |
-| Lid wall taper (`lid_draft_inset = 0`) | not measured | **assumed** |
+| Lid inside 380 × 270 R20, depth 46.5, lean 0.03/mm, floor fillet R21 | case CAD (`Lid.step`) | good (CAD model, not the physical case) |
+| VILVA control layout (two edges, wheel/power positions) | manual diagram | layout good, positions **rough** |
 
 ## 8. Open questions / next steps
 
+0. **Power button + brightness wheel access** — unreachable as designed
+   (5.5 mm gap, covered by the panel). Owner to choose an approach (options
+   given 2026-10-06: access notch in the panel end / printed button
+   extenders / rely on auto-on + software brightness). Also confirm which
+   edge has the controls and where.
 1. **Measure the VILVA when it arrives** — shell w × h (listing: 367.8 ×
    224.8), thickness at top and bottom edge (wedge?), picture w × h and its
    distance from the bottom/top shell edge; update `vilva15.6`. If the real
@@ -275,3 +303,18 @@ All 2026-10-05.
   the y = 0 seam screws — they would have pressed the nut into the monitor;
   the old 357 mm preset already overlapped by ~4 mm), and fit-check asserts
   added to `lid_panel.scad`.
+
+2026-10-06:
+
+- **Lid checked against the real case CAD** (owner's Apache 3800 FreeCAD/STEP
+  model; `ref/apache-3800-case.md`). The monitor fits (5.5 mm per end, 22 mm
+  top/bottom), but the old lid panel (381 × 269 R16) was ~1.6 mm too long with
+  too-tight corners, and the lid posts ran into the wall and up to ~11 mm into
+  the wall-to-floor fillet (and were 2.5 mm short of the real floor). Fixed:
+  case numbers from the CAD (380 × 270, R20, depth 46.5, wall lean 0.03/mm,
+  fillet R21) → panel 377.3 × 267.3 R18.6; posts 18 × 12 × 34.5, bottom cut to
+  the fillet, back insert for a screw through the wall; new monitor-in-lid
+  assert. Base geometry unchanged.
+- VILVA manual read: controls are split over both short edges (power +
+  wheel on one), not all on the right. They are not reachable once mounted —
+  open question 0.

@@ -50,6 +50,14 @@ for (b = boss_positions()) {
 for (p = lid_mount_holes)
     assert(!overlaps(screen_offset, [mod_w, mod_h] / 2, p, post_half(p)),
            str("lid post at ", p, " sits under the monitor — remove/move it in lid_mount_holes"));
+// Monitor vs. the lid walls at its back face (the walls lean in with depth).
+mon_back_depth = lid_panel_drop + panel_t + screen_shim + mod_t;
+mon_gap = [case_in_l / 2 - lid_wall_draft * mon_back_depth - mod_w / 2 - abs(screen_offset[0]),
+           case_in_w / 2 - lid_wall_draft * mon_back_depth - mod_h / 2 - abs(screen_offset[1])];
+echo(str("LID monitor-to-wall gap: ends ", mon_gap[0], " mm, top/bottom ", mon_gap[1], " mm"));
+assert(min(mon_gap) > 0, str("monitor does not fit inside the lid walls (gap ", mon_gap, ")"));
+assert(mon_back_depth < lid_depth - lid_fillet_r,
+       "monitor back reaches the lid's wall-to-floor fillet — check the end clearance");
 
 // Seam screws stay out of the window (+ bevel + head), from under the monitor
 // (the back-side nut would hold it off the panel) and away from mounts/bosses.
