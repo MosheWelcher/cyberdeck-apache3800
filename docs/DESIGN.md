@@ -19,7 +19,7 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Keyboard | **Logitech K400 Plus** (keyboard + touchpad, wireless, 2×AA) | decided; modelled from a STEP |
 | Base mounting | **Printables 1478000 "Apache 3800 Panel Bracket"** (4-piece ring, M3 heat-set inserts) | owner has the STEP + a Bambu `.3mf` for it |
 | Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → lid panel split into 2 × 2 tiles |
-| Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by a service from `cut/base_plate.step` / `.dxf`; 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
+| Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by **SendCutSend** from `cut/base_plate.step` / `.dxf`; **raw finish** (no paint/anodize/powder coat); 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
 | Computer / battery / I/O boards | **not chosen** | don't assume; ask |
 
 ## 2. Case
@@ -375,3 +375,8 @@ All 2026-10-05.
   `base_metal_t`, mm). Checked: strict ezdxf read, 0 audit errors, 52 closed
   outlines, 378.000 × 268.000; STEP = 1 solid, volume = area × 3.175 exactly.
   Outlines copied point for point — no geometry change.
+- **2026-10-30 — supplier + finish.** SendCutSend quoted the new files and
+  came out much cheaper than the alternatives priced (owner) → supplier for
+  the base plate. Painting / coating was too expensive → **raw aluminium,
+  no finish**. Deburring is the one add-on worth considering (sharp edges
+  near the hands).
