@@ -121,6 +121,12 @@ lid_mount_holes = [
 // ---------------------------------------------------------------------
 base_panel_drop  = 16;   // MEASURE faceplate top below base rim (keyboard on top stands 14 mm; lid panel is 6 mm below its rim -> ~8 mm clearance closed)
 base_plate = [378, 268, 16];   // faceplate outline [x, y, corner_r]: ~1 mm to the wall at bracket height
+// Aluminium base plate (owner's choice 2026-10-30): one flat sheet, no tiles.
+// cut/base_plate.dxf goes to a laser/waterjet/CNC cutting service;
+// cut/base_plate.svg is the same outline at 1:1 for a Cricut paper/chipboard
+// mock-up. Plain M3 clearance holes (button-head screws), no countersinks.
+base_metal_t  = 3.175;   // 1/8" 5052-H32 sheet (stock size at cutting services; 3.0 is fine too)
+// Archived printed faceplate only (archive/base_faceplate/): tile seams.
 base_split_x = "auto";
 base_split_y = [44];     // behind the keyboard opening (auto would cut through it)
 // M3 insert positions of the 4-piece Printables bracket ring, from the case
@@ -189,5 +195,6 @@ vent_slot_pitch = 6;
 //  Preview colours (assembly only)
 // ---------------------------------------------------------------------
 c_panel  = [0.18, 0.18, 0.2];
+c_metal  = [0.75, 0.76, 0.78];
 c_screen = [0.05, 0.1, 0.25];
 c_case   = [0.9, 0.5, 0.1, 0.2];

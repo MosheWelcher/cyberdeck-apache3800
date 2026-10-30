@@ -12,12 +12,14 @@ Parametric **OpenSCAD** models for 3D-printed panels that turn a Harbor Freight
 - **Lid** — a screen panel framing a **15.6" portable "travel" monitor** (the
   owner's: VILVA V156F1, preset `vilva15.6`), held by
   printed clips; the panel screws onto printed posts glued/screwed in the lid.
-- **Base** — a faceplate with a **Logitech K400 Plus** keyboard sitting flat on top
+- **Base** — a flat **aluminium plate** (1/8", cut by a service from
+  `cut/base_plate.dxf`) with a **Logitech K400 Plus** keyboard sitting flat on top
   (its battery hump drops through a slot), a port
   row and a vent; it screws onto the 4-piece **Printables "Apache 3800 Panel
-  Bracket"** ring (third-party, CC BY 4.0) installed in the case.
+  Bracket"** ring (third-party, CC BY 4.0) installed in the case. The owner
+  test-fits a 1:1 Cricut cut of `cut/base_plate.svg` before ordering.
 
-Status (2026-10-05): design complete enough to print; nothing printed or
+Status (2026-10-30): design complete enough to order; nothing made or
 test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
 
 ## The owner
@@ -44,15 +46,17 @@ test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
 | `parts/lid_panel.scad` | Lid screen bezel: window + 45° bevel, retainer bosses (back), countersunk mount holes. Tiled. |
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the monitor. |
 | `parts/lid_bracket.scad` | Lid posts (shape: `lid_post()` in lib/common.scad): hug a long wall, sit on the lid floor fillet, M3 inserts top + back face. One per `lid_mount_holes`. |
-| `parts/base_faceplate.scad` | Base plate: K400 battery-hump slot, ports, vents, bracket holes. Tiled. |
+| `parts/base_plate_metal.scad` | Aluminium base plate, **2D**: outline minus `base_cutouts_2d()` (hump slot, ports, vents) + M3 clearance holes — all shared shapes live in lib/common.scad. Exports DXF + SVG to `cut/`. |
+| `cut/` | Generated 2D cut files: `base_plate.dxf` (cutting service), `base_plate.svg` (Cricut, mm units, 1:1). |
+| `archive/` | Retired designs (see `archive/README.md`), e.g. the 3D-printed tiled base faceplate. Not exported. |
 | `assembly.scad` | Preview only: case opened flat, panels, monitor + K400 stand-ins. |
 | `view_stls.scad` | Imports the exported STLs to look at them (`explode` to spread tiles). |
-| `scripts/export.sh` | Renders every part → `stl/`, previews → `img/`. |
+| `scripts/export.sh` | Renders every part → `stl/` (3D) and `cut/` (2D), previews → `img/`. |
 | `scripts/step_to_stl.py` | STEP → STL via gmsh (`pip install --user gmsh`, installed). Makes `ref/local/k400_plus.stl` for previews. |
 | `scripts/step_info.py` | Reads holes/extents/planes out of STEP files without CAD libs (how all third-party dimensions were measured). |
 | `ref/local/` | **Ignored by version control** — local-only models (e.g. `k400_plus.stl` made from the GrabCAD STEP). `k400_preview()` in lib/common.scad imports it; box stand-in when `kb_model_stl = ""`. |
 | `ref/` | Third-party reference: bracket STEP (CC BY 4.0, redistributable) + notes; K400 notes (its STEP is NOT redistributable); `apache-3800-case.md` = lid measurements from a third-party case CAD (zip in Downloads, not committed; **low trust**). |
-| `stl/`, `img/` | Generated. Committed so the owner can print without running anything. |
+| `stl/`, `cut/`, `img/` | Generated. Committed so the owner can order parts without running anything. |
 | `docs/DESIGN.md` | Design record: decisions + why, sources, clearances, open questions, history. |
 
 ## Conventions (follow exactly)
@@ -82,7 +86,7 @@ with `--backend=manifold` (full export ≈ 10 s). The stock 2021.01 in
 ```bash
 bash scripts/export.sh                      # all STLs + preview PNGs (auto-finds the dev build)
 openscad.com --backend=manifold -D 'piece=[0,1]' -o out.stl parts/lid_panel.scad
-openscad.com --backend=manifold -o out.echo parts/base_faceplate.scad   # echoes only (quick check)
+openscad.com --backend=manifold -o out.svg parts/base_plate_metal.scad  # 2D base plate (also echoes size)
 openscad.com --backend=manifold --imgsize=1600,1200 --camera=... -o x.png assembly.scad  # look at it
 ```
 
@@ -131,8 +135,8 @@ reads scripts incrementally).
 - Don't re-add the bracket "inner-lip" fit checks / fit gauges — the owner had
   them removed on purpose.
 - The K400 sits ON TOP of the plate (owner's choice, 2026-10-05) — don't go back
-  to a drop-in opening/hangers. Don't start aluminium-plate work (DXF etc.)
-  until the owner asks; it's a possible future step only.
+  to a drop-in opening/hangers. The base is aluminium (owner, 2026-10-30); the
+  lid is still printed — don't convert the lid to metal/flat without asking.
 - Don't design a deck battery / power-bank bay without asking — it came up but
   was never specified.
 - Don't kill OpenSCAD GUI windows (the owner often has one open); only kill

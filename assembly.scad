@@ -3,7 +3,6 @@
 include <lib/common.scad>
 use <parts/lid_panel.scad>
 use <parts/lid_bracket.scad>
-use <parts/base_faceplate.scad>
 
 hinge_gap = 40;   // visual spacing between base and opened lid
 
@@ -17,7 +16,7 @@ module cavity(depth) {
 // Base half
 cavity(base_depth);
 translate([0, 0, -base_panel_drop]) {
-    color(c_panel) translate([0, 0, -panel_t]) base_faceplate_whole();
+    color(c_metal) translate([0, 0, -base_metal_t]) linear_extrude(base_metal_t) base_plate_2d();
     k400_preview();   // real K400 model if ref/local/k400_plus.stl exists (see config.scad)
 }
 

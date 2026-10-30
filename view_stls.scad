@@ -5,7 +5,6 @@ include <lib/common.scad>   // keyboard position + preview model
 
 explode   = 0;        // mm gap between tiles (try 15)
 lid_tiles  = [2, 2];  // [nx, ny] — match the stl/lid_panel_tile_*.stl files
-base_tiles = [2, 2];  // [nx, ny] — match the stl/base_faceplate_tile_*.stl files
 show_lid      = true;
 show_base     = true;
 show_brackets = true;
@@ -19,9 +18,9 @@ module tiles(part, n) {
                 import(str("stl/", part, "_tile_", i, "_", j, ".stl"));
 }
 
-// Base faceplate in front, lid screen panel behind it (as if the case lay open)
-if (show_base) tiles("base_faceplate", base_tiles);
-if (show_keyboard) translate([0, 0, panel_t]) k400_preview();   // on the plate top
+// Aluminium base plate (from its cut file) in front, lid screen panel behind it
+if (show_base) color(c_metal) linear_extrude(base_metal_t) import("cut/base_plate.dxf");
+if (show_keyboard) translate([0, 0, base_metal_t]) k400_preview();   // on the plate top
 if (show_lid)  translate([0, 300, 0]) tiles("lid_panel", lid_tiles);
 
 // Small parts off to the right

@@ -18,7 +18,8 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Screen | **VILVA V156F1** 15.6" FHD portable monitor ([amazon.com/dp/B0BTSFVMLV](https://www.amazon.com/dp/B0BTSFVMLV)), USB-C + mini-HDMI | model known (2026-10-05); preset `vilva15.6` from the listing — **not measured yet** |
 | Keyboard | **Logitech K400 Plus** (keyboard + touchpad, wireless, 2×AA) | decided; modelled from a STEP |
 | Base mounting | **Printables 1478000 "Apache 3800 Panel Bracket"** (4-piece ring, M3 heat-set inserts) | owner has the STEP + a Bambu `.3mf` for it |
-| Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → panels split into 2 × 2 tiles |
+| Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → lid panel split into 2 × 2 tiles |
+| Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by a service from `cut/base_plate.dxf`; 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
 | Computer / battery / I/O boards | **not chosen** | don't assume; ask |
 
 ## 2. Case
@@ -105,14 +106,21 @@ Presets in `screen_presets` (all approximate): `7`, `10.1`, `13.3`, `15.6`
 `vilva15.6` (the owner's, default) and `custom`. Format
 `[module_w, module_h, module_t, active_w, active_h, active_off_x, active_off_y]`.
 
-## 4. Base — keyboard / ports faceplate
+## 4. Base — keyboard / ports plate (aluminium)
 
-File: `parts/base_faceplate.scad`.
+File: `parts/base_plate_metal.scad` (2D → `cut/base_plate.dxf` + `.svg`).
+Cut shapes (`base_cutouts_2d()`, `used_mount_holes`) live in
+`lib/common.scad`, shared with the archived printed faceplate
+(`archive/base_faceplate/`, 6 mm, tiled, countersunk).
 
 ### 4.1 Plate and the Printables bracket ring
 
 - **Plate**: `base_plate = [378, 268, 16]` → ~1 mm gap to the 380 × 270 R17 walls
-  at bracket height, 6 mm thick (bracket tops 22 mm below the rim = drop + thickness).
+  at bracket height, `base_metal_t` = 3.175 mm (1/8") aluminium, one piece —
+  bracket tops **19.2 mm below the rim** (= drop 16 + thickness; was 22 with
+  the 6 mm printed plate). Plain Ø3.4 clearance holes, M3 button heads (no
+  countersinks: cheaper to cut, and 1/8" is thin for an M3 countersink).
+  Edge material at the outermost holes ≈ 4.3 mm (> 1× thickness).
 - **Bracket ring** (from `ref/apache-3800-panel-bracket-v8.step`, see
   `ref/printables-bracket.md`): four bodies — Front (x −120…120, y −135…−123),
   Back (mirror), two L-shaped end pieces wrapping the corners (x ±115…±190).
@@ -143,8 +151,8 @@ plate simple, e.g. for a possible future aluminium plate; **don't start
 aluminium work until asked**):
 - Keyboard centred at `kb_offset = (0, −40)` → occupies y −110…+30.
 - **Hump slot** 357 × 40.5 mm (footprint + 1 mm/side), **R6** corners,
-  centred (0, 10.75) → y −9.5…31. The hump hangs ~2 mm below the plate
-  underside. Fit checked against the real model (keyboard ∩ plate = empty):
+  centred (0, 10.75) → y −9.5…31. The hump hangs ~4.8 mm below the
+  underside of the 3.175 mm aluminium plate (~2 mm with the old 6 mm plate). Fit checked against the real model (keyboard ∩ plate = empty):
   clears up to ~R10 and still clears with the slot 0.5 mm smaller per side
   at R6; R13+ hits the front corners. The slot also
   locates the keyboard; velcro dots optional. Lift off to use wirelessly /
@@ -172,7 +180,7 @@ USB-C round panel-mount extension (`usbc_round`, 22 mm hole = 21.5 min +
 port row. Its nut (~29.5 mm OD) on the back stays ~3 mm clear of the left end
 bracket (inner face x = −178), ~2 mm of the back bracket (y = 123), ~8 mm of
 the USB-A at −120, and clear of the bracket screws (−140, 128) / (−183, 85);
-panel limit 16 mm (plate is 6).
+panel limit 16 mm (plate is 3.175).
 Back side is a 30 cm USB-C cable to the (not yet designed) battery.
 Spec in `ref/adafruit-4218.md`.
 
@@ -195,10 +203,9 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 - Current layout: **lid** 2 × 2, seams x = 0 / y = 0, **2 seam screws**, both
   on x = 0 at y = ±123.5. The y = 0 seam has **none** (window in the middle,
   monitor over both ends) — it is glue-only; each tile is still screwed to its
-  own 2 lid posts. **Base** 2 × 2, seams x = 0 / y = 44 (forced
-  behind the keyboard), **9 seam screws** (one at (0, −61.5) sits under the
-  keyboard — countersunk flush); the bracket screws at (0, ±128) also clamp
-  the x = 0 lap. Glue the laps.
+  own 2 lid posts. **Base**: one aluminium sheet, no tiles (the archived
+  printed faceplate was 2 × 2, seams x = 0 / y = 44, 9 seam screws).
+  Glue the laps.
 - Tiles export as `stl/<part>_tile_<i>_<j>.stl` (i along X, j along Y,
   0 = negative side). Print front-face-down for the best visible surface.
 
@@ -206,10 +213,11 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 
 - M3 heat-set inserts (Ø4 hole, 5.7 mm): 8 (screen bosses) + 16 (lid posts,
   top + bottom) + 14 for the Printables brackets (2 of its 16 positions unused).
-- M3 countersunk screws: 14 base mount, 8 lid mount, 11 seam (9 base + 2
-  lid; M3 × 10 mm, seams need nuts); 8 pan/button heads for clips;
-  lid-post fixing screws if not glued.
-- M3 hex nuts: 11 (seams).
+- M3 countersunk screws: 8 lid mount, 2 lid seam (M3 × 10 mm, seams need
+  nuts). M3 button heads: 14 base mount (aluminium plate, ~M3 × 8) + 8 for
+  clips; lid-post fixing screws if not glued.
+- M3 hex nuts: 2 (lid seams).
+- Base plate: 1/8" 5052 aluminium, cut from `cut/base_plate.dxf`.
 - Velcro dots for the keyboard (optional).
 - Foam tape (0.5 mm) for the monitor shim. Glue (e.g. CA/epoxy) for laps.
 
@@ -246,7 +254,11 @@ with `lid_split_x/y`, `base_split_x/y` lists).
    owner mentioned a "battery spot" but never specified — ask before designing),
    cable routing between lid and base, hub. Ports/vent positions follow from this.
 4. **Measure** `lid_panel_drop`, real port hardware; confirm the brackets can
-   be installed with the plate top 16 mm below the rim (`base_panel_drop`).
+   be installed with the plate top 16 mm below the rim (`base_panel_drop`),
+   i.e. bracket tops 19.2 mm below it with the 1/8" aluminium plate.
+7. **Cricut mock-up of the base plate** — cut `cut/base_plate.svg` 1:1, check
+   holes over the bracket inserts, hump in the slot, ports, then order the
+   DXF in aluminium. Fold any fixes into `config.scad` first.
 5. Seam strength — lid now has only 2 seam screws and the y = 0 seam is
    glue-only. Options if it feels weak: flush nut pockets so screws can sit
    under the monitor, or a glued backing strip across the side frames.
@@ -344,3 +356,13 @@ All 2026-10-05.
   ordered from a print service. JLC3DP refused FDM ABS (its minimum part
   size, 30 × 30 × 10 mm, rules out the 6 mm plates and 2.5 mm clips).
   Material/service still open; `bed` kept at 256 × 256 (geometry unchanged).
+- **2026-10-30 — base plate → aluminium.** After pricing (SLS nylon ≈ $130
+  for everything vs. ~$60–120 for a cut aluminium sheet) the owner chose a
+  flat **1/8" 5052 aluminium** base plate, one piece (no tiles/seams), plain
+  M3 clearance holes. New `parts/base_plate_metal.scad` exports
+  `cut/base_plate.dxf` (cutting service) and `cut/base_plate.svg` (mm, 1:1)
+  so the owner can cut a **Cricut** card/chipboard mock-up and test-fit first.
+  Cut shapes moved to `lib/common.scad` (`base_cutouts_2d`,
+  `used_mount_holes`) — unchanged geometry. The printed faceplate (.scad,
+  STLs, preview) moved to `archive/base_faceplate/` at the owner's request.
+  Lid stays printed.

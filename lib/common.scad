@@ -31,6 +31,47 @@ kb_back_y = kb_offset[1] + kb_size[1] / 2;          // keyboard back edge (hump 
 kb_slot   = [kb_hump_size[0] + 2 * kb_slot_clear, kb_hump_size[1] + 2 * kb_slot_clear];
 kb_slot_c = [kb_offset[0], kb_back_y - kb_hump_size[1] / 2];   // slot centre
 
+// ---------- Base plate cutouts (2D: aluminium plate + archived printed faceplate) ----------
+// Bracket holes that would leave a sliver next to the hump slot are skipped
+// (that bracket insert just goes unused). With the default full-width slot the
+// two middle end-bracket holes (±183, 0) are skipped.
+kb_hole_keepout = [kb_slot_c[0], kb_slot_c[1], kb_slot[0] + m3_csk_d + 6, kb_slot[1] + m3_csk_d + 6];
+used_mount_holes = [for (p = base_mount_holes) if (!in_rect(p, kb_hole_keepout)) p];
+
+module port_cut_2d(type) {
+    p = preset(type, port_types);
+    w = p[0]; h = p[1]; r = p[2]; sp = p[3]; sd = p[4];
+    if (h == 0) circle(d = w);
+    else rrect(w, h, r);
+    if (sp > 0) for (sx = [-sp / 2, sp / 2]) translate([sx, 0]) circle(d = sd);
+}
+
+module vent_cut_2d(v) {
+    x = v[0]; y = v[1]; w = v[2]; h = v[3];
+    n = floor((w - vent_slot_w) / vent_slot_pitch) + 1;
+    span = (n - 1) * vent_slot_pitch;
+    translate([x - span / 2, y])
+        for (k = [0 : n - 1])
+            translate([k * vent_slot_pitch, 0]) rrect(vent_slot_w, h, vent_slot_w / 2);
+}
+
+// Every through-cut except the bracket mount holes (the printed plate
+// countersinks those; the aluminium plate uses plain clearance holes).
+module base_cutouts_2d() {
+    translate(kb_slot_c) rrect(kb_slot[0], kb_slot[1], kb_slot_r);
+    for (p = ports) translate([p[1], p[2]]) rotate(p[3]) port_cut_2d(p[0]);
+    for (v = vents) vent_cut_2d(v);
+}
+
+// Aluminium base plate: outline minus every cut, M3 clearance mount holes.
+module base_plate_2d() {
+    difference() {
+        rrect(base_L, base_W, base_R);
+        base_cutouts_2d();
+        for (p = used_mount_holes) translate(p) circle(d = m3_clear_d);
+    }
+}
+
 // K400 for previews, positioned with its flat underside on z = 0 (= plate top).
 // Real model if kb_model_stl is set (rotate maps model X,Y,Z -> deck X,-Z,Y so the
 // hump faces +Y), otherwise a box stand-in from the measured profile.

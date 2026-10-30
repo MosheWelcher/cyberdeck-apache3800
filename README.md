@@ -4,7 +4,7 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 **Apache 3800** case (item 63927).
 
 - **Lid:** screen panel + screen clips + lid brackets (this repo).
-- **Base:** keyboard / ports faceplate that screws onto the
+- **Base:** flat aluminium keyboard / ports plate that screws onto the
   [Apache 3800 Panel Bracket](https://www.printables.com/model/1478000-apache-3800-panel-bracket)
   by JohnS - N0CTL (print that ring separately; its hole pattern is built in here).
 
@@ -18,7 +18,9 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 | `parts/lid_panel.scad` | Screen bezel: window with 45° bevel, retainer bosses on the back, countersunk mount holes. |
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the screen. |
 | `parts/lid_bracket.scad` | Posts for the lid floor (insert top + bottom) — lid-side equivalent of the Printables bracket. |
-| `parts/base_faceplate.scad` | Keyboard battery-hump slot, port cutouts, vent grille, holes matching the Printables bracket ring. |
+| `parts/base_plate_metal.scad` | Flat **aluminium** base plate: keyboard battery-hump slot, port cutouts, vent grille, holes matching the Printables bracket ring. |
+| `cut/base_plate.dxf` / `.svg` | The base plate as a 2D cut file: DXF for a metal-cutting service, SVG (1:1 mm) for a Cricut mock-up. |
+| `archive/` | Retired designs (e.g. the old 3D-printed base faceplate). |
 | `view_stls.scad` | Imports the exported STLs so you can look at them (F5). |
 | `assembly.scad` | Fit-check: case opened flat with both panels. Preview only. |
 | `scripts/export.sh` | Renders every part to `stl/` and previews to `img/`. |
@@ -45,7 +47,33 @@ Coordinates: origin at the centre of the case opening; **−Y = handle (front)**
    openscad.org → Downloads → Development Snapshots. Single part:
    `openscad --backend=manifold -D 'piece=[0,1]' -o out.stl parts/lid_panel.scad`.
 
-## Splitting for the printer
+## Base plate: aluminium, test-fit with a Cricut first
+
+![base plate](img/base_plate.png)
+
+The base is one flat 378 × 268 mm sheet of **1/8" (3.175 mm) 5052 aluminium**
+(`base_metal_t`). Screws: M3 button-head into the bracket inserts.
+
+**1. Mock it up (Cricut).** Before paying for metal, cut `cut/base_plate.svg`
+from card and check it in the real case:
+- Needs a Cricut **Maker / Explore** with the **12 × 24" mat** (the plate is
+  too big for the 12 × 12 mat and for the Joy).
+- Design Space → *Upload* → pick `base_plate.svg` → *Add to canvas*. **Check the
+  size reads 378 × 268 mm (14.88 × 10.55 in)**; if not, the import scaled it,
+  so type those numbers in with the lock on.
+- Material: heavy cardstock works on any Maker/Explore; 2 mm chipboard
+  (Maker + knife blade) is stiffer and closer to the real thing. Tiny holes
+  can tear in chipboard; poke them through with an awl if so.
+- Lay it on the installed bracket ring: every hole should land over an insert,
+  the K400's battery hump should drop into the slot, and the port holes should
+  line up with your parts.
+
+**2. Order it.** Upload `cut/base_plate.dxf` (units: **mm**) to a laser /
+waterjet cutting service (e.g. SendCutSend, JLCCNC), 5052 aluminium, 0.125".
+If something didn't fit in step 1, change `config.scad`, run
+`scripts/export.sh`, and cut a new mock-up first.
+
+## Splitting the printed lid panel
 
 The panels are ~380 × 270 mm. If they exceed `bed` (default 256 × 256) they are
 cut into tiles with a **half-lap joint**: the back half of one tile overlaps the
@@ -118,8 +146,7 @@ held down. Lift it off to use it wirelessly or change batteries.
   `pip install --user gmsh`):
   `python scripts/step_to_stl.py <Downloads>/Logitech_K400_PLUS.stp ref/local/k400_plus.stl`.
   Without it, set `kb_model_stl = ""` in config.scad to see a box stand-in.
-- The horizontal print seam sits behind the keyboard (`base_split_y = [44]`);
-  ports and vent are in the strip behind it.
+- Ports and vent are in the strip behind the keyboard.
 
 Details: `ref/k400-plus.md`.
 

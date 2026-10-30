@@ -24,7 +24,7 @@ scad() { "$OPENSCAD" -q "${BACKEND[@]}" "$@"; }
 mkdir -p stl img
 
 # Panels: one STL per tile.
-for part in lid_panel base_faceplate; do
+for part in lid_panel; do
   "$OPENSCAD" "${BACKEND[@]}" -o "stl/.$part.echo" "parts/$part.scad"
   tiles=$(sed -n 's/.*"TILES \([0-9]*\) \([0-9]*\)".*/\1 \2/p' "stl/.$part.echo" | head -1)
   rm -f "stl/.$part.echo"
@@ -44,8 +44,16 @@ for part in lid_bracket screen_retainer; do
   scad -o "stl/$part.stl" "parts/$part.scad"
 done
 
+# Aluminium base plate (flat): DXF for the cutting service, SVG (mm, 1:1) for
+# a Cricut paper/chipboard mock-up.
+mkdir -p cut
+for ext in dxf svg; do
+  echo "-> cut/base_plate.$ext"
+  scad -o "cut/base_plate.$ext" parts/base_plate_metal.scad
+done
+
 # Previews
 scad --imgsize=1600,1200 --viewall --autocenter --camera=0,0,0,55,0,25,0 -o img/assembly.png assembly.scad
 scad --imgsize=1200,900 --camera=0,0,0,35,0,15,900 -o img/lid_panel_tiles.png parts/lid_panel.scad
-scad --imgsize=1200,900 --camera=0,0,0,35,0,15,900 -o img/base_faceplate_tiles.png parts/base_faceplate.scad
+scad --imgsize=1200,900 --camera=0,0,0,0,0,0,820 --projection=o -o img/base_plate.png parts/base_plate_metal.scad
 echo "Done."
