@@ -20,7 +20,9 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Base mounting | **Printables 1478000 "Apache 3800 Panel Bracket"** (4-piece ring, M3 heat-set inserts) | owner has the STEP + a Bambu `.3mf` for it |
 | Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → lid panel split into 2 × 2 tiles |
 | Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by **SendCutSend** from `cut/base_plate.step` / `.dxf`; **raw finish** (no paint/anodize/powder coat); 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
-| Computer / battery / I/O boards | **not chosen** | don't assume; ask |
+| Computers | **Raspberry Pi 2B + Pi Zero 2 W + Pico W** (all 5 V, micro-USB power) | owner 2026-10-30; roles not defined yet — ask |
+| Battery | **4 × 21700 Li-ion, 1S4P (parallel), in a cell holder** (no spot welding); maybe 6 later | owner 2026-10-30; power board not chosen; **don't design the bay without asking** |
+| I/O boards / hub | **not chosen** | don't assume; ask |
 
 ## 2. Case
 
@@ -250,9 +252,14 @@ with `lid_split_x/y`, `base_split_x/y` lists).
    distance from the bottom/top shell edge; update `vilva15.6`. If the real
    shell is ≤ ~355 mm wide, end-wall posts and short-edge clips could return.
 2. ~~K400 end-bracket clearance~~ — gone: keyboard now sits on top of the plate.
-3. **Internals** — computer (e.g. SBC/mini PC), power (battery / power bank:
-   owner mentioned a "battery spot" but never specified — ask before designing),
-   cable routing between lid and base, hub. Ports/vent positions follow from this.
+3. **Internals** — computers chosen (Pi 2B, Zero 2 W, Pico W) and battery
+   cells chosen (4 × 21700 parallel, holder) — see the decision log
+   2026-10-30. Still open: each board's role; the battery/power board (1S
+   protection, USB-C charge to match the Adafruit 4218, 5 V ≥ 5 A out,
+   pass-through); HDMI switch (Pi 2B full HDMI + Zero mini-HDMI → the VILVA's
+   one mini-HDMI); keyboard receiver sharing (USB switch?); cable routing
+   between lid and base; hub. Ports/vent positions follow from this. Ask
+   before designing the battery bay or the new bracket/access scheme.
 4. **Measure** `lid_panel_drop`, real port hardware; confirm the brackets can
    be installed with the plate top 16 mm below the rim (`base_panel_drop`),
    i.e. bracket tops 19.2 mm below it with the 1/8" aluminium plate.
@@ -380,3 +387,14 @@ All 2026-10-05.
   the base plate. Painting / coating was too expensive → **raw aluminium,
   no finish**. Deburring is the one add-on worth considering (sharp edges
   near the hands).
+- **2026-10-30 — computers + battery cells (owner).** Computers: Raspberry
+  Pi 2B, Pi Zero 2 W and Pico W — everything incl. the VILVA monitor runs on
+  5 V. Battery: 4 × 21700 (maybe 6 later) in a cell holder, no spot welding.
+  Recommended wiring 1S4P (parallel, ~3.6 V) + one 5 V boost/charge board,
+  since nothing needs >5 V. Budget (estimates; monitor ~6 W from its manual,
+  input 5 V 3 A / 9 V 2 A / PD): typical ~9–10 W, peak ~15 W → ~70 Wh
+  nominal, ~6 h typical. 6 cells ≈ 105 Wh = over the 100 Wh airline carry-on
+  limit (5 cells stays under). Space under the plate ≈ 88 mm
+  (108 − 16 − 3.2). Owner also wants easier access to the guts (current
+  14-screw plate) and may design an own bracket ring, using the Printables
+  STEP only as case reference — on hold until the owner says go.
