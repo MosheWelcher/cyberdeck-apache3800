@@ -49,7 +49,12 @@ Coordinates: origin at the centre of the case opening; **−Y = handle (front)**
 
 ## Base plate: aluminium, test-fit with a Cricut first
 
-![base plate](img/base_plate.png)
+![base plate](img/base_plate.svg)
+
+Cut files: [`cut/base_plate.svg`](cut/base_plate.svg) (Cricut) ·
+[`cut/base_plate.dxf`](cut/base_plate.dxf) (metal cutting service). Back
+(hinge side) is at the top: port row + vent; the long slot takes the
+keyboard's battery hump.
 
 The base is one flat 378 × 268 mm sheet of **1/8" (3.175 mm) 5052 aluminium**
 (`base_metal_t`). Screws: M3 button-head into the bracket inserts.

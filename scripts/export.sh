@@ -51,9 +51,11 @@ for ext in dxf svg; do
   echo "-> cut/base_plate.$ext"
   scad -o "cut/base_plate.$ext" parts/base_plate_metal.scad
 done
+# README picture: same SVG, filled grey so it shows on light and dark GitHub
+# themes (the cut file itself stays outline-only for Cricut).
+sed 's/fill="none"/fill="#9aa0a6" fill-rule="evenodd"/' cut/base_plate.svg > img/base_plate.svg
 
 # Previews
 scad --imgsize=1600,1200 --viewall --autocenter --camera=0,0,0,55,0,25,0 -o img/assembly.png assembly.scad
 scad --imgsize=1200,900 --camera=0,0,0,35,0,15,900 -o img/lid_panel_tiles.png parts/lid_panel.scad
-scad --imgsize=1200,900 --camera=0,0,0,0,0,0,820 --projection=o -o img/base_plate.png parts/base_plate_metal.scad
 echo "Done."
