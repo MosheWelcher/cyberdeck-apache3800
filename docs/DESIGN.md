@@ -20,9 +20,68 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Base mounting | **Printables 1478000 "Apache 3800 Panel Bracket"** (4-piece ring, M3 heat-set inserts) | owner has the STEP + a Bambu `.3mf` for it |
 | Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → lid panel split into 2 × 2 tiles |
 | Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by **SendCutSend** from `cut/base_plate.step` / `.dxf`; **raw finish** (no paint/anodize/powder coat); 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
-| Computers | **Raspberry Pi 2B + Pi Zero 2 W + Pico W** (all 5 V, micro-USB power) | owner 2026-10-30; roles not defined yet — ask |
+| Computers | **Raspberry Pi 2B + Pi Zero 2 W + Pico W** (all 5 V, micro-USB power) | owner 2026-10-30; **Zero 2 W = SDR node** (plan 2026-10-30, §1.1); Pi 2B = main console; Pico W = power/shutdown helper (DIY pack) |
 | Battery | **4 × Samsung 50E 21700, 1S4P (parallel), in a cell holder** (no spot welding); maybe 6 later. ~59 Wh at 5 V → ~6 h typical | owner 2026-10-30; power board not chosen; **don't design the bay without asking** |
 | I/O boards / hub | **not chosen** | don't assume; ask |
+| SDR | **RTL-SDR Blog V4** on the Zero 2 W, antenna on an SMA bulkhead in the plate | owner plan 2026-10-30 |
+
+### 1.1 Zero 2 W — SDR node (owner's plan, 2026-10-30)
+
+**Role.** Runs the radio full-time, separate from the Pi 2B: RTL-SDR on the
+Zero, decoding locally — dump1090 (aircraft, 1090 MHz), rtl_433 (sensors,
+433.92 MHz), Direwolf (APRS, 144.39 MHz in North America) — plus rtl_tcp to
+stream raw IQ. The Pi 2B stays free for console work; the radio keeps running
+through a Pi reboot or a later main-board swap.
+
+**Hardware.** RTL-SDR Blog V4 on the Zero's **data** micro-USB (short OTG
+adapter). Coax pigtail → **SMA female bulkhead in the aluminium plate**
+(`ports` entry `sma` at (90, 106), 6.5 mm hole) so antennas screw on from
+outside and come off for transport. Zero sits under the plate near the hub,
+with some airflow.
+
+**Power.** DIY pack: its own 5 V module off the terminal block. Power-bank
+plan: one hub port → the Zero's **power** micro-USB (data port stays for the
+SDR). Budget **~0.7–0.8 A / 3.5–4 W** (Zero 2 W decoding ~0.3–0.5 A + V4
+~0.3 A) — the plan's "about half an amp / 2–3 W" is optimistic; use a port
+rated ≥ 1 A. (Estimates — measure with the USB power meter.)
+
+**Link to the Pi 2B: GPIO UART, 3 wires, TX/RX crossed.** Pi pin 8 (TXD) →
+Zero pin 10 (RXD); Pi pin 10 → Zero pin 8; pin 6 ↔ pin 6 (GND). Both 3.3 V
+logic — no level shifter.
+- Zero `config.txt`: `enable_uart=1`, `dtoverlay=disable-bt` (puts the good
+  PL011 UART on GPIO14/15); also `sudo systemctl disable hciuart`. Serial
+  login shell **on**.
+- Pi 2B: serial login shell **off**, serial hardware **on** (no Bluetooth on
+  the 2B, so no overlay needed).
+- Use: `screen /dev/serial0 115200` on the Pi → Zero's console.
+- Carries the console + decoded text output (small). Raw rtl_tcp is far too
+  much for 115200 baud → goes over **Wi-Fi** instead: home network, or the
+  Zero as a small access point in the field, at ~1 MS/s.
+- Why not USB gadget mode: it needs the Zero's only data port, which the SDR
+  uses.
+
+**Shutdown (DIY plan).** Pico W pulls the Zero's GPIO3 (pin 5) low →
+`dtoverlay=gpio-shutdown` (GPIO3 is its default; no clash with the UART pins;
+GPIO3 is also I²C SCL, so no I²C on the Zero). Drive it **open-drain style**
+(Pico pin as input normally, output-low only to trigger) and share ground
+with the Zero. A low on GPIO3 also wakes a halted Pi.
+
+**Review notes / open points**
+- **One dongle = one frequency.** dump1090, rtl_433, Direwolf and rtl_tcp each
+  need the RTL-SDR exclusively and listen on different bands, so they can't
+  all run at once. Options: (a) one decoder at a time, switched by systemd
+  service / a small script (simplest, no hardware); (b) scheduled
+  time-sharing; (c) a second (third) dongle — but the Zero has one data
+  port, so that needs a powered hub and more power. **Owner to choose.**
+- Antenna: no single antenna is good on 144 / 433 / 1090 MHz — a
+  telescopic/dipole kit or per-band antennas on the SMA.
+- The Zero's Wi-Fi sits **under the aluminium plate**; the plate shadows it
+  upward (the plastic case passes RF). Test range; if weak, keep the Zero
+  near the plate edge or away from the plate's centre.
+- Heat: the V4 runs warm; it and the Zero share the under-plate space with
+  the battery — keep them off the cells, near the vent.
+- SMA bulkhead hole position is a placeholder; check the part's thread
+  length covers the 3.175 mm plate (+ washer, nut).
 
 ## 2. Case
 
@@ -186,6 +245,11 @@ panel limit 16 mm (plate is 3.175).
 Back side is a 30 cm USB-C cable to the (not yet designed) battery.
 Spec in `ref/adafruit-4218.md`.
 
+**SDR antenna**: SMA female bulkhead (`sma`, 6.5 mm hole for the 1/4"-36
+thread) at **(90, 106)** on the port row, between the RJ45 and the 12 mm
+hole — ~30 mm from the back-bracket screw (70, 128), clear of the vent
+(y ≤ 89). Placeholder until the Zero 2 W is placed (§1.1).
+
 ## 5. Printing: tiles and lap joints
 
 `lib/common.scad` splits any panel larger than `bed − bed_margin` into tiles
@@ -254,7 +318,7 @@ with `lid_split_x/y`, `base_split_x/y` lists).
 2. ~~K400 end-bracket clearance~~ — gone: keyboard now sits on top of the plate.
 3. **Internals** — computers chosen (Pi 2B, Zero 2 W, Pico W) and battery
    cells chosen (4 × 21700 parallel, holder) — see the decision log
-   2026-10-30. Still open: each board's role; the battery/power board (1S
+   2026-10-30. Zero 2 W role planned (SDR node, §1.1 — choose how the one dongle is shared). Still open: Pi 2B / Pico W details; the battery/power board (1S
    protection, USB-C charge to match the Adafruit 4218, 5 V ≥ 5 A out,
    pass-through); HDMI switch (Pi 2B full HDMI + Zero mini-HDMI → the VILVA's
    one mini-HDMI); keyboard receiver sharing (USB switch?); cable routing
@@ -408,3 +472,10 @@ All 2026-10-05.
   the cold. 6 cells → ~89 Wh at 5 V (~9 h) but ~106 Wh pack = over the
   100 Wh airline limit. Loads other than the monitor (~6 W, its manual) are
   estimates — measure with a USB-C power meter and redo.
+- **2026-10-30 — Zero 2 W = SDR node (owner's plan).** RTL-SDR Blog V4 on
+  the Zero's data port, decoders local, console + decoded text to the Pi 2B
+  over a 3-wire GPIO UART, raw rtl_tcp over Wi-Fi, Pico W triggers
+  gpio-shutdown on GPIO3. Details + review notes in §1.1. Added an **SMA
+  bulkhead hole** (6.5 mm, `sma` at (90, 106)) to the plate. Flagged: one
+  dongle can only run one decoder at a time; power closer to 0.7–0.8 A than
+  0.5 A; Wi-Fi under the aluminium plate.

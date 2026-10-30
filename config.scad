@@ -173,7 +173,11 @@ port_types = [
   // Adafruit 4218 USB-C round panel-mount extension (battery charge input).
   // Spec: hole 21.5-27 mm, nut OD ~29.5 mm, panel <= 16 mm. 21.5 + 0.5 print
   // clearance; its lip hides the hole. See ref/adafruit-4218.md.
-  ["usbc_round", [22.0, 0,  0,    0, 0  ]]
+  ["usbc_round", [22.0, 0,  0,    0, 0  ]],
+  // SMA female bulkhead (1/4"-36 thread, 6.35 mm) for the Zero 2 W's RTL-SDR
+  // antenna. 6.5 mm round hole; ~8 mm hex nut + washer (~10-11 OD) on the back.
+  // MEASURE: check your bulkhead's thread length covers the 3.175 mm plate.
+  ["sma",     [ 6.5,  0,   0,    0, 0  ]]
 ];
 // Ports placed on the faceplate: [type, x, y, rotation_deg]
 ports = [
@@ -184,7 +188,8 @@ ports = [
   ["rj45",      30, 106, 0],
   ["round12",  125, 106, 0],
   ["round16",  150, 106, 0],
-  ["usbc_round", -160, 106, 0]  // battery charge in, back-left corner; nut (~29.5) clears end bracket (x -178) + back bracket (y 123)
+  ["usbc_round", -160, 106, 0], // battery charge in, back-left corner; nut (~29.5) clears end bracket (x -178) + back bracket (y 123)
+  ["sma",        90, 106, 0]   // SDR antenna (Zero 2 W); placeholder until the Zero/hub are placed under the plate
 ];
 // Vent grilles: [x, y, w, h] regions filled with slots
 vents = [ [110, 76, 120, 26] ];   // between the seam lap band and the port row
