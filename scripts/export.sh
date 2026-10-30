@@ -44,13 +44,18 @@ for part in lid_bracket screen_retainer; do
   scad -o "stl/$part.stl" "parts/$part.scad"
 done
 
-# Aluminium base plate (flat): DXF for the cutting service, SVG (mm, 1:1) for
-# a Cricut paper/chipboard mock-up.
+# Aluminium base plate (flat): SVG (mm, 1:1) for a Cricut paper/chipboard
+# mock-up; clean DXF + STEP for the cutting service. OpenSCAD's own DXF is
+# malformed for strict quoters (R10 header + LWPOLYLINEs), so cut_files.py
+# rewrites it as plain R12 and extrudes it to base_metal_t for the STEP.
 mkdir -p cut
-for ext in dxf svg; do
-  echo "-> cut/base_plate.$ext"
-  scad -o "cut/base_plate.$ext" parts/base_plate_metal.scad
-done
+echo "-> cut/base_plate.svg"
+scad -o cut/base_plate.svg parts/base_plate_metal.scad
+base_t=$("$OPENSCAD" "${BACKEND[@]}" -o cut/.base_plate.raw.dxf parts/base_plate_metal.scad 2>&1 \
+  | sed -n 's/.*"BASE_T \([0-9.]*\)".*/\1/p' | head -1)
+echo "-> cut/base_plate.dxf, cut/base_plate.step ($base_t mm)"
+"${PYTHON:-python}" scripts/cut_files.py cut/.base_plate.raw.dxf cut/base_plate.dxf cut/base_plate.step "$base_t"
+rm -f cut/.base_plate.raw.dxf
 # README picture: same SVG, filled grey so it shows on light and dark GitHub
 # themes (the cut file itself stays outline-only for Cricut).
 sed 's/fill="none"/fill="#9aa0a6" fill-rule="evenodd"/' cut/base_plate.svg > img/base_plate.svg

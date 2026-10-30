@@ -47,7 +47,8 @@ test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the monitor. |
 | `parts/lid_bracket.scad` | Lid posts (shape: `lid_post()` in lib/common.scad): hug a long wall, sit on the lid floor fillet, M3 inserts top + back face. One per `lid_mount_holes`. |
 | `parts/base_plate_metal.scad` | Aluminium base plate, **2D**: outline minus `base_cutouts_2d()` (hump slot, ports, vents) + M3 clearance holes — all shared shapes live in lib/common.scad. Exports DXF + SVG to `cut/`. |
-| `cut/` | Generated 2D cut files: `base_plate.dxf` (cutting service), `base_plate.svg` (Cricut, mm units, 1:1). |
+| `cut/` | Generated cut files: `base_plate.step` + `base_plate.dxf` (cutting service), `base_plate.svg` (Cricut, mm units, 1:1). |
+| `scripts/cut_files.py` | OpenSCAD raw DXF → clean R12 DXF (closed POLYLINEs, `$INSUNITS` mm) + STEP (gmsh extrude to `base_metal_t`). **Never ship OpenSCAD's own DXF** — R10 header + LWPOLYLINE, no units; SendCutSend couldn't quote it (2026-10-30). |
 | `archive/` | Retired designs (see `archive/README.md`), e.g. the 3D-printed tiled base faceplate. Not exported. |
 | `assembly.scad` | Preview only: case opened flat, panels, monitor + K400 stand-ins. |
 | `view_stls.scad` | Imports the exported STLs to look at them (`explode` to spread tiles). |

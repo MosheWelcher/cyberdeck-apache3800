@@ -1,10 +1,12 @@
 // BASE plate, aluminium version: one flat sheet (base_metal_t thick), no
 // tiles. Same keyboard slot / ports / vents as the printed faceplate, plain
 // M3 clearance holes onto the Printables bracket inserts.
-// 2D part — export as DXF (cutting service) or SVG (Cricut mock-up, 1:1 mm):
-//   openscad -o cut/base_plate.dxf parts/base_plate_metal.scad
-//   openscad -o cut/base_plate.svg parts/base_plate_metal.scad
+// 2D part — scripts/export.sh writes cut/base_plate.svg (Cricut mock-up,
+// 1:1 mm) and, via scripts/cut_files.py, a clean cut/base_plate.dxf + .step
+// for the cutting service (OpenSCAD's own DXF is rejected by strict quoters).
 include <../lib/common.scad>
+
+echo(str("BASE_T ", base_metal_t));   // parsed by scripts/export.sh for the STEP thickness
 
 echo(str("Base mount holes used: ", len(used_mount_holes), " of ", len(base_mount_holes)));
 echo(str("Base plate ", base_L, " x ", base_W, " mm (", base_L / 25.4, " x ", base_W / 25.4, " in)"));

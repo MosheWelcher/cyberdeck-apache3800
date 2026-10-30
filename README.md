@@ -19,7 +19,8 @@ Parametric OpenSCAD panels for a cyberdeck built into a Harbor Freight
 | `parts/screen_retainer.scad` | Flat clips that screw onto the bosses and clamp the screen. |
 | `parts/lid_bracket.scad` | Posts for the lid floor (insert top + bottom) — lid-side equivalent of the Printables bracket. |
 | `parts/base_plate_metal.scad` | Flat **aluminium** base plate: keyboard battery-hump slot, port cutouts, vent grille, holes matching the Printables bracket ring. |
-| `cut/base_plate.dxf` / `.svg` | The base plate as a 2D cut file: DXF for a metal-cutting service, SVG (1:1 mm) for a Cricut mock-up. |
+| `cut/base_plate.step` / `.dxf` / `.svg` | The base plate as cut files: STEP or DXF for a metal-cutting service, SVG (1:1 mm) for a Cricut mock-up. |
+| `scripts/cut_files.py` | Rewrites OpenSCAD's DXF as a clean R12 DXF (mm) and a STEP solid — OpenSCAD's own DXF was rejected by SendCutSend. |
 | `archive/` | Retired designs (e.g. the old 3D-printed base faceplate). |
 | `view_stls.scad` | Imports the exported STLs so you can look at them (F5). |
 | `assembly.scad` | Fit-check: case opened flat with both panels. Preview only. |
@@ -52,6 +53,7 @@ Coordinates: origin at the centre of the case opening; **−Y = handle (front)**
 ![base plate](img/base_plate.svg)
 
 Cut files: [`cut/base_plate.svg`](cut/base_plate.svg) (Cricut) ·
+[`cut/base_plate.step`](cut/base_plate.step) or
 [`cut/base_plate.dxf`](cut/base_plate.dxf) (metal cutting service). Back
 (hinge side) is at the top: port row + vent; the long slot takes the
 keyboard's battery hump.
@@ -73,8 +75,11 @@ from card and check it in the real case:
   the K400's battery hump should drop into the slot, and the port holes should
   line up with your parts.
 
-**2. Order it.** Upload `cut/base_plate.dxf` (units: **mm**) to a laser /
-waterjet cutting service (e.g. SendCutSend, JLCCNC), 5052 aluminium, 0.125".
+**2. Order it.** Upload `cut/base_plate.step` (a 3.175 mm-thick solid) or
+`cut/base_plate.dxf` to a laser / waterjet cutting service (e.g. SendCutSend,
+OSH Cut), 5052 aluminium, 0.125". If it asks for units, pick **mm**, and check
+the part reads **14.88 × 10.55 in** — if it shows something huge, it read the
+file as inches.
 If something didn't fit in step 1, change `config.scad`, run
 `scripts/export.sh`, and cut a new mock-up first.
 

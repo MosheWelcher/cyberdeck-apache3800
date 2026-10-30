@@ -19,7 +19,7 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Keyboard | **Logitech K400 Plus** (keyboard + touchpad, wireless, 2×AA) | decided; modelled from a STEP |
 | Base mounting | **Printables 1478000 "Apache 3800 Panel Bracket"** (4-piece ring, M3 heat-set inserts) | owner has the STEP + a Bambu `.3mf` for it |
 | Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → lid panel split into 2 × 2 tiles |
-| Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by a service from `cut/base_plate.dxf`; 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
+| Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by a service from `cut/base_plate.step` / `.dxf`; 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
 | Computer / battery / I/O boards | **not chosen** | don't assume; ask |
 
 ## 2. Case
@@ -108,7 +108,7 @@ Presets in `screen_presets` (all approximate): `7`, `10.1`, `13.3`, `15.6`
 
 ## 4. Base — keyboard / ports plate (aluminium)
 
-File: `parts/base_plate_metal.scad` (2D → `cut/base_plate.dxf` + `.svg`).
+File: `parts/base_plate_metal.scad` (2D → `cut/base_plate.svg`; `scripts/cut_files.py` → clean `.dxf` + `.step`).
 Cut shapes (`base_cutouts_2d()`, `used_mount_holes`) live in
 `lib/common.scad`, shared with the archived printed faceplate
 (`archive/base_faceplate/`, 6 mm, tiled, countersunk).
@@ -217,7 +217,7 @@ with `lid_split_x/y`, `base_split_x/y` lists).
   nuts). M3 button heads: 14 base mount (aluminium plate, ~M3 × 8) + 8 for
   clips; lid-post fixing screws if not glued.
 - M3 hex nuts: 2 (lid seams).
-- Base plate: 1/8" 5052 aluminium, cut from `cut/base_plate.dxf`.
+- Base plate: 1/8" 5052 aluminium, cut from `cut/base_plate.step` / `.dxf`.
 - Velcro dots for the keyboard (optional).
 - Foam tape (0.5 mm) for the monitor shim. Glue (e.g. CA/epoxy) for laps.
 
@@ -366,3 +366,12 @@ All 2026-10-05.
   `used_mount_holes`) — unchanged geometry. The printed faceplate (.scad,
   STLs, preview) moved to `archive/base_faceplate/` at the owner's request.
   Lid stays printed.
+- **2026-10-30 — clean cut files.** SendCutSend: "unable to quote your
+  drawing for any of our services" on OpenSCAD's DXF (R10 header but R14
+  LWPOLYLINE entities, no units — most likely read as inches, i.e. 378 × 268
+  *inches*, over every size limit). New `scripts/cut_files.py` (run by
+  `export.sh`) rewrites it as plain R12 with closed POLYLINEs and
+  `$INSUNITS` = mm, and writes `cut/base_plate.step` (gmsh extrude to
+  `base_metal_t`, mm). Checked: strict ezdxf read, 0 audit errors, 52 closed
+  outlines, 378.000 × 268.000; STEP = 1 solid, volume = area × 3.175 exactly.
+  Outlines copied point for point — no geometry change.
