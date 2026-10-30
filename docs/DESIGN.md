@@ -21,7 +21,7 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → lid panel split into 2 × 2 tiles |
 | Base plate | **flat 1/8" 5052 aluminium**, one piece, cut by **SendCutSend** from `cut/base_plate.step` / `.dxf`; **raw finish** (no paint/anodize/powder coat); 1:1 Cricut mock-up from `cut/base_plate.svg` first | owner's choice 2026-10-30; printed faceplate archived |
 | Computers | **Raspberry Pi 2B + Pi Zero 2 W + Pico W** (all 5 V, micro-USB power) | owner 2026-10-30; roles not defined yet — ask |
-| Battery | **4 × 21700 Li-ion, 1S4P (parallel), in a cell holder** (no spot welding); maybe 6 later | owner 2026-10-30; power board not chosen; **don't design the bay without asking** |
+| Battery | **4 × Samsung 50E 21700, 1S4P (parallel), in a cell holder** (no spot welding); maybe 6 later. ~59 Wh at 5 V → ~6 h typical | owner 2026-10-30; power board not chosen; **don't design the bay without asking** |
 | I/O boards / hub | **not chosen** | don't assume; ask |
 
 ## 2. Case
@@ -398,3 +398,13 @@ All 2026-10-05.
   (108 − 16 − 3.2). Owner also wants easier access to the guts (current
   14-screw plate) and may design an own bracket ring, using the Printables
   STEP only as case reference — on hold until the owner says go.
+- **2026-10-30 — cells: Samsung 50E (owner); runtime estimate.** Datasheet:
+  4900 mAh min, 3.6 V nominal, 2.5 V cutoff, ≥ 9.8 A continuous. 4 cells =
+  70.6 Wh → ~68 Wh to a ~3.0 V board cutoff → **~59 Wh at 5 V** (boost
+  85–90 %). Runtime: monitor + Pi 2B (+ Pico W) ~8.5 W → ~7 h; everything
+  on, light use ~10 W → **~6 h**; everything loaded, bright screen ~15 W →
+  ~4 h; headless, screen off ~4 W → ~15 h. Peak per-cell current ~1.2 A
+  (far under 9.8 A). Expect ~20 % less after a few hundred cycles, less in
+  the cold. 6 cells → ~89 Wh at 5 V (~9 h) but ~106 Wh pack = over the
+  100 Wh airline limit. Loads other than the monitor (~6 W, its manual) are
+  estimates — measure with a USB-C power meter and redo.
