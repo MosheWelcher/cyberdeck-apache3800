@@ -26,9 +26,10 @@ lid_fillet_r  = 21;    // MEASURE rounded wall-to-floor corner inside the lid (c
 panel_gap     = 1.0;   // clearance per side, panel edge -> case wall
 
 // ---------------------------------------------------------------------
-//  Printer — panels larger than this are split into lap-jointed tiles
+//  Print size limit — panels larger than this are split into lap-jointed tiles
+//  (set to the print service's / printer's max part size)
 // ---------------------------------------------------------------------
-bed             = [256, 256]; // usable bed X, Y
+bed             = [256, 256]; // max printable part X, Y
 bed_margin      = 12;         // keep-out per axis (includes lap overlap)
 lap_w           = 20;         // width of the lap-joint band at each seam
 seam_hole_pitch = 60;         // target spacing of M3 screws along each seam

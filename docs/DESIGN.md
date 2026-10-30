@@ -18,7 +18,7 @@ Coordinates: mm, origin at the centre of the case opening, **−Y = front
 | Screen | **VILVA V156F1** 15.6" FHD portable monitor ([amazon.com/dp/B0BTSFVMLV](https://www.amazon.com/dp/B0BTSFVMLV)), USB-C + mini-HDMI | model known (2026-10-05); preset `vilva15.6` from the listing — **not measured yet** |
 | Keyboard | **Logitech K400 Plus** (keyboard + touchpad, wireless, 2×AA) | decided; modelled from a STEP |
 | Base mounting | **Printables 1478000 "Apache 3800 Panel Bracket"** (4-piece ring, M3 heat-set inserts) | owner has the STEP + a Bambu `.3mf` for it |
-| Printer | **Bambu X1C**, 256 × 256 bed | → panels split into 2 × 2 tiles |
+| Printing | **owner has no 3D printer** — order from a print service (material/service not chosen) | tile limit `bed = [256, 256]` → panels split into 2 × 2 tiles |
 | Computer / battery / I/O boards | **not chosen** | don't assume; ask |
 
 ## 2. Case
@@ -339,3 +339,8 @@ All 2026-10-05.
 - VILVA manual read: controls are split over both short edges (power +
   wheel on one), not all on the right. They are not reachable once mounted —
   open question 0.
+- **2026-10-30 — no home printer.** The owner does not own a 3D printer;
+  the earlier "Bambu X1C" note was wrong and is removed. Parts will be
+  ordered from a print service. JLC3DP refused FDM ABS (its minimum part
+  size, 30 × 30 × 10 mm, rules out the 6 mm plates and 2.5 mm clips).
+  Material/service still open; `bed` kept at 256 × 256 (geometry unchanged).

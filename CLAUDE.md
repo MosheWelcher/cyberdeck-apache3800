@@ -28,7 +28,9 @@ test-fitted yet. Open items are in `docs/DESIGN.md` → *Open questions*.
   `config.scad`; parts never contain magic numbers. They may sell this later.
 - Ask (with concrete options + a recommendation) before big or irreversible
   design choices. Make reasonable assumptions on small things and say so.
-- Prints on a **Bambu X1C** (256 × 256 bed).
+- **Owns no 3D printer** — parts will be ordered from a print service (e.g.
+  JLC3DP). Never assume home printing. `bed = [256, 256]` in `config.scad` is
+  just a tile-size limit, not the owner's machine.
 - Hardware dev machine: Windows 11, 8 GB RAM. Fine for OpenSCAD.
 - Wants all work on **`main`** (repo is public:
   github.com/MosheWelcher/cyberdeck-apache3800).
