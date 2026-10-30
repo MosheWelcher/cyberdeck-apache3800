@@ -105,7 +105,7 @@ base depth 108 mm.
 
 **MEASURE before printing** (tagged in `config.scad`):
 - `lid_panel_drop` — how far below the lid rim the screen panel sits (gasket lip).
-- `base_panel_drop` — where your brackets end up below the base rim (16 mm default so the lid clears the keyboard).
+- `base_panel_drop_in` — how far below the base rim the plate top sits, **in inches** (5/8" default so the lid clears the keyboard; bracket tops then sit 3/4" below the rim).
 - Screen preset dimensions — all approximate; caliper your panel + driver board.
 - Port type sizes — generic panel-mount extensions vary.
 
@@ -147,9 +147,11 @@ held down. Lift it off to use it wirelessly or change batteries.
   `kb_offset`, hump toward the hinge). 14 of the 16 bracket holes are used — the middle
   hole on each end bracket sits too close to the slot end and is skipped.
 - With the keyboard on top it stands ~14 mm above the plate, so the plate is
-  set **16 mm below the base rim** (`base_panel_drop`) — that leaves ~8 mm
-  between the keys and the lid panel when the case is closed. Mount the
-  brackets at that height (or change the value and re-export).
+  set **5/8" below the base rim** (`base_panel_drop_in`, in inches) — that
+  leaves ~8 mm between the keys and the lid panel when the case is closed.
+  **Mounting:** with the 1/8" plate on top, the bracket tops go **3/4" below
+  the rim**. Change the value and re-export for a different height; rendering
+  `parts/base_plate_metal.scad` prints both numbers in inches.
 - **See it on the plate:** `assembly.scad` and `view_stls.scad` show the real
   K400 model when `ref/local/k400_plus.stl` exists (kept out of the repo —
   GrabCAD terms). Make it once from the GrabCAD STEP (needs

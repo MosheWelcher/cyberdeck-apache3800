@@ -178,8 +178,9 @@ Cut shapes (`base_cutouts_2d()`, `used_mount_holes`) live in
 
 - **Plate**: `base_plate = [378, 268, 16]` → ~1 mm gap to the 380 × 270 R17 walls
   at bracket height, `base_metal_t` = 3.175 mm (1/8") aluminium, one piece —
-  bracket tops **19.2 mm below the rim** (= drop 16 + thickness; was 22 with
-  the 6 mm printed plate). Plain Ø3.4 clearance holes, M3 button heads (no
+  bracket tops **3/4" (19.05 mm) below the rim** (= 5/8" drop + 1/8" plate;
+  was 22 mm with the 6 mm printed plate). The drop is set in inches
+  (`base_panel_drop_in`) for marking the case. Plain Ø3.4 clearance holes, M3 button heads (no
   countersinks: cheaper to cut, and 1/8" is thin for an M3 countersink).
   Edge material at the outermost holes ≈ 4.3 mm (> 1× thickness).
 - **Bracket ring** (from `ref/apache-3800-panel-bracket-v8.step`, see
@@ -219,7 +220,7 @@ aluminium work until asked**):
   locates the keyboard; velcro dots optional. Lift off to use wirelessly /
   change batteries.
 - **Lid clearance**: keyboard top (keys) stands 14 mm above the plate. With
-  `base_panel_drop = 16` the keys are 2 mm below the base rim; the lid panel
+  the plate 5/8" (15.9 mm) down the keys are ~2 mm below the base rim; the lid panel
   face is 6 mm below the lid rim → **~8 mm** clearance closed. (At the old
   10 mm drop it would have been only 2 mm.) Brackets must be installed so
   the plate top is at that depth.
@@ -325,8 +326,8 @@ with `lid_split_x/y`, `base_split_x/y` lists).
    between lid and base; hub. Ports/vent positions follow from this. Ask
    before designing the battery bay or the new bracket/access scheme.
 4. **Measure** `lid_panel_drop`, real port hardware; confirm the brackets can
-   be installed with the plate top 16 mm below the rim (`base_panel_drop`),
-   i.e. bracket tops 19.2 mm below it with the 1/8" aluminium plate.
+   be installed with the plate top 5/8" below the rim (`base_panel_drop_in`),
+   i.e. bracket tops 3/4" below it with the 1/8" aluminium plate.
 7. **Cricut mock-up of the base plate** — cut `cut/base_plate.svg` 1:1, check
    holes over the bracket inserts, hump in the slot, ports, then order the
    DXF in aluminium. Fold any fixes into `config.scad` first.
@@ -479,3 +480,9 @@ All 2026-10-05.
   bulkhead hole** (6.5 mm, `sma` at (90, 106)) to the plate. Flagged: one
   dongle can only run one decoder at a time; power closer to 0.7–0.8 A than
   0.5 A; Wi-Fi under the aluminium plate.
+- **Deck height in inches** (owner's request, 2026-10-30, to help mounting
+  the brackets): `base_panel_drop_in = 5/8` in `config.scad`, converted to mm
+  (`base_panel_drop`) for the models; everything else stays mm. 16 → 15.875 mm
+  (0.1 mm lower, ~same lid clearance); bracket tops land on exactly **3/4"**
+  below the rim (`base_bracket_drop`, echoed in inches by
+  `parts/base_plate_metal.scad`). Plate outline/holes and cut files unchanged.

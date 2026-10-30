@@ -25,6 +25,7 @@ module m3_csk(t) {
 base_L = base_plate[0];
 base_W = base_plate[1];
 base_R = base_plate[2];
+base_bracket_drop = base_panel_drop + base_metal_t;   // bracket tops below the base rim (plate sits on them)
 
 // ---------- Keyboard (sits on top) + battery-hump slot ----------
 kb_back_y = kb_offset[1] + kb_size[1] / 2;          // keyboard back edge (hump side)

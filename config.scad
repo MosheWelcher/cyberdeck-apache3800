@@ -119,7 +119,10 @@ lid_mount_holes = [
 //  BASE — keyboard / ports faceplate on the Printables brackets
 //  (printables.com/model/1478000 — M3 inserts in the bracket top edge)
 // ---------------------------------------------------------------------
-base_panel_drop  = 16;   // MEASURE faceplate top below base rim (keyboard on top stands 14 mm; lid panel is 6 mm below its rim -> ~8 mm clearance closed)
+// Deck height is set in INCHES (owner's request, 2026-10-30) to make marking
+// the bracket height in the case easy; everything else stays mm.
+base_panel_drop_in = 5/8;   // MEASURE plate top below base rim, inches (5/8" = 15.9 mm; keyboard on top stands 14 mm, lid panel 6 mm below its rim -> ~8 mm clearance closed). Bracket tops = this + 1/8" plate = 3/4"
+base_panel_drop  = base_panel_drop_in * 25.4;   // same, mm (used by the models)
 base_plate = [378, 268, 16];   // faceplate outline [x, y, corner_r]: ~1 mm to the wall at bracket height
 // Aluminium base plate (owner's choice 2026-10-30): one flat sheet, no tiles.
 // cut/base_plate.dxf goes to a laser/waterjet/CNC cutting service;
